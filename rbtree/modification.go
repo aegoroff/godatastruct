@@ -1,5 +1,5 @@
 // This file contains all RB tree modification methods implementations
-package tree
+package rbtree
 
 // Inserts new node into Red-Black tree
 // Creates Root if tree is empty

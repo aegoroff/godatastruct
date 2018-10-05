@@ -1,5 +1,5 @@
 // Package github is a Red-black search binary tree implementation
-package tree
+package rbtree
 
 const (
     Black = iota

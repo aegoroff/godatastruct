@@ -1,5 +1,5 @@
 // This file contains all RB tree search methods implementations
-package tree
+package rbtree
 
 // Searches value specified within search tree
 func Search(root *Node, value *Comparable) (*Node, bool) {
