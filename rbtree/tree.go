@@ -1,4 +1,4 @@
-// Package github is a Red-black search binary tree implementation
+// This package is a Red-black search binary tree implementation
 package rbtree
 
 const (
