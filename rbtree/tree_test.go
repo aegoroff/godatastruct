@@ -11,14 +11,6 @@ import (
 	"testing"
 )
 
-type IntNode struct {
-	value int
-}
-
-type StringNode struct {
-	value string
-}
-
 type GraphNode struct {
 	Node   *Node
 	NodeID int64
@@ -29,12 +21,12 @@ func (n GraphNode) ID() int64 {
 }
 
 func (n GraphNode) DOTID() string {
-	if key, ok := (*n.Node.Key).(StringNode); ok {
-		return fmt.Sprintf("\"%v\"", key.value)
+	if key, ok := (*n.Node.Key).(String); ok {
+		return fmt.Sprintf("\"%v\"", key)
 	}
 
-	if key, ok := (*n.Node.Key).(IntNode); ok {
-		return fmt.Sprintf("\"%d\"", key.value)
+	if key, ok := (*n.Node.Key).(Int); ok {
+		return fmt.Sprintf("\"%d\"", key)
 	}
 
 	return ""
@@ -54,22 +46,6 @@ func (n GraphNode) Attributes() []encoding.Attribute {
 	shape := encoding.Attribute{Key: "shape", Value: "box"}
 	label := encoding.Attribute{Key: "label", Value: fmt.Sprintf(`"%s [%d]"`, strings.Trim(n.DOTID(), `"`), node.Size)}
 	return []encoding.Attribute{fontcolor, fillcolor, style, label, shape}
-}
-
-func (x IntNode) LessThan(y interface{}) bool {
-	return x.value < (y.(IntNode)).value
-}
-
-func (x IntNode) EqualTo(y interface{}) bool {
-	return x.value == (y.(IntNode)).value
-}
-
-func (x StringNode) LessThan(y interface{}) bool {
-	return x.value < (y.(StringNode)).value
-}
-
-func (x StringNode) EqualTo(y interface{}) bool {
-	return x.value == (y.(StringNode)).value
 }
 
 func Test_InorderWalkTreeInt_AllElementsAscending(t *testing.T) {
@@ -533,21 +509,21 @@ func createStringTree(nodes []string) *RbTree {
 }
 
 func getIntValueOf(node *Node) int {
-	return (*node.Key).(IntNode).value
+	return int((*node.Key).(Int))
 }
 
 func getStringValueOf(node *Node) string {
-	return (*node.Key).(StringNode).value
+	return string((*node.Key).(String))
 }
 
 func createIntNode(v int) *Comparable {
 	var r Comparable
-	r = IntNode{v}
+	r = Int(v)
 	return &r
 }
 
 func createStringNode(v string) *Comparable {
 	var r Comparable
-	r = StringNode{v}
+	r = String(v)
 	return &r
 }

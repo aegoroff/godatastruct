@@ -34,6 +34,32 @@ type Comparable interface {
 	EqualTo(y interface{}) bool
 }
 
+// Int is the int type key that can be stored as Node key
+type Int int
+
+// String is the string type key that can be stored as Node key
+type String string
+
+// LessThan define Comparable interface member for Int
+func (x Int) LessThan(y interface{}) bool {
+	return x < y.(Int)
+}
+
+// EqualTo define Comparable interface member for Int
+func (x Int) EqualTo(y interface{}) bool {
+	return x == y.(Int)
+}
+
+// LessThan define Comparable interface member for String
+func (x String) LessThan(y interface{}) bool {
+	return x < y.(String)
+}
+
+// EqualTo define Comparable interface member for String
+func (x String) EqualTo(y interface{}) bool {
+	return x == y.(String)
+}
+
 // NewRbTree creates new Red-Black empty tree
 func NewRbTree() *RbTree {
 	tnil := Node{Color: Black}
