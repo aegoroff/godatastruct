@@ -60,6 +60,30 @@ func (x String) EqualTo(y interface{}) bool {
 	return x == y.(String)
 }
 
+// GetIntKey gets int key value from tree node
+func (n *Node) GetIntKey() int {
+	return int((*n.Key).(Int))
+}
+
+// GetStringKey gets string key value from tree node
+func (n *Node) GetStringKey() string {
+	return string((*n.Key).(String))
+}
+
+// NewIntKey creates new int key to be stores as tree node key
+func NewIntKey(v int) *Comparable {
+	var r Comparable
+	r = Int(v)
+	return &r
+}
+
+// NewStringKey creates new string key to be stores as tree node key
+func NewStringKey(v string) *Comparable {
+	var r Comparable
+	r = String(v)
+	return &r
+}
+
 // NewRbTree creates new Red-Black empty tree
 func NewRbTree() *RbTree {
 	tnil := Node{Color: Black}
