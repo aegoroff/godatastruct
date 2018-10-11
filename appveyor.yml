@@ -1,0 +1,43 @@
+﻿# version format
+version: 0.1.{build}
+
+build: off
+
+clone_folder: c:\gopath\src\godatastruct
+
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+
+# Do not build on tags (GitHub only)
+skip_tags: true
+
+# environment variables
+environment:
+  GOPATH: c:\gopath
+
+install:
+  - echo %PATH%
+  - echo %GOPATH%
+  - set PATH=%GOPATH%\bin;c:\go\bin;C:\msys64\usr\bin;%PATH%
+  - go version
+  - go env
+  - go get -u "gonum.org/v1/gonum/graph/encoding"
+  - go get -u "gonum.org/v1/gonum/graph/encoding/dot"
+  - go get -u "gonum.org/v1/gonum/graph/simple"
+  - go get -u "github.com/stretchr/testify/assert"
+
+stack: go 1.11
+
+image: Visual Studio 2017
+
+test_script:
+  - go test -coverprofile=coverage.txt -covermode=atomic godatastruct/...
+
+after_test:
+  - ps: |
+      Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
+      bash codecov.sh -f "coverage.txt" -t $env:CODECOV_TOKEN
+
