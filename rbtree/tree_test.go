@@ -3,6 +3,7 @@ package rbtree
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"gonum.org/v1/gonum/graph"
 	"gonum.org/v1/gonum/graph/encoding"
 	"gonum.org/v1/gonum/graph/encoding/dot"
 	"gonum.org/v1/gonum/graph/simple"
@@ -380,12 +381,14 @@ func getTreeAsGraphviz(tree *RbTree) string {
 		gn := &GraphNode{Node: node, NodeID: id}
 		gr.AddNode(gn)
 		id++
-		//for _, n := range gr.Nodes() {
-		//	if node.Parent.Key != nil && n.(*GraphNode).Node.Key == node.Parent.Key {
-		//		edge := gr.NewEdge(n, gn)
-		//		gr.SetEdge(edge)
-		//	}
-		//}
+		var nodes []graph.Node
+		nodes = append(nodes, gr.Nodes()...)
+		for _, n := range nodes {
+			if node.Parent.Key != nil && n.(*GraphNode).Node.Key == node.Parent.Key {
+				edge := gr.NewEdge(n, gn)
+				gr.SetEdge(edge)
+			}
+		}
 	})
 
 	data, _ := dot.Marshal(gr, "", " ", " ", false)
