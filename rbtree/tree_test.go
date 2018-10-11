@@ -6,6 +6,7 @@ import (
 	"gonum.org/v1/gonum/graph/encoding"
 	"gonum.org/v1/gonum/graph/encoding/dot"
 	"gonum.org/v1/gonum/graph/simple"
+	"math/rand"
 	"strings"
 	"testing"
 )
@@ -394,6 +395,31 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	ass.Equal(Black, found.Color)
 }
 
+func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var nodes []int
+	const nodesCount = 128
+	r := rand.New(rand.NewSource(1000))
+
+	for i := 1; i < nodesCount; i++ {
+		nodes = append(nodes, r.Int())
+	}
+	tree := createIntTree(nodes)
+
+	// Act
+
+	for i := 1; i < nodesCount; i++ {
+		n := createIntNode(nodes[i-1])
+		found, _ := Search(tree.Root, n)
+		Delete(tree, found)
+	}
+
+	// Assert
+	ass.Nil(tree.Root.Key)
+	ass.Equal(int64(0), tree.Root.Size)
+}
+
 func Test_GraphvizString(t *testing.T) {
 	// Arrange
 	tree := createTestStringTree()
@@ -452,6 +478,32 @@ func Test_Delete_NodeDeleted(t *testing.T) {
 	found, ok = Search(tree.Root, createStringNode("microsoft"))
 	ass.True(ok)
 	ass.Equal("microsoft", getStringValueOf(found))
+}
+
+func Test_InsertNil_NothingIserted(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := createTestStringTree()
+	oldSize := tree.Root.Size
+
+	// Act
+	Insert(tree, nil)
+
+	// Assert
+	ass.Equal(oldSize, tree.Root.Size)
+}
+
+func Test_DeleteNil_NothingDeleted(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := createTestStringTree()
+	oldSize := tree.Root.Size
+
+	// Act
+	Delete(tree, nil)
+
+	// Assert
+	ass.Equal(oldSize, tree.Root.Size)
 }
 
 func createIntegerTestTree() *RbTree {
