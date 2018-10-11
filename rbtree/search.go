@@ -1,4 +1,4 @@
-// Package rbtree: this file contains all RB tree search methods implementations
+// Package rbtree - this file contains all RB tree search methods implementations
 package rbtree
 
 // Search searches value specified within search tree
