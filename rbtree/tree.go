@@ -1,4 +1,4 @@
-// This package is a Red-black search binary tree implementation
+// Package rbtree is a Red-black search binary tree implementation
 package rbtree
 
 const (
@@ -9,6 +9,7 @@ const (
 	Red
 )
 
+// RbTree represents red-black tree structure
 type RbTree struct {
 	Root *Node
 	tnil *Node

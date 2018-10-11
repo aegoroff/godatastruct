@@ -1,4 +1,4 @@
-// This file contains all RB tree search methods implementations
+// Package rbtree: this file contains all RB tree search methods implementations
 package rbtree
 
 // Search searches value specified within search tree
@@ -58,7 +58,7 @@ func Successor(n *Node) *Node {
 	return y
 }
 
-// Gets node specified predecessor
+// Predecessor gets node specified predecessor
 func Predecessor(n *Node) *Node {
 	if n.Left != nil && n.Left.Key != nil {
 		return Maximum(n.Left)
@@ -77,7 +77,7 @@ func Predecessor(n *Node) *Node {
 	return y
 }
 
-// Gets i element from subtree
+// OrderStatisticSelect gets i element from subtree
 func OrderStatisticSelect(root *Node, i int64) *Node {
 	r := root.Left.Size + 1
 	if i == r {
