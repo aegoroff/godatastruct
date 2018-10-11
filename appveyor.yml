@@ -24,10 +24,7 @@ install:
   - set PATH=%GOPATH%\bin;c:\go\bin;C:\msys64\usr\bin;%PATH%
   - go version
   - go env
-  - go get -u "gonum.org/v1/gonum/graph/encoding"
-  - go get -u "gonum.org/v1/gonum/graph/encoding/dot"
-  - go get -u "gonum.org/v1/gonum/graph/simple"
-  - go get -u "github.com/stretchr/testify/assert"
+  - go get -u "gonum.org/v1/gonum/graph"
 
 stack: go 1.11
 
