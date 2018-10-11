@@ -356,24 +356,24 @@ func Test_GraphvizString(t *testing.T) {
 
 func getTreeAsGraphviz(tree *RbTree) string {
 	b := strings.Builder{}
-	graph := simple.NewUndirectedGraph()
+	gr := simple.NewUndirectedGraph()
 
 	var id int64
 
 	WalkPreorder(tree.Root, func(node *Node) {
 
 		gn := &GraphNode{Node: node, NodeID: id}
-		graph.AddNode(gn)
+		gr.AddNode(gn)
 		id++
-		for _, n := range graph.Nodes() {
+		for _, n := range gr.Nodes() {
 			if node.Parent.Key != nil && n.(*GraphNode).Node.Key == node.Parent.Key {
-				edge := graph.NewEdge(n, gn)
-				graph.SetEdge(edge)
+				edge := gr.NewEdge(n, gn)
+				gr.SetEdge(edge)
 			}
 		}
 	})
 
-	data, _ := dot.Marshal(graph, "", " ", " ", false)
+	data, _ := dot.Marshal(gr, "", " ", " ", false)
 
 	b.Write(data)
 
