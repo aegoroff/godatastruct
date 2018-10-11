@@ -7,9 +7,9 @@ func (tree *RbTree) Search(value *Comparable) (*Node, bool) {
 }
 
 // Search searches value specified within search tree
-func (root *Node) Search(value *Comparable) (*Node, bool) {
+func (n *Node) Search(value *Comparable) (*Node, bool) {
 	var x *Node
-	x = root
+	x = n
 	for x != nil && x.Key != nil && !(*value).EqualTo(*x.Key) {
 		if (*value).LessThan(*x.Key) {
 			x = x.Left
@@ -32,8 +32,8 @@ func (tree *RbTree) Minimum() *Node {
 }
 
 // Minimum gets tree's min element
-func (root *Node) Minimum() *Node {
-	x := root
+func (n *Node) Minimum() *Node {
+	x := n
 	for x.Left != nil && x.Left.Key != nil {
 		x = x.Left
 	}
@@ -46,8 +46,8 @@ func (tree *RbTree) Maximum() *Node {
 }
 
 // Maximum gets tree's max element
-func (root *Node) Maximum() *Node {
-	x := root
+func (n *Node) Maximum() *Node {
+	x := n
 	for x.Right != nil && x.Right.Key != nil {
 		x = x.Right
 	}
@@ -98,13 +98,13 @@ func (tree *RbTree) OrderStatisticSelect(i int64) *Node {
 }
 
 // OrderStatisticSelect gets i element from subtree
-func (root *Node) OrderStatisticSelect(i int64) *Node {
-	r := root.Left.Size + 1
+func (n *Node) OrderStatisticSelect(i int64) *Node {
+	r := n.Left.Size + 1
 	if i == r {
-		return root
+		return n
 	} else if i < r {
-		return root.Left.OrderStatisticSelect(i)
+		return n.Left.OrderStatisticSelect(i)
 	} else {
-		return root.Right.OrderStatisticSelect(i - r)
+		return n.Right.OrderStatisticSelect(i - r)
 	}
 }
