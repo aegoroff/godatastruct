@@ -94,7 +94,7 @@ func (n *Node) WalkPreorder(action func(*Node)) {
 	}
 }
 
-// WalkInorder walks tree inorder (left, node, right)
+// WalkPreorder walks tree preorder (node, left, right)
 func (tree *RbTree) WalkPreorder(action func(*Node)) {
 	tree.Root.WalkPreorder(action)
 }
