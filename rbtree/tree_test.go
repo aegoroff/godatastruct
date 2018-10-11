@@ -78,6 +78,26 @@ func Test_PreorderAllTreeWalkInt_AllElementsAscending(t *testing.T) {
 	ass.Equal([]int{6, 3, 2, 4, 15, 9, 7, 13, 18, 17, 20}, result)
 }
 
+func Test_Len(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+
+	var tests = []struct {
+		tree     *RbTree
+		expected int64
+	}{
+		{createIntegerTestTree(), 11},
+		{NewRbTree(), 0},
+	}
+	for _, test := range tests {
+		// Act
+		length := test.tree.Len()
+
+		// Assert
+		ass.Equal(test.expected, length)
+	}
+}
+
 func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)

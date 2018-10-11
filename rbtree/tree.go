@@ -122,3 +122,12 @@ func (n *Node) WalkPreorder(action func(*Node)) {
 func (tree *RbTree) WalkPreorder(action func(*Node)) {
 	tree.Root.WalkPreorder(action)
 }
+
+// Len returns the number of nodes in the tree.
+func (tree *RbTree) Len() int64 {
+	if tree.Root == nil {
+		return 0
+	}
+
+	return tree.Root.Size
+}
