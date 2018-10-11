@@ -72,14 +72,14 @@ func (x StringNode) EqualTo(y interface{}) bool {
 	return x.value == (y.(StringNode)).value
 }
 
-func Test_InorderWalkInt_AllElementsAscending(t *testing.T) {
+func Test_InorderWalkTreeInt_AllElementsAscending(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
 	var result []int
 
 	// Act
-	WalkInorder(tree.Root, func(node *Node) {
+	tree.WalkInorder(func(node *Node) {
 		result = append(result, getIntValueOf(node))
 	})
 
@@ -87,14 +87,14 @@ func Test_InorderWalkInt_AllElementsAscending(t *testing.T) {
 	ass.Equal([]int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}, result)
 }
 
-func Test_PreorderWalkInt_AllElementsAscending(t *testing.T) {
+func Test_PreorderAllTreeWalkInt_AllElementsAscending(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
 	var result []int
 
 	// Act
-	WalkPreorder(tree.Root, func(node *Node) {
+	tree.WalkPreorder(func(node *Node) {
 		result = append(result, getIntValueOf(node))
 	})
 
@@ -109,7 +109,7 @@ func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 	var result []string
 
 	// Act
-	WalkInorder(tree.Root, func(node *Node) {
+	tree.Root.WalkInorder(func(node *Node) {
 		result = append(result, getStringValueOf(node))
 	})
 
@@ -134,7 +134,7 @@ func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
 	}
 	for _, test := range tests {
 		// Act
-		found := OrderStatisticSelect(tree.Root, test.order)
+		found := tree.OrderStatisticSelect(test.order)
 
 		// Assert
 		ass.NotNil(found)
@@ -149,7 +149,7 @@ func Test_SearchIntTree_Success(t *testing.T) {
 	v := createIntNode(13)
 
 	// Act
-	found, ok := Search(tree.Root, v)
+	found, ok := tree.Search(v)
 
 	// Assert
 	ass.True(ok)
@@ -164,7 +164,7 @@ func Test_SearchStringTree_Success(t *testing.T) {
 	n := createStringNode("intel")
 
 	// Act
-	found, ok := Search(tree.Root, n)
+	found, ok := tree.Search(n)
 
 	// Assert
 	ass.True(ok)
@@ -179,7 +179,7 @@ func Test_SearchIntTree_Failure(t *testing.T) {
 	v := createIntNode(22)
 
 	// Act
-	found, ok := Search(tree.Root, v)
+	found, ok := tree.Search(v)
 
 	// Assert
 	ass.False(ok)
@@ -202,10 +202,10 @@ func Test_Successor_ReturnSuccessor(t *testing.T) {
 	}
 	for _, test := range tests {
 		v := createIntNode(test.node)
-		r, _ := Search(tree.Root, v)
+		r, _ := tree.Search(v)
 
 		// Act
-		s := Successor(r)
+		s := r.Successor()
 
 		// Assert
 		ass.Equal(test.expected, getIntValueOf(s))
@@ -217,10 +217,10 @@ func Test_SuccessorOfMax_ReturnNil(t *testing.T) {
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
 	v := createIntNode(20)
-	r, _ := Search(tree.Root, v)
+	r, _ := tree.Search(v)
 
 	// Act
-	s := Successor(r)
+	s := r.Successor()
 
 	// Assert
 	ass.Nil(s)
@@ -242,10 +242,10 @@ func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 	}
 	for _, test := range tests {
 		v := createIntNode(test.node)
-		r, _ := Search(tree.Root, v)
+		r, _ := tree.Search(v)
 
 		// Act
-		s := Predecessor(r)
+		s := r.Predecessor()
 
 		// Assert
 		ass.Equal(test.expected, getIntValueOf(s))
@@ -257,10 +257,10 @@ func Test_PredecessorOfMin_ReturnNil(t *testing.T) {
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
 	v := createIntNode(2)
-	r, _ := Search(tree.Root, v)
+	r, _ := tree.Search(v)
 
 	// Act
-	p := Predecessor(r)
+	p := r.Predecessor()
 
 	// Assert
 	ass.Nil(p)
@@ -272,7 +272,7 @@ func Test_Minimum_ValueAsExpected(t *testing.T) {
 	tree := createIntegerTestTree()
 
 	// Act
-	r := Minimum(tree.Root)
+	r := tree.Minimum()
 
 	// Assert
 	ass.Equal(2, getIntValueOf(r))
@@ -284,7 +284,7 @@ func Test_Maximum_ValueAsExpected(t *testing.T) {
 	tree := createIntegerTestTree()
 
 	// Act
-	r := Maximum(tree.Root)
+	r := tree.Maximum()
 
 	// Assert
 	ass.Equal(20, getIntValueOf(r))
@@ -296,7 +296,7 @@ func Test_RightRotate_StructureAsExpected(t *testing.T) {
 	r := Node{Key: createStringNode("root")}
 
 	tree := NewRbTree()
-	Insert(tree, &r)
+	tree.Insert(&r)
 
 	y := Node{Key: createStringNode("y")}
 	x := Node{Key: createStringNode("x")}
@@ -332,7 +332,7 @@ func Test_LeftRotate_StructureAsExpected(t *testing.T) {
 	r := Node{Key: createStringNode("root")}
 
 	tree := NewRbTree()
-	Insert(tree, &r)
+	tree.Insert(&r)
 
 	x := Node{Key: createStringNode("x")}
 	y := Node{Key: createStringNode("y")}
@@ -384,14 +384,14 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	tree := createIntTree(nodes)
 
 	n := createIntNode(24)
-	found, _ := Search(tree.Root, n)
+	found, _ := tree.Search(n)
 
 	// Act
-	Delete(tree, found)
+	tree.Delete(found)
 
 	// Assert
 	n = createIntNode(28)
-	found, _ = Search(tree.Root, n)
+	found, _ = tree.Root.Search(n)
 	ass.Equal(Black, found.Color)
 }
 
@@ -411,8 +411,8 @@ func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
 
 	for i := 1; i < nodesCount; i++ {
 		n := createIntNode(nodes[i-1])
-		found, _ := Search(tree.Root, n)
-		Delete(tree, found)
+		found, _ := tree.Search(n)
+		tree.Delete(found)
 	}
 
 	// Assert
@@ -437,7 +437,7 @@ func getTreeAsGraphviz(tree *RbTree) string {
 
 	var id int64
 
-	WalkPreorder(tree.Root, func(node *Node) {
+	tree.Root.WalkPreorder(func(node *Node) {
 
 		gn := &GraphNode{Node: node, NodeID: id}
 		gr.AddNode(gn)
@@ -465,17 +465,17 @@ func Test_Delete_NodeDeleted(t *testing.T) {
 	ass := assert.New(t)
 	tree := createTestStringTree()
 	n := createStringNode("intel")
-	found, _ := Search(tree.Root, n)
+	found, _ := tree.Search(n)
 
 	// Act
-	Delete(tree, found)
+	tree.Delete(found)
 
 	// Assert
-	found, ok := Search(tree.Root, n)
+	found, ok := tree.Search(n)
 	ass.False(ok)
 	ass.Nil(found)
 
-	found, ok = Search(tree.Root, createStringNode("microsoft"))
+	found, ok = tree.Search(createStringNode("microsoft"))
 	ass.True(ok)
 	ass.Equal("microsoft", getStringValueOf(found))
 }
@@ -487,7 +487,7 @@ func Test_InsertNil_NothingIserted(t *testing.T) {
 	oldSize := tree.Root.Size
 
 	// Act
-	Insert(tree, nil)
+	tree.Insert(nil)
 
 	// Assert
 	ass.Equal(oldSize, tree.Root.Size)
@@ -500,7 +500,7 @@ func Test_DeleteNil_NothingDeleted(t *testing.T) {
 	oldSize := tree.Root.Size
 
 	// Act
-	Delete(tree, nil)
+	tree.Delete(nil)
 
 	// Assert
 	ass.Equal(oldSize, tree.Root.Size)
@@ -519,7 +519,7 @@ func createTestStringTree() *RbTree {
 func createIntTree(nodes []int) *RbTree {
 	tree := NewRbTree()
 	for _, n := range nodes {
-		Insert(tree, NewNode(*createIntNode(n)))
+		tree.Insert(NewNode(*createIntNode(n)))
 	}
 	return tree
 }
@@ -527,7 +527,7 @@ func createIntTree(nodes []int) *RbTree {
 func createStringTree(nodes []string) *RbTree {
 	tree := NewRbTree()
 	for _, n := range nodes {
-		Insert(tree, NewNode(*createStringNode(n)))
+		tree.Insert(NewNode(*createStringNode(n)))
 	}
 	return tree
 }

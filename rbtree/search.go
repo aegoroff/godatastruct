@@ -2,7 +2,12 @@
 package rbtree
 
 // Search searches value specified within search tree
-func Search(root *Node, value *Comparable) (*Node, bool) {
+func (tree *RbTree) Search(value *Comparable) (*Node, bool) {
+	return tree.Root.Search(value)
+}
+
+// Search searches value specified within search tree
+func (root *Node) Search(value *Comparable) (*Node, bool) {
 	var x *Node
 	x = root
 	for x != nil && x.Key != nil && !(*value).EqualTo(*x.Key) {
@@ -22,7 +27,12 @@ func Search(root *Node, value *Comparable) (*Node, bool) {
 }
 
 // Minimum gets tree's min element
-func Minimum(root *Node) *Node {
+func (tree *RbTree) Minimum() *Node {
+	return tree.Root.Minimum()
+}
+
+// Minimum gets tree's min element
+func (root *Node) Minimum() *Node {
 	x := root
 	for x.Left != nil && x.Left.Key != nil {
 		x = x.Left
@@ -31,7 +41,12 @@ func Minimum(root *Node) *Node {
 }
 
 // Maximum gets tree's max element
-func Maximum(root *Node) *Node {
+func (tree *RbTree) Maximum() *Node {
+	return tree.Root.Maximum()
+}
+
+// Maximum gets tree's max element
+func (root *Node) Maximum() *Node {
 	x := root
 	for x.Right != nil && x.Right.Key != nil {
 		x = x.Right
@@ -40,9 +55,9 @@ func Maximum(root *Node) *Node {
 }
 
 // Successor gets node specified successor
-func Successor(n *Node) *Node {
+func (n *Node) Successor() *Node {
 	if n.Right != nil && n.Right.Key != nil {
-		return Minimum(n.Right)
+		return n.Right.Minimum()
 	}
 
 	y := n.Parent
@@ -59,9 +74,9 @@ func Successor(n *Node) *Node {
 }
 
 // Predecessor gets node specified predecessor
-func Predecessor(n *Node) *Node {
+func (n *Node) Predecessor() *Node {
 	if n.Left != nil && n.Left.Key != nil {
-		return Maximum(n.Left)
+		return n.Left.Maximum()
 	}
 
 	y := n.Parent
@@ -78,13 +93,18 @@ func Predecessor(n *Node) *Node {
 }
 
 // OrderStatisticSelect gets i element from subtree
-func OrderStatisticSelect(root *Node, i int64) *Node {
+func (tree *RbTree) OrderStatisticSelect(i int64) *Node {
+	return tree.Root.OrderStatisticSelect(i)
+}
+
+// OrderStatisticSelect gets i element from subtree
+func (root *Node) OrderStatisticSelect(i int64) *Node {
 	r := root.Left.Size + 1
 	if i == r {
 		return root
 	} else if i < r {
-		return OrderStatisticSelect(root.Left, i)
+		return root.Left.OrderStatisticSelect(i)
 	} else {
-		return OrderStatisticSelect(root.Right, i-r)
+		return root.Right.OrderStatisticSelect(i - r)
 	}
 }

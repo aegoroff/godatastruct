@@ -2,7 +2,7 @@
 package rbtree
 
 // Insert inserts new node into Red-Black tree. Creates Root if tree is empty
-func Insert(tree *RbTree, z *Node) {
+func (tree *RbTree) Insert(z *Node) {
 	if z == nil {
 		return
 	}
@@ -85,7 +85,7 @@ func rbInsertFixup(tree *RbTree, z *Node) {
 }
 
 // Delete deletes node specified from Red-black tree
-func Delete(tree *RbTree, z *Node) {
+func (tree *RbTree) Delete(z *Node) {
 	if z == nil {
 		return
 	}
@@ -107,7 +107,7 @@ func Delete(tree *RbTree, z *Node) {
 		x = z.Left
 		rbTransplant(tree, z, z.Left)
 	} else {
-		y := Minimum(z.Right)
+		y := z.Right.Minimum()
 		yOriginalColor = y.Color
 		x = y.Right
 		if y.Parent == z {

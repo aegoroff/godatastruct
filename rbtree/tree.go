@@ -45,20 +45,30 @@ func NewNode(si Comparable) *Node {
 	return &Node{Key: &si}
 }
 
-// WalkInorder walks tree inorder (left, node, right)
-func WalkInorder(root *Node, action func(*Node)) {
+// WalkInorder walks subtree inorder (left, node, right)
+func (root *Node) WalkInorder(action func(*Node)) {
 	if root != nil && root.Key != nil {
-		WalkInorder(root.Left, action)
+		root.Left.WalkInorder(action)
 		action(root)
-		WalkInorder(root.Right, action)
+		root.Right.WalkInorder(action)
 	}
 }
 
-// WalkPreorder walks tree preorder (node, left, right)
-func WalkPreorder(root *Node, action func(*Node)) {
+// WalkInorder walks tree inorder (left, node, right)
+func (tree *RbTree) WalkInorder(action func(*Node)) {
+	tree.Root.WalkInorder(action)
+}
+
+// WalkPreorder walks subtree preorder (node, left, right)
+func (root *Node) WalkPreorder(action func(*Node)) {
 	if root != nil && root.Key != nil {
 		action(root)
-		WalkPreorder(root.Left, action)
-		WalkPreorder(root.Right, action)
+		root.Left.WalkPreorder(action)
+		root.Right.WalkPreorder(action)
 	}
+}
+
+// WalkInorder walks tree inorder (left, node, right)
+func (tree *RbTree) WalkPreorder(action func(*Node)) {
+	tree.Root.WalkPreorder(action)
 }
