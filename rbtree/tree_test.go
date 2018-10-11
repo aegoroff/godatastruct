@@ -380,10 +380,13 @@ func getTreeAsGraphviz(tree *RbTree) string {
 		gn := &GraphNode{Node: node, NodeID: id}
 		gr.AddNode(gn)
 		id++
-		for _, n := range gr.Nodes() {
+
+		for i := id - 2; i >= 0; i-- {
+			n := gr.Node(i)
 			if node.Parent.Key != nil && n.(*GraphNode).Node.Key == node.Parent.Key {
 				edge := gr.NewEdge(n, gn)
 				gr.SetEdge(edge)
+				break
 			}
 		}
 	})
