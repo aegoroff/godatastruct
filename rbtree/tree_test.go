@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"gonum.org/v1/gonum/graph/encoding"
+	"gonum.org/v1/gonum/graph/encoding/dot"
+	"gonum.org/v1/gonum/graph/simple"
 	"strings"
 	"testing"
 )
@@ -367,31 +369,31 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 //	t.Log(graphviz)
 //}
 
-//func getTreeAsGraphviz(tree *RbTree) string {
-//	b := strings.Builder{}
-//	gr := simple.NewUndirectedGraph()
-//
-//	var id int64
-//
-//	WalkPreorder(tree.Root, func(node *Node) {
-//
-//		gn := &GraphNode{Node: node, NodeID: id}
-//		gr.AddNode(gn)
-//		id++
-//		for _, n := range gr.Nodes() {
-//			if node.Parent.Key != nil && n.(*GraphNode).Node.Key == node.Parent.Key {
-//				edge := gr.NewEdge(n, gn)
-//				gr.SetEdge(edge)
-//			}
-//		}
-//	})
-//
-//	data, _ := dot.Marshal(gr, "", " ", " ", false)
-//
-//	b.Write(data)
-//
-//	return b.String()
-//}
+func getTreeAsGraphviz(tree *RbTree) string {
+	b := strings.Builder{}
+	gr := simple.NewUndirectedGraph()
+
+	var id int64
+
+	WalkPreorder(tree.Root, func(node *Node) {
+
+		gn := &GraphNode{Node: node, NodeID: id}
+		gr.AddNode(gn)
+		id++
+		for _, n := range gr.Nodes() {
+			if node.Parent.Key != nil && n.(*GraphNode).Node.Key == node.Parent.Key {
+				edge := gr.NewEdge(n, gn)
+				gr.SetEdge(edge)
+			}
+		}
+	})
+
+	data, _ := dot.Marshal(gr, "", " ", " ", false)
+
+	b.Write(data)
+
+	return b.String()
+}
 
 func Test_Delete_NodeDeleted(t *testing.T) {
 	// Arrange
@@ -426,7 +428,7 @@ func createTestStringTree() *RbTree {
 func createIntTree(nodes []int) *RbTree {
 	tree := NewRbTree()
 	for _, n := range nodes {
-		Insert(tree, &Node{Key: createIntNode(n)})
+		Insert(tree, NewNode(*createIntNode(n)))
 	}
 	return tree
 }
@@ -434,7 +436,7 @@ func createIntTree(nodes []int) *RbTree {
 func createStringTree(nodes []string) *RbTree {
 	tree := NewRbTree()
 	for _, n := range nodes {
-		Insert(tree, &Node{Key: createStringNode(n)})
+		Insert(tree, NewNode(*createStringNode(n)))
 	}
 	return tree
 }
