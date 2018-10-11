@@ -81,7 +81,22 @@ func Test_InorderWalkInt_AllElementsAscending(t *testing.T) {
 	})
 
 	// Assert
-	ass.ElementsMatch(result, []int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20})
+	ass.Equal([]int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}, result)
+}
+
+func Test_PreorderWalkInt_AllElementsAscending(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := createIntegerTestTree()
+	var result []int
+
+	// Act
+	WalkPreorder(tree.Root, func(node *Node) {
+		result = append(result, getIntValueOf(node))
+	})
+
+	// Assert
+	ass.Equal([]int{6, 3, 2, 4, 15, 9, 7, 13, 18, 17, 20}, result)
 }
 
 func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
@@ -96,7 +111,7 @@ func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 	})
 
 	// Assert
-	ass.ElementsMatch(result, []string{"abc", "amd", "cisco", "do", "fake", "intel", "it", "let", "microsoft", "russia", "usa", "xxx", "yyy", "zen"})
+	ass.Equal([]string{"abc", "amd", "cisco", "do", "fake", "intel", "it", "let", "microsoft", "russia", "usa", "xxx", "yyy", "zen"}, result)
 }
 
 func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
