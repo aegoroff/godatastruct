@@ -325,16 +325,16 @@ func Test_LeftRotate_StructureAsExpected(t *testing.T) {
 	ass.Equal("b", getStringValueOf(x.Right))
 }
 
-//func Test_GraphvizInt(t *testing.T) {
-//	// Arrange
-//	tree := createIntegerTestTree()
-//
-//	// Act
-//	graphviz := getTreeAsGraphviz(tree)
-//
-//	// Assert
-//	t.Log(graphviz)
-//}
+func Test_GraphvizInt(t *testing.T) {
+	// Arrange
+	tree := createIntegerTestTree()
+
+	// Act
+	graphviz := getTreeAsGraphviz(tree)
+
+	// Assert
+	t.Log(graphviz)
+}
 
 func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	// Arrange
@@ -358,16 +358,16 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	ass.Equal(Black, found.Color)
 }
 
-//func Test_GraphvizString(t *testing.T) {
-//	// Arrange
-//	tree := createTestStringTree()
-//
-//	// Act
-//	graphviz := getTreeAsGraphviz(tree)
-//
-//	// Assert
-//	t.Log(graphviz)
-//}
+func Test_GraphvizString(t *testing.T) {
+	// Arrange
+	tree := createTestStringTree()
+
+	// Act
+	graphviz := getTreeAsGraphviz(tree)
+
+	// Assert
+	t.Log(graphviz)
+}
 
 func getTreeAsGraphviz(tree *RbTree) string {
 	b := strings.Builder{}
@@ -380,12 +380,12 @@ func getTreeAsGraphviz(tree *RbTree) string {
 		gn := &GraphNode{Node: node, NodeID: id}
 		gr.AddNode(gn)
 		id++
-		for _, n := range gr.Nodes() {
-			if node.Parent.Key != nil && n.(*GraphNode).Node.Key == node.Parent.Key {
-				edge := gr.NewEdge(n, gn)
-				gr.SetEdge(edge)
-			}
-		}
+		//for _, n := range gr.Nodes() {
+		//	if node.Parent.Key != nil && n.(*GraphNode).Node.Key == node.Parent.Key {
+		//		edge := gr.NewEdge(n, gn)
+		//		gr.SetEdge(edge)
+		//	}
+		//}
 	})
 
 	data, _ := dot.Marshal(gr, "", " ", " ", false)
