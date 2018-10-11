@@ -121,12 +121,24 @@ func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
 
-	// Act
-	found := OrderStatisticSelect(tree.Root, 2)
+	var tests = []struct {
+		order    int64
+		expected int
+	}{
+		{1, 2},
+		{2, 3},
+		{11, 20},
+		{10, 18},
+		{6, 9},
+	}
+	for _, test := range tests {
+		// Act
+		found := OrderStatisticSelect(tree.Root, test.order)
 
-	// Assert
-	ass.NotNil(found)
-	ass.Equal(3, getIntValueOf(found))
+		// Assert
+		ass.NotNil(found)
+		ass.Equal(test.expected, getIntValueOf(found))
+	}
 }
 
 func Test_SearchIntTree_Success(t *testing.T) {
@@ -173,18 +185,30 @@ func Test_SearchIntTree_Failure(t *testing.T) {
 	ass.Nil(found)
 }
 
-func Test_SuccessorInTheMiddle_ReturnSuccessor(t *testing.T) {
+func Test_Successor_ReturnSuccessor(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
-	v := createIntNode(13)
-	r, _ := Search(tree.Root, v)
 
-	// Act
-	s := Successor(r)
+	var tests = []struct {
+		node     int
+		expected int
+	}{
+		{13, 15},
+		{6, 7},
+		{18, 20},
+		{2, 3},
+	}
+	for _, test := range tests {
+		v := createIntNode(test.node)
+		r, _ := Search(tree.Root, v)
 
-	// Assert
-	ass.Equal(15, getIntValueOf(s))
+		// Act
+		s := Successor(r)
+
+		// Assert
+		ass.Equal(test.expected, getIntValueOf(s))
+	}
 }
 
 func Test_SuccessorOfMax_ReturnNil(t *testing.T) {
@@ -205,14 +229,26 @@ func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
-	v := createIntNode(13)
-	r, _ := Search(tree.Root, v)
 
-	// Act
-	p := Predecessor(r)
+	var tests = []struct {
+		node     int
+		expected int
+	}{
+		{13, 9},
+		{6, 4},
+		{18, 17},
+		{3, 2},
+	}
+	for _, test := range tests {
+		v := createIntNode(test.node)
+		r, _ := Search(tree.Root, v)
 
-	// Assert
-	ass.Equal(9, getIntValueOf(p))
+		// Act
+		s := Predecessor(r)
+
+		// Assert
+		ass.Equal(test.expected, getIntValueOf(s))
+	}
 }
 
 func Test_PredecessorOfMin_ReturnNil(t *testing.T) {
