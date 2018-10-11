@@ -1,5 +1,6 @@
-// Package rbtree - this file contains all RB tree modification methods implementations
 package rbtree
+
+// This file contains all RB tree modification methods implementations
 
 // Insert inserts new node into Red-Black tree. Creates Root if tree is empty
 func (tree *RbTree) Insert(z *Node) {
