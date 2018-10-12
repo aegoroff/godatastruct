@@ -29,6 +29,11 @@ type Node struct {
 	right  *Node
 }
 
+// KeyIterator allows callers of Ascend* to iterate in-order over portions of
+// the tree.  When this function returns false, iteration will stop and the
+// associated Ascend* function will immediately return.
+type KeyIterator func(c *Comparable) bool
+
 // Comparable defines comparable type interface
 type Comparable interface {
 	LessThan(y interface{}) bool

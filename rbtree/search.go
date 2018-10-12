@@ -29,13 +29,16 @@ func (n *Node) Search(value *Comparable) (*Node, bool) {
 
 // Minimum gets tree's min element
 func (tree *RbTree) Minimum() *Node {
+	if tree.Root == nil {
+		return nil
+	}
 	return tree.Root.Minimum()
 }
 
 // Minimum gets tree's min element
 func (n *Node) Minimum() *Node {
 	x := n
-	for x.left != nil && x.left.Key != nil {
+	for x != nil && x.left != nil && x.left.Key != nil {
 		x = x.left
 	}
 	return x
@@ -43,13 +46,16 @@ func (n *Node) Minimum() *Node {
 
 // Maximum gets tree's max element
 func (tree *RbTree) Maximum() *Node {
+	if tree.Root == nil {
+		return nil
+	}
 	return tree.Root.Maximum()
 }
 
 // Maximum gets tree's max element
 func (n *Node) Maximum() *Node {
 	x := n
-	for x.right != nil && x.right.Key != nil {
+	for x != nil && x.right != nil && x.right.Key != nil {
 		x = x.right
 	}
 	return x
@@ -57,7 +63,7 @@ func (n *Node) Maximum() *Node {
 
 // Successor gets node specified successor
 func (n *Node) Successor() *Node {
-	if n.right != nil && n.right.Key != nil {
+	if n != nil && n.right != nil && n.right.Key != nil {
 		return n.right.Minimum()
 	}
 
@@ -76,7 +82,7 @@ func (n *Node) Successor() *Node {
 
 // Predecessor gets node specified predecessor
 func (n *Node) Predecessor() *Node {
-	if n.left != nil && n.left.Key != nil {
+	if n != nil && n.left != nil && n.left.Key != nil {
 		return n.left.Maximum()
 	}
 
@@ -107,5 +113,63 @@ func (n *Node) OrderStatisticSelect(i int64) *Node {
 		return n.left.OrderStatisticSelect(i)
 	} else {
 		return n.right.OrderStatisticSelect(i - r)
+	}
+}
+
+// Ascend calls the iterator for every value in the tree until iterator returns false.
+func (tree *RbTree) Ascend(iterator KeyIterator) {
+	min := tree.Minimum()
+	if min == nil {
+		return
+	}
+	max := tree.Maximum()
+	tree.AscendRange(min.Key, max.Key, iterator)
+}
+
+// Ascend calls the iterator for every value in the tree within the range
+// [from, to], until iterator returns false.
+func (tree *RbTree) AscendRange(from, to *Comparable, iterator KeyIterator) {
+	if tree.Root == nil || tree.Root.Key == nil || from == nil || to == nil {
+		return
+	}
+	tree.Root.ascend(from, to, iterator)
+}
+
+// Descend calls the iterator for every value in the tree until iterator returns false.
+func (tree *RbTree) Descend(iterator KeyIterator) {
+	min := tree.Minimum()
+	if min == nil {
+		return
+	}
+	max := tree.Maximum()
+	tree.DescendRange(max.Key, min.Key, iterator)
+}
+
+// Descend calls the iterator for every value in the tree within the range
+// [from, to], until iterator returns false.
+func (tree *RbTree) DescendRange(from, to *Comparable, iterator KeyIterator) {
+	if tree.Root == nil || tree.Root.Key == nil || from == nil || to == nil {
+		return
+	}
+	tree.Root.descend(from, to, iterator)
+}
+
+func (n *Node) ascend(from, to *Comparable, iterator KeyIterator) {
+	curr, ok := n.Search(from)
+	for ok && curr != nil && curr.Key != nil && ((*curr.Key).LessThan(*to) || (*curr.Key).EqualTo(*to)) {
+		ok = iterator(curr.Key)
+		if ok {
+			curr = curr.Successor()
+		}
+	}
+}
+
+func (n *Node) descend(from, to *Comparable, iterator KeyIterator) {
+	curr, ok := n.Search(from)
+	for ok && curr != nil && curr.Key != nil && (!(*curr.Key).LessThan(*to) || (*curr.Key).EqualTo(*to)) {
+		ok = iterator(curr.Key)
+		if ok {
+			curr = curr.Predecessor()
+		}
 	}
 }
