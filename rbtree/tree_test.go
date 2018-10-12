@@ -63,7 +63,7 @@ func Test_InorderWalkTreeInt_AllElementsAscending(t *testing.T) {
 	ass.Equal([]int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}, result)
 }
 
-func Test_PreorderAllTreeWalkInt_AllElementsAscending(t *testing.T) {
+func Test_PreorderAllTreeWalkInt_AllElementsAsSpecified(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
@@ -76,6 +76,21 @@ func Test_PreorderAllTreeWalkInt_AllElementsAscending(t *testing.T) {
 
 	// Assert
 	ass.Equal([]int{6, 3, 2, 4, 15, 9, 7, 13, 18, 17, 20}, result)
+}
+
+func Test_PostorderAllTreeWalkInt_AllElementsAsSpecified(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := createIntegerTestTree()
+	var result []int
+
+	// Act
+	tree.WalkPostorder(func(node *Node) {
+		result = append(result, node.GetIntKey())
+	})
+
+	// Assert
+	ass.Equal([]int{2, 4, 3, 7, 13, 9, 17, 20, 18, 15, 6}, result)
 }
 
 func Test_Ascend(t *testing.T) {

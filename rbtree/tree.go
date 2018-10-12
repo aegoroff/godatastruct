@@ -101,34 +101,6 @@ func NewNode(si Comparable) *Node {
 	return &Node{Key: &si}
 }
 
-// WalkInorder walks subtree inorder (left, node, right)
-func (n *Node) WalkInorder(action func(*Node)) {
-	if n != nil && n.Key != nil {
-		n.left.WalkInorder(action)
-		action(n)
-		n.right.WalkInorder(action)
-	}
-}
-
-// WalkInorder walks tree inorder (left, node, right)
-func (tree *RbTree) WalkInorder(action func(*Node)) {
-	tree.Root.WalkInorder(action)
-}
-
-// WalkPreorder walks subtree preorder (node, left, right)
-func (n *Node) WalkPreorder(action func(*Node)) {
-	if n != nil && n.Key != nil {
-		action(n)
-		n.left.WalkPreorder(action)
-		n.right.WalkPreorder(action)
-	}
-}
-
-// WalkPreorder walks tree preorder (node, left, right)
-func (tree *RbTree) WalkPreorder(action func(*Node)) {
-	tree.Root.WalkPreorder(action)
-}
-
 // Len returns the number of nodes in the tree.
 func (tree *RbTree) Len() int64 {
 	if tree.Root == nil {
