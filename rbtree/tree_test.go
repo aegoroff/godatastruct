@@ -92,7 +92,7 @@ func Test_Ascend(t *testing.T) {
 		{func(c *Comparable) bool { return (*c).LessThan(*NewIntKey(15)) }, []Int{2, 3, 4, 6, 7, 9, 13, 15}},
 	}
 	for _, test := range tests {
-		var result []Int
+		result := []Int{}
 
 		// Act
 		tree.Ascend(func(c *Comparable) bool {
@@ -109,7 +109,7 @@ func Test_AscendEmptyTree(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := NewRbTree()
-	var result []Int
+	result := []Int{}
 
 	// Act
 	tree.Ascend(func(c *Comparable) bool {
@@ -140,7 +140,7 @@ func Test_AscendRange(t *testing.T) {
 		{8, 15, []Int{}},
 	}
 	for _, test := range tests {
-		var result []Int
+		result := []Int{}
 		from := NewIntKey(test.from)
 		to := NewIntKey(test.to)
 
@@ -169,7 +169,7 @@ func Test_AscendRangeNilTests(t *testing.T) {
 		{nil, nil},
 	}
 	for _, test := range tests {
-		var result []Int
+		result := []Int{}
 
 		// Act
 		tree.AscendRange(test.from, test.to, func(c *Comparable) bool {
@@ -196,7 +196,7 @@ func Test_Descend(t *testing.T) {
 		{func(c *Comparable) bool { return !(*c).LessThan(*NewIntKey(15)) }, []Int{20, 18, 17, 15, 13}},
 	}
 	for _, test := range tests {
-		var result []Int
+		result := []Int{}
 
 		// Act
 		tree.Descend(func(c *Comparable) bool {
@@ -213,7 +213,7 @@ func Test_DescendEmptyTree(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := NewRbTree()
-	var result []Int
+	result := []Int{}
 
 	// Act
 	tree.Descend(func(c *Comparable) bool {
@@ -244,7 +244,7 @@ func Test_DescendRange(t *testing.T) {
 		{14, 6, []Int{}},
 	}
 	for _, test := range tests {
-		var result []Int
+		result := []Int{}
 		from := NewIntKey(test.from)
 		to := NewIntKey(test.to)
 
@@ -273,7 +273,7 @@ func Test_DescendRangeNilTests(t *testing.T) {
 		{nil, nil},
 	}
 	for _, test := range tests {
-		var result []Int
+		result := []Int{}
 
 		// Act
 		tree.DescendRange(test.from, test.to, func(c *Comparable) bool {
