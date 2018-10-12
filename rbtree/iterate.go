@@ -57,7 +57,7 @@ func (tree *RbTree) Ascend(iterator KeyIterator) {
 // AscendRange calls the iterator for every value in the tree within the range
 // [from, to], until iterator returns false.
 func (tree *RbTree) AscendRange(from, to *Comparable, iterator KeyIterator) {
-	if tree.Root == nil || tree.Root.Key == nil || from == nil || to == nil {
+	if tree.Root == nil || tree.Root.Key == nil || to == nil {
 		return
 	}
 	tree.Root.ascend(from, to, iterator)
@@ -76,7 +76,7 @@ func (tree *RbTree) Descend(iterator KeyIterator) {
 // DescendRange calls the iterator for every value in the tree within the range
 // [from, to], until iterator returns false.
 func (tree *RbTree) DescendRange(from, to *Comparable, iterator KeyIterator) {
-	if tree.Root == nil || tree.Root.Key == nil || from == nil || to == nil {
+	if tree.Root == nil || tree.Root.Key == nil || to == nil {
 		return
 	}
 	tree.Root.descend(from, to, iterator)
