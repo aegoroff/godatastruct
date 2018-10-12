@@ -4,11 +4,17 @@ package rbtree
 
 // Search searches value specified within search tree
 func (tree *RbTree) Search(value *Comparable) (*Node, bool) {
+	if tree.Root == nil {
+		return nil, false
+	}
 	return tree.Root.Search(value)
 }
 
 // Search searches value specified within search tree
 func (n *Node) Search(value *Comparable) (*Node, bool) {
+	if value == nil {
+		return nil, false
+	}
 	var x *Node
 	x = n
 	for x != nil && x.Key != nil && !(*value).EqualTo(*x.Key) {
@@ -100,15 +106,22 @@ func (n *Node) Predecessor() *Node {
 }
 
 // OrderStatisticSelect gets i element from subtree
-func (tree *RbTree) OrderStatisticSelect(i int64) *Node {
+func (tree *RbTree) OrderStatisticSelect(i int64) (*Node, bool) {
+	if tree.Root == nil {
+		return nil, false
+	}
+
 	return tree.Root.OrderStatisticSelect(i)
 }
 
 // OrderStatisticSelect gets i element from subtree
-func (n *Node) OrderStatisticSelect(i int64) *Node {
+func (n *Node) OrderStatisticSelect(i int64) (*Node, bool) {
+	if n.left == nil {
+		return nil, false
+	}
 	r := n.left.Size + 1
 	if i == r {
-		return n
+		return n, true
 	} else if i < r {
 		return n.left.OrderStatisticSelect(i)
 	} else {

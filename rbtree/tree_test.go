@@ -353,11 +353,32 @@ func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
 	}
 	for _, test := range tests {
 		// Act
-		found := tree.OrderStatisticSelect(test.order)
+		found, _ := tree.OrderStatisticSelect(test.order)
 
 		// Assert
 		ass.NotNil(found)
 		ass.Equal(test.expected, found.GetIntKey())
+	}
+}
+
+func Test_OrderStatisticSelectNegativeTests_NullResult(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+
+	var tests = []struct {
+		tree  *RbTree
+		order int64
+	}{
+		{createIntegerTestTree(), 200},
+		{NewRbTree(), 1},
+	}
+	for _, test := range tests {
+		// Act
+		found, ok := test.tree.OrderStatisticSelect(test.order)
+
+		// Assert
+		ass.Nil(found)
+		ass.False(ok)
 	}
 }
 
@@ -394,15 +415,23 @@ func Test_SearchStringTree_Success(t *testing.T) {
 func Test_SearchIntTree_Failure(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createIntegerTestTree()
-	v := NewIntKey(22)
 
-	// Act
-	found, ok := tree.Search(v)
+	var tests = []struct {
+		tree *RbTree
+		key  *Comparable
+	}{
+		{createIntegerTestTree(), NewIntKey(22)},
+		{createIntegerTestTree(), nil},
+		{NewRbTree(), NewIntKey(20)},
+	}
+	for _, test := range tests {
+		// Act
+		found, ok := test.tree.Search(test.key)
 
-	// Assert
-	ass.False(ok)
-	ass.Nil(found)
+		// Assert
+		ass.False(ok)
+		ass.Nil(found)
+	}
 }
 
 func Test_Successor_ReturnSuccessor(t *testing.T) {
