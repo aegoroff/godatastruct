@@ -18,14 +18,15 @@ type RbTree struct {
 // Node represent red-black tree node
 type Node struct {
 	// Node key (data)
-	Key    *Comparable
-	Parent *Node
-	Left   *Node
-	Right  *Node
-	// Node color (red or black)
-	Color int
+	Key *Comparable
+
 	// Subtree size including node itself
 	Size int64
+
+	color  int
+	parent *Node
+	left   *Node
+	right  *Node
 }
 
 // Comparable defines comparable type interface
@@ -86,7 +87,7 @@ func NewStringKey(v string) *Comparable {
 
 // NewRbTree creates new Red-Black empty tree
 func NewRbTree() *RbTree {
-	tnil := Node{Color: Black}
+	tnil := Node{color: Black}
 	return &RbTree{tnil: &tnil}
 }
 
@@ -98,9 +99,9 @@ func NewNode(si Comparable) *Node {
 // WalkInorder walks subtree inorder (left, node, right)
 func (n *Node) WalkInorder(action func(*Node)) {
 	if n != nil && n.Key != nil {
-		n.Left.WalkInorder(action)
+		n.left.WalkInorder(action)
 		action(n)
-		n.Right.WalkInorder(action)
+		n.right.WalkInorder(action)
 	}
 }
 
@@ -113,8 +114,8 @@ func (tree *RbTree) WalkInorder(action func(*Node)) {
 func (n *Node) WalkPreorder(action func(*Node)) {
 	if n != nil && n.Key != nil {
 		action(n)
-		n.Left.WalkPreorder(action)
-		n.Right.WalkPreorder(action)
+		n.left.WalkPreorder(action)
+		n.right.WalkPreorder(action)
 	}
 }
 

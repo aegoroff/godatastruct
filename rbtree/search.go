@@ -13,9 +13,9 @@ func (n *Node) Search(value *Comparable) (*Node, bool) {
 	x = n
 	for x != nil && x.Key != nil && !(*value).EqualTo(*x.Key) {
 		if (*value).LessThan(*x.Key) {
-			x = x.Left
+			x = x.left
 		} else {
-			x = x.Right
+			x = x.right
 		}
 	}
 	ok := x != nil && x.Key != nil
@@ -35,8 +35,8 @@ func (tree *RbTree) Minimum() *Node {
 // Minimum gets tree's min element
 func (n *Node) Minimum() *Node {
 	x := n
-	for x.Left != nil && x.Left.Key != nil {
-		x = x.Left
+	for x.left != nil && x.left.Key != nil {
+		x = x.left
 	}
 	return x
 }
@@ -49,22 +49,22 @@ func (tree *RbTree) Maximum() *Node {
 // Maximum gets tree's max element
 func (n *Node) Maximum() *Node {
 	x := n
-	for x.Right != nil && x.Right.Key != nil {
-		x = x.Right
+	for x.right != nil && x.right.Key != nil {
+		x = x.right
 	}
 	return x
 }
 
 // Successor gets node specified successor
 func (n *Node) Successor() *Node {
-	if n.Right != nil && n.Right.Key != nil {
-		return n.Right.Minimum()
+	if n.right != nil && n.right.Key != nil {
+		return n.right.Minimum()
 	}
 
-	y := n.Parent
-	for y != nil && y.Key != nil && n == y.Right {
+	y := n.parent
+	for y != nil && y.Key != nil && n == y.right {
 		n = y
-		y = y.Parent
+		y = y.parent
 	}
 
 	if y.Key == nil {
@@ -76,14 +76,14 @@ func (n *Node) Successor() *Node {
 
 // Predecessor gets node specified predecessor
 func (n *Node) Predecessor() *Node {
-	if n.Left != nil && n.Left.Key != nil {
-		return n.Left.Maximum()
+	if n.left != nil && n.left.Key != nil {
+		return n.left.Maximum()
 	}
 
-	y := n.Parent
-	for y != nil && y.Key != nil && n == y.Left {
+	y := n.parent
+	for y != nil && y.Key != nil && n == y.left {
 		n = y
-		y = y.Parent
+		y = y.parent
 	}
 
 	if y.Key == nil {
@@ -100,12 +100,12 @@ func (tree *RbTree) OrderStatisticSelect(i int64) *Node {
 
 // OrderStatisticSelect gets i element from subtree
 func (n *Node) OrderStatisticSelect(i int64) *Node {
-	r := n.Left.Size + 1
+	r := n.left.Size + 1
 	if i == r {
 		return n
 	} else if i < r {
-		return n.Left.OrderStatisticSelect(i)
+		return n.left.OrderStatisticSelect(i)
 	} else {
-		return n.Right.OrderStatisticSelect(i - r)
+		return n.right.OrderStatisticSelect(i - r)
 	}
 }

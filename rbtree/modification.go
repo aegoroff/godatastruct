@@ -10,10 +10,10 @@ func (tree *RbTree) Insert(z *Node) {
 
 	if tree.Root == nil {
 		tree.Root = z
-		tree.Root.Color = Black
-		tree.Root.Parent = tree.tnil
-		tree.Root.Left = tree.tnil
-		tree.Root.Right = tree.tnil
+		tree.Root.color = Black
+		tree.Root.parent = tree.tnil
+		tree.Root.left = tree.tnil
+		tree.Root.right = tree.tnil
 		tree.Root.Size = 1
 		return
 	}
@@ -24,65 +24,65 @@ func (tree *RbTree) Insert(z *Node) {
 		y = x
 		y.Size++
 		if (*z.Key).LessThan(*x.Key) {
-			x = x.Left
+			x = x.left
 		} else {
-			x = x.Right
+			x = x.right
 		}
 	}
 
-	z.Parent = y
+	z.parent = y
 	if y == tree.tnil {
 		tree.Root = z
 	} else if (*z.Key).LessThan(*y.Key) {
-		y.Left = z
+		y.left = z
 	} else {
-		y.Right = z
+		y.right = z
 	}
-	z.Left = tree.tnil
-	z.Right = tree.tnil
-	z.Color = Red
+	z.left = tree.tnil
+	z.right = tree.tnil
+	z.color = Red
 	rbInsertFixup(tree, z)
 }
 
 func rbInsertFixup(tree *RbTree, z *Node) {
-	for z.Parent.Color == Red {
-		if z.Parent == z.Parent.Parent.Left {
-			y := z.Parent.Parent.Right
-			if y.Color == Red {
-				z.Parent.Color = Black
-				y.Color = Black
-				z.Parent.Parent.Color = Red
-				z = z.Parent.Parent
+	for z.parent.color == Red {
+		if z.parent == z.parent.parent.left {
+			y := z.parent.parent.right
+			if y.color == Red {
+				z.parent.color = Black
+				y.color = Black
+				z.parent.parent.color = Red
+				z = z.parent.parent
 			} else {
-				if z == z.Parent.Right {
-					z = z.Parent
+				if z == z.parent.right {
+					z = z.parent
 					leftRotate(tree, z)
 				}
 
-				z.Parent.Color = Black
-				z.Parent.Parent.Color = Red
-				rightRotate(tree, z.Parent.Parent)
+				z.parent.color = Black
+				z.parent.parent.color = Red
+				rightRotate(tree, z.parent.parent)
 			}
 		} else {
-			y := z.Parent.Parent.Left
-			if y.Color == Red {
-				z.Parent.Color = Black
-				y.Color = Black
-				z.Parent.Parent.Color = Red
-				z = z.Parent.Parent
+			y := z.parent.parent.left
+			if y.color == Red {
+				z.parent.color = Black
+				y.color = Black
+				z.parent.parent.color = Red
+				z = z.parent.parent
 			} else {
-				if z == z.Parent.Left {
-					z = z.Parent
+				if z == z.parent.left {
+					z = z.parent
 					rightRotate(tree, z)
 				}
 
-				z.Parent.Color = Black
-				z.Parent.Parent.Color = Red
-				leftRotate(tree, z.Parent.Parent)
+				z.parent.color = Black
+				z.parent.parent.color = Red
+				leftRotate(tree, z.parent.parent)
 			}
 		}
 	}
-	tree.Root.Color = Black
+	tree.Root.color = Black
 }
 
 // Delete deletes node specified from Red-black tree
@@ -93,35 +93,35 @@ func (tree *RbTree) Delete(z *Node) {
 
 	y := z
 
-	p := z.Parent
+	p := z.parent
 	for p != tree.tnil {
 		p.Size--
-		p = p.Parent
+		p = p.parent
 	}
 
 	var x *Node
-	yOriginalColor := y.Color
-	if z.Left == tree.tnil {
-		x = z.Right
-		rbTransplant(tree, z, z.Right)
-	} else if z.Right == tree.tnil {
-		x = z.Left
-		rbTransplant(tree, z, z.Left)
+	yOriginalColor := y.color
+	if z.left == tree.tnil {
+		x = z.right
+		rbTransplant(tree, z, z.right)
+	} else if z.right == tree.tnil {
+		x = z.left
+		rbTransplant(tree, z, z.left)
 	} else {
-		y := z.Right.Minimum()
-		yOriginalColor = y.Color
-		x = y.Right
-		if y.Parent == z {
-			x.Parent = y
+		y := z.right.Minimum()
+		yOriginalColor = y.color
+		x = y.right
+		if y.parent == z {
+			x.parent = y
 		} else {
-			rbTransplant(tree, y, y.Right)
-			y.Right = z.Right
-			y.Right.Parent = y
+			rbTransplant(tree, y, y.right)
+			y.right = z.right
+			y.right.parent = y
 		}
 		rbTransplant(tree, z, y)
-		y.Left = z.Left
-		y.Left.Parent = y
-		y.Color = z.Color
+		y.left = z.left
+		y.left.parent = y
+		y.color = z.color
 	}
 	if yOriginalColor == Black {
 		rbDeleteFixup(tree, x)
@@ -129,115 +129,115 @@ func (tree *RbTree) Delete(z *Node) {
 }
 
 func rbDeleteFixup(tree *RbTree, x *Node) {
-	for x != tree.Root && x.Color == Black {
-		if x == x.Parent.Left {
-			w := x.Parent.Right
-			if w.Color == Red {
-				w.Color = Black
-				x.Parent.Color = Red
-				leftRotate(tree, x.Parent)
-				w = x.Parent.Right
+	for x != tree.Root && x.color == Black {
+		if x == x.parent.left {
+			w := x.parent.right
+			if w.color == Red {
+				w.color = Black
+				x.parent.color = Red
+				leftRotate(tree, x.parent)
+				w = x.parent.right
 			}
 
-			if w.Left.Color == Black && w.Right.Color == Black {
-				w.Color = Red
-				x = x.Parent
+			if w.left.color == Black && w.right.color == Black {
+				w.color = Red
+				x = x.parent
 			} else {
-				if w.Right.Color == Black {
-					w.Left.Color = Black
-					w.Color = Red
+				if w.right.color == Black {
+					w.left.color = Black
+					w.color = Red
 					rightRotate(tree, w)
-					w = x.Parent.Right
+					w = x.parent.right
 				}
 
-				w.Color = x.Parent.Color
-				x.Parent.Color = Black
-				w.Right.Color = Black
-				leftRotate(tree, x.Parent)
+				w.color = x.parent.color
+				x.parent.color = Black
+				w.right.color = Black
+				leftRotate(tree, x.parent)
 				x = tree.Root
 			}
 		} else {
-			w := x.Parent.Left
-			if w.Color == Red {
-				w.Color = Black
-				x.Parent.Color = Red
-				rightRotate(tree, x.Parent)
-				w = x.Parent.Left
+			w := x.parent.left
+			if w.color == Red {
+				w.color = Black
+				x.parent.color = Red
+				rightRotate(tree, x.parent)
+				w = x.parent.left
 			}
 
-			if w.Right.Color == Black && w.Left.Color == Black {
-				w.Color = Red
-				x = x.Parent
+			if w.right.color == Black && w.left.color == Black {
+				w.color = Red
+				x = x.parent
 			} else {
-				if w.Left.Color == Black {
-					w.Right.Color = Black
-					w.Color = Red
+				if w.left.color == Black {
+					w.right.color = Black
+					w.color = Red
 					leftRotate(tree, w)
-					w = x.Parent.Left
+					w = x.parent.left
 				}
 
-				w.Color = x.Parent.Color
-				x.Parent.Color = Black
-				w.Left.Color = Black
-				rightRotate(tree, x.Parent)
+				w.color = x.parent.color
+				x.parent.color = Black
+				w.left.color = Black
+				rightRotate(tree, x.parent)
 				x = tree.Root
 			}
 		}
 	}
-	x.Color = Black
+	x.color = Black
 }
 
 func rbTransplant(tree *RbTree, u *Node, v *Node) {
-	if u.Parent == tree.tnil {
+	if u.parent == tree.tnil {
 		tree.Root = v
-	} else if u == u.Parent.Left {
-		u.Parent.Left = v
+	} else if u == u.parent.left {
+		u.parent.left = v
 	} else {
-		u.Parent.Right = v
+		u.parent.right = v
 	}
-	v.Parent = u.Parent
+	v.parent = u.parent
 }
 
 func leftRotate(tree *RbTree, x *Node) {
-	y := x.Right
-	x.Right = y.Left
-	if y.Left != tree.tnil {
-		y.Left.Parent = x
+	y := x.right
+	x.right = y.left
+	if y.left != tree.tnil {
+		y.left.parent = x
 	}
-	y.Parent = x.Parent
-	if x.Parent == tree.tnil {
+	y.parent = x.parent
+	if x.parent == tree.tnil {
 		tree.Root = y
-	} else if x == x.Parent.Left {
-		x.Parent.Left = y
+	} else if x == x.parent.left {
+		x.parent.left = y
 	} else {
-		x.Parent.Right = y
+		x.parent.right = y
 	}
 
-	y.Left = x
-	x.Parent = y
+	y.left = x
+	x.parent = y
 
 	y.Size = x.Size
-	x.Size = x.Left.Size + x.Right.Size + 1
+	x.Size = x.left.Size + x.right.Size + 1
 }
 
 func rightRotate(tree *RbTree, x *Node) {
-	y := x.Left
-	x.Left = y.Right
-	if y.Right != tree.tnil {
-		y.Right.Parent = x
+	y := x.left
+	x.left = y.right
+	if y.right != tree.tnil {
+		y.right.parent = x
 	}
-	y.Parent = x.Parent
-	if x.Parent == tree.tnil {
+	y.parent = x.parent
+	if x.parent == tree.tnil {
 		tree.Root = y
-	} else if x == x.Parent.Right {
-		x.Parent.Right = y
+	} else if x == x.parent.right {
+		x.parent.right = y
 	} else {
-		x.Parent.Left = y
+		x.parent.left = y
 	}
 
-	y.Right = x
-	x.Parent = y
+	y.right = x
+	x.parent = y
 
 	y.Size = x.Size
-	x.Size = x.Left.Size + x.Right.Size + 1
+	x.Size = x.left.Size + x.right.Size + 1
 }

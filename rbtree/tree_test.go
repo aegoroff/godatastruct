@@ -36,7 +36,7 @@ func (n GraphNode) Attributes() []encoding.Attribute {
 	node := *n.Node
 
 	fc := "black"
-	if node.Color == Red {
+	if node.color == Red {
 		fc = "red"
 	}
 
@@ -300,26 +300,26 @@ func Test_RightRotate_StructureAsExpected(t *testing.T) {
 	b := Node{Key: NewStringKey("b")}
 	g := Node{Key: NewStringKey("g")}
 
-	r.Right = &y
-	y.Parent = &r
-	y.Left = &x
-	y.Right = &g
-	x.Left = &a
-	x.Right = &b
-	x.Parent = &y
-	g.Parent = &y
-	a.Parent = &x
-	b.Parent = &x
+	r.right = &y
+	y.parent = &r
+	y.left = &x
+	y.right = &g
+	x.left = &a
+	x.right = &b
+	x.parent = &y
+	g.parent = &y
+	a.parent = &x
+	b.parent = &x
 
 	// Act
 	rightRotate(tree, &y)
 
 	// Assert
-	ass.Equal("root", x.Parent.GetStringKey())
-	ass.Equal("a", x.Left.GetStringKey())
-	ass.Equal("y", x.Right.GetStringKey())
-	ass.Equal("b", y.Left.GetStringKey())
-	ass.Equal("g", y.Right.GetStringKey())
+	ass.Equal("root", x.parent.GetStringKey())
+	ass.Equal("a", x.left.GetStringKey())
+	ass.Equal("y", x.right.GetStringKey())
+	ass.Equal("b", y.left.GetStringKey())
+	ass.Equal("g", y.right.GetStringKey())
 }
 
 func Test_LeftRotate_StructureAsExpected(t *testing.T) {
@@ -336,26 +336,26 @@ func Test_LeftRotate_StructureAsExpected(t *testing.T) {
 	b := Node{Key: NewStringKey("b")}
 	g := Node{Key: NewStringKey("g")}
 
-	r.Right = &x
-	x.Parent = &r
-	x.Left = &a
-	x.Right = &y
-	y.Left = &b
-	y.Right = &g
-	y.Parent = &y
-	g.Parent = &y
-	a.Parent = &x
-	b.Parent = &y
+	r.right = &x
+	x.parent = &r
+	x.left = &a
+	x.right = &y
+	y.left = &b
+	y.right = &g
+	y.parent = &y
+	g.parent = &y
+	a.parent = &x
+	b.parent = &y
 
 	// Act
 	leftRotate(tree, &x)
 
 	// Assert
-	ass.Equal("root", y.Parent.GetStringKey())
-	ass.Equal("x", y.Left.GetStringKey())
-	ass.Equal("g", y.Right.GetStringKey())
-	ass.Equal("a", x.Left.GetStringKey())
-	ass.Equal("b", x.Right.GetStringKey())
+	ass.Equal("root", y.parent.GetStringKey())
+	ass.Equal("x", y.left.GetStringKey())
+	ass.Equal("g", y.right.GetStringKey())
+	ass.Equal("a", x.left.GetStringKey())
+	ass.Equal("b", x.right.GetStringKey())
 }
 
 func Test_GraphvizInt(t *testing.T) {
@@ -388,7 +388,7 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	// Assert
 	n = NewIntKey(28)
 	found, _ = tree.Root.Search(n)
-	ass.Equal(Black, found.Color)
+	ass.Equal(Black, found.color)
 }
 
 func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
@@ -441,7 +441,7 @@ func getTreeAsGraphviz(tree *RbTree) string {
 
 		for i := id - 2; i >= 0; i-- {
 			n := gr.Node(i)
-			if node.Parent.Key != nil && n.(*GraphNode).Node.Key == node.Parent.Key {
+			if node.parent.Key != nil && n.(*GraphNode).Node.Key == node.parent.Key {
 				edge := gr.NewEdge(n, gn)
 				gr.SetEdge(edge)
 				break
