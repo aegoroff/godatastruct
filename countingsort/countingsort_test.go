@@ -32,6 +32,7 @@ func TestInts64(t *testing.T) {
 }
 
 func BenchmarkInts(b *testing.B) {
+	b.SetBytes(2)
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		items := perm(1024)
@@ -42,6 +43,7 @@ func BenchmarkInts(b *testing.B) {
 }
 
 func BenchmarkQuickSortInt(b *testing.B) {
+	b.SetBytes(2)
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		items := perm(1024)
