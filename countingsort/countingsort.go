@@ -3,7 +3,7 @@ package countingsort
 
 // Ints sorts integers slice using counting sort algorithm
 func Ints(items []int, max int) {
-	sorted := countingSort(items, max)
+	sorted := GetSortedInts(items, max)
 
 	for i, x := range sorted {
 		items[i] = x
@@ -12,14 +12,15 @@ func Ints(items []int, max int) {
 
 // Ints64 sorts int64 slice using counting sort algorithm
 func Ints64(items []int64, max int64) {
-	sorted := countingSortInt64(items, max)
+	sorted := GetSortedInts64(items, max)
 
 	for i, x := range sorted {
 		items[i] = x
 	}
 }
 
-func countingSort(a []int, max int) []int {
+// GetSortedInts returns sorted integers slice
+func GetSortedInts(a []int, max int) []int {
 	b := make([]int, len(a))
 	c := make([]int, max+1)
 
@@ -39,7 +40,8 @@ func countingSort(a []int, max int) []int {
 	return b
 }
 
-func countingSortInt64(a []int64, max int64) []int64 {
+// GetSortedInts64 returns sorted int64 slice
+func GetSortedInts64(a []int64, max int64) []int64 {
 	b := make([]int64, len(a))
 	c := make([]int64, max+1)
 
