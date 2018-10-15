@@ -787,6 +787,25 @@ func Test_DeleteNode_ResultAsExpected(t *testing.T) {
 	}
 }
 
+func Test_DeleteNodeDeleteSeveralNodesWithTheSameKey_ResultAsExpected(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := createTestStringTree()
+	k := NewStringKey("vff")
+	tree.Insert(NewNode(k))
+	tree.Insert(NewNode(k))
+
+	// Act
+	ok1 := tree.DeleteNode(k)
+	ok2 := tree.DeleteNode(k)
+	ok3 := tree.DeleteNode(k)
+
+	// Assert
+	ass.True(ok1)
+	ass.True(ok2)
+	ass.False(ok3)
+}
+
 func Test_InsertNil_NothingIserted(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
