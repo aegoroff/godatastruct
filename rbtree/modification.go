@@ -88,9 +88,6 @@ func rbInsertFixup(tree *RbTree, z *Node) {
 // DeleteNode searches and deletes node with key value specified from Red-black tree
 // It returns true if node was successfully deleted otherwise false
 func (tree *RbTree) DeleteNode(key *Comparable) bool {
-	if key == nil {
-		return false
-	}
 	found, ok := tree.Search(key)
 	if ok {
 		tree.Delete(found)
