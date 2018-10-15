@@ -83,11 +83,21 @@ func NewIntKey(v int) *Comparable {
 	return &r
 }
 
+// NewIntNode creates new node that contains int key
+func NewIntNode(v int) *Node {
+	return NewNode(NewIntKey(v))
+}
+
 // NewStringKey creates new string key to be stores as tree node key
 func NewStringKey(v string) *Comparable {
 	var r Comparable
 	r = String(v)
 	return &r
+}
+
+// NewStringNode creates new node that contains string key
+func NewStringNode(v string) *Node {
+	return NewNode(NewStringKey(v))
 }
 
 // NewRbTree creates new Red-Black empty tree
@@ -97,8 +107,8 @@ func NewRbTree() *RbTree {
 }
 
 // NewNode creates new node
-func NewNode(si Comparable) *Node {
-	return &Node{Key: &si}
+func NewNode(k *Comparable) *Node {
+	return &Node{Key: k}
 }
 
 // Len returns the number of nodes in the tree.

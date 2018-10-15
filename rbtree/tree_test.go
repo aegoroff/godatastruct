@@ -565,30 +565,30 @@ func Test_MaximumEmptyTree(t *testing.T) {
 func Test_RightRotate_StructureAsExpected(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	r := Node{Key: NewStringKey("root")}
+	r := NewStringNode("root")
 
 	tree := NewRbTree()
-	tree.Insert(&r)
+	tree.Insert(r)
 
-	y := Node{Key: NewStringKey("y")}
-	x := Node{Key: NewStringKey("x")}
-	a := Node{Key: NewStringKey("a")}
-	b := Node{Key: NewStringKey("b")}
-	g := Node{Key: NewStringKey("g")}
+	y := NewStringNode("y")
+	x := NewStringNode("x")
+	a := NewStringNode("a")
+	b := NewStringNode("b")
+	g := NewStringNode("g")
 
-	r.right = &y
-	y.parent = &r
-	y.left = &x
-	y.right = &g
-	x.left = &a
-	x.right = &b
-	x.parent = &y
-	g.parent = &y
-	a.parent = &x
-	b.parent = &x
+	r.right = y
+	y.parent = r
+	y.left = x
+	y.right = g
+	x.left = a
+	x.right = b
+	x.parent = y
+	g.parent = y
+	a.parent = x
+	b.parent = x
 
 	// Act
-	rightRotate(tree, &y)
+	rightRotate(tree, y)
 
 	// Assert
 	ass.Equal("root", x.parent.GetStringKey())
@@ -601,30 +601,30 @@ func Test_RightRotate_StructureAsExpected(t *testing.T) {
 func Test_LeftRotate_StructureAsExpected(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	r := Node{Key: NewStringKey("root")}
+	r := NewStringNode("root")
 
 	tree := NewRbTree()
-	tree.Insert(&r)
+	tree.Insert(r)
 
-	x := Node{Key: NewStringKey("x")}
-	y := Node{Key: NewStringKey("y")}
-	a := Node{Key: NewStringKey("a")}
-	b := Node{Key: NewStringKey("b")}
-	g := Node{Key: NewStringKey("g")}
+	x := NewStringNode("x")
+	y := NewStringNode("y")
+	a := NewStringNode("a")
+	b := NewStringNode("b")
+	g := NewStringNode("g")
 
-	r.right = &x
-	x.parent = &r
-	x.left = &a
-	x.right = &y
-	y.left = &b
-	y.right = &g
-	y.parent = &y
-	g.parent = &y
-	a.parent = &x
-	b.parent = &y
+	r.right = x
+	x.parent = r
+	x.left = a
+	x.right = y
+	y.left = b
+	y.right = g
+	y.parent = y
+	g.parent = y
+	a.parent = x
+	b.parent = y
 
 	// Act
-	leftRotate(tree, &x)
+	leftRotate(tree, x)
 
 	// Assert
 	ass.Equal("root", y.parent.GetStringKey())
@@ -752,6 +752,41 @@ func Test_Delete_NodeDeleted(t *testing.T) {
 	ass.Equal("microsoft", found.GetStringKey())
 }
 
+func Test_DeleteEmptyTree_NoError(t *testing.T) {
+	// Arrange
+	tree := NewRbTree()
+	n := NewStringNode("intel")
+
+	// Act
+	tree.Delete(n)
+
+	// Assert
+}
+
+func Test_DeleteNode_ResultAsExpected(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+
+	var tests = []struct {
+		key    *Comparable
+		result bool
+		tree   *RbTree
+	}{
+		{NewStringKey("intel"), true, createTestStringTree()},
+		{NewStringKey("vff"), false, createTestStringTree()},
+		{nil, false, createTestStringTree()},
+		{NewStringKey("intel"), false, NewRbTree()},
+	}
+
+	for _, test := range tests {
+		// Act
+		ok := test.tree.DeleteNode(test.key)
+
+		// Assert
+		ass.Equal(test.result, ok)
+	}
+}
+
 func Test_InsertNil_NothingIserted(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
@@ -791,7 +826,7 @@ func createTestStringTree() *RbTree {
 func createIntTree(nodes []int) *RbTree {
 	tree := NewRbTree()
 	for _, n := range nodes {
-		tree.Insert(NewNode(*NewIntKey(n)))
+		tree.Insert(NewIntNode(n))
 	}
 	return tree
 }
@@ -799,7 +834,7 @@ func createIntTree(nodes []int) *RbTree {
 func createStringTree(nodes []string) *RbTree {
 	tree := NewRbTree()
 	for _, n := range nodes {
-		tree.Insert(NewNode(*NewStringKey(n)))
+		tree.Insert(NewStringNode(n))
 	}
 	return tree
 }
