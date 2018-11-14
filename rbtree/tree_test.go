@@ -725,7 +725,7 @@ func getTreeAsGraphviz(tree *RbTree) string {
 		}
 	})
 
-	data, _ := dot.Marshal(gr, "", " ", " ", false)
+	data, _ := dot.Marshal(gr, "", " ", " ")
 
 	b.Write(data)
 
