@@ -4,19 +4,13 @@ package countingsort
 // Ints sorts integers slice using counting sort algorithm
 func Ints(items []int, max int) {
 	sorted := GetSortedInts(items, max)
-
-	for i, x := range sorted {
-		items[i] = x
-	}
+	copy(items, sorted)
 }
 
 // Ints64 sorts int64 slice using counting sort algorithm
 func Ints64(items []int64, max int64) {
 	sorted := GetSortedInts64(items, max)
-
-	for i, x := range sorted {
-		items[i] = x
-	}
+	copy(items, sorted)
 }
 
 // GetSortedInts returns sorted integers slice
@@ -25,7 +19,7 @@ func GetSortedInts(a []int, max int) []int {
 	c := make([]int, max+1)
 
 	for _, item := range a {
-		c[item] += 1
+		c[item]++
 	}
 
 	for i := 1; i < len(c); i++ {
@@ -34,7 +28,7 @@ func GetSortedInts(a []int, max int) []int {
 
 	for i := len(a) - 1; i >= 0; i-- {
 		b[c[a[i]]-1] = a[i]
-		c[a[i]] -= 1
+		c[a[i]]--
 	}
 
 	return b
@@ -46,7 +40,7 @@ func GetSortedInts64(a []int64, max int64) []int64 {
 	c := make([]int64, max+1)
 
 	for _, item := range a {
-		c[item] += 1
+		c[item]++
 	}
 
 	for i := 1; i < len(c); i++ {
@@ -55,7 +49,7 @@ func GetSortedInts64(a []int64, max int64) []int64 {
 
 	for i := len(a) - 1; i >= 0; i-- {
 		b[c[a[i]]-1] = a[i]
-		c[a[i]] -= 1
+		c[a[i]]--
 	}
 
 	return b

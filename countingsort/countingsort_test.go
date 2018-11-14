@@ -55,8 +55,6 @@ func BenchmarkQuickSortInt(b *testing.B) {
 
 // perm returns a random permutation of n Int items in the range [0, n).
 func perm(n int) (out []int) {
-	for _, v := range rand.Perm(n) {
-		out = append(out, v)
-	}
+	out = append(out, rand.Perm(n)...)
 	return
 }
