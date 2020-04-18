@@ -79,7 +79,7 @@ func (n *Node) Successor() *Node {
 		y = y.parent
 	}
 
-	if y.Key == nil {
+	if y == nil || y.Key == nil {
 		return nil
 	}
 
@@ -98,7 +98,7 @@ func (n *Node) Predecessor() *Node {
 		y = y.parent
 	}
 
-	if y.Key == nil {
+	if y == nil || y.Key == nil {
 		return nil
 	}
 
