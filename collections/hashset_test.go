@@ -239,10 +239,9 @@ func TestStringHashSet_ItemsDecorated_ResultAsSpecified(t *testing.T) {
 		}
 
 		// Act
-		items := set.Items()
+		items := set.ItemsDecorated(tt.decorator)
 
 		// Assert
-		ass.Equal(tt.items, items)
-		ass.ElementsMatch(tt.items, items)
+		ass.ElementsMatch(tt.result, items)
 	}
 }
