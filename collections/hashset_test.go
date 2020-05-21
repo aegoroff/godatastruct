@@ -2,6 +2,7 @@ package collections
 
 import (
 	"github.com/stretchr/testify/assert"
+	"strings"
 	"testing"
 )
 
@@ -201,6 +202,34 @@ func TestStringHashSet_Items_ResultAsSpecified(t *testing.T) {
 		{[]string{"1"}},
 		{[]string{}},
 		{[]string{"3", "1"}},
+	}
+
+	for _, tt := range tests {
+		var set = make(StringHashSet)
+		for _, i := range tt.items {
+			set.Add(i)
+		}
+
+		// Act
+		items := set.Items()
+
+		// Assert
+		ass.Equal(tt.items, items)
+		ass.ElementsMatch(tt.items, items)
+	}
+}
+
+func TestStringHashSet_ItemsDecorated_ResultAsSpecified(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+
+	var tests = []struct {
+		items     []string
+		decorator func(s string) string
+		result    []string
+	}{
+		{[]string{"a"}, func(s string) string { return s }, []string{"a"}},
+		{[]string{"a", "b"}, func(s string) string { return strings.ToUpper(s) }, []string{"A", "B"}},
 	}
 
 	for _, tt := range tests {

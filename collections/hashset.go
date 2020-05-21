@@ -20,6 +20,15 @@ func (s *StringHashSet) Items() []string {
 	return keys
 }
 
+// ItemsDecorated gets all set's items applying decorator function to each item
+func (s *StringHashSet) ItemsDecorated(decorator func(s string) string) []string {
+	keys := make([]string, 0, len(*s))
+	for k := range *s {
+		keys = append(keys, decorator(k))
+	}
+	return keys
+}
+
 // Contains gets whether a key is presented within the set
 func (s *StringHashSet) Contains(key string) bool {
 	_, ok := (*s)[key]
