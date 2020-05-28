@@ -1,6 +1,7 @@
 package collections
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"strings"
 	"testing"
@@ -244,4 +245,14 @@ func TestStringHashSet_ItemsDecorated_ResultAsSpecified(t *testing.T) {
 		// Assert
 		ass.ElementsMatch(tt.result, items)
 	}
+}
+
+func ExampleIntHashSet_Contains() {
+	var set = make(StringHashSet)
+	set.Add("1")
+	fmt.Println(set.Contains("1"))
+	fmt.Println(set.Contains("2"))
+	// Output
+	// true
+	// false
 }
