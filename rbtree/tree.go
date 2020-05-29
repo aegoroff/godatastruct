@@ -18,7 +18,7 @@ type RbTree struct {
 // Node represent red-black tree node
 type Node struct {
 	// Node key (data)
-	Key *Comparable
+	Key Comparable
 
 	// Subtree size including node itself
 	Size int64
@@ -32,7 +32,7 @@ type Node struct {
 // KeyIterator allows callers of Ascend* to iterate in-order over portions of
 // the tree.  When this function returns false, iteration will stop and the
 // associated Ascend* function will immediately return.
-type KeyIterator func(c *Comparable) bool
+type KeyIterator func(c Comparable) bool
 
 // Comparable defines comparable type interface
 type Comparable interface {
@@ -57,30 +57,30 @@ func (x Int) EqualTo(y interface{}) bool {
 }
 
 // LessThan define Comparable interface member for String
-func (x String) LessThan(y interface{}) bool {
-	return x < y.(String)
+func (x *String) LessThan(y interface{}) bool {
+	return *x < *(y.(*String))
 }
 
 // EqualTo define Comparable interface member for String
-func (x String) EqualTo(y interface{}) bool {
-	return x == y.(String)
+func (x *String) EqualTo(y interface{}) bool {
+	return *x == *(y.(*String))
 }
 
 // GetIntKey gets int key value from tree node
 func (n *Node) GetIntKey() int {
-	return int((*n.Key).(Int))
+	return int(n.Key.(Int))
 }
 
 // GetStringKey gets string key value from tree node
 func (n *Node) GetStringKey() string {
-	return string((*n.Key).(String))
+	return string(*n.Key.(*String))
 }
 
 // NewIntKey creates new int key to be stores as tree node key
-func NewIntKey(v int) *Comparable {
+func NewIntKey(v int) Comparable {
 	var r Comparable
 	r = Int(v)
-	return &r
+	return r
 }
 
 // NewIntNode creates new node that contains int key
@@ -89,10 +89,11 @@ func NewIntNode(v int) *Node {
 }
 
 // NewStringKey creates new string key to be stores as tree node key
-func NewStringKey(v string) *Comparable {
+func NewStringKey(v string) Comparable {
 	var r Comparable
-	r = String(v)
-	return &r
+	s := String(v)
+	r = &s
+	return r
 }
 
 // NewStringNode creates new node that contains string key
@@ -107,7 +108,7 @@ func NewRbTree() *RbTree {
 }
 
 // NewNode creates new node
-func NewNode(k *Comparable) *Node {
+func NewNode(k Comparable) *Node {
 	return &Node{Key: k}
 }
 

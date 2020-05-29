@@ -21,11 +21,11 @@ func (n GraphNode) ID() int64 {
 }
 
 func (n GraphNode) DOTID() string {
-	if key, ok := (*n.Node.Key).(String); ok {
+	if key, ok := n.Node.Key.(*String); ok {
 		return fmt.Sprintf("\"%v\"", key)
 	}
 
-	if key, ok := (*n.Node.Key).(Int); ok {
+	if key, ok := n.Node.Key.(Int); ok {
 		return fmt.Sprintf("\"%d\"", key)
 	}
 
@@ -99,19 +99,19 @@ func Test_Ascend(t *testing.T) {
 	tree := createIntegerTestTree()
 
 	var tests = []struct {
-		predicate func(*Comparable) bool
+		predicate func(Comparable) bool
 		expected  []Int
 	}{
-		{func(c *Comparable) bool { return true }, []Int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}},
-		{func(c *Comparable) bool { return false }, []Int{2}},
-		{func(c *Comparable) bool { return (*c).LessThan(*NewIntKey(15)) }, []Int{2, 3, 4, 6, 7, 9, 13, 15}},
+		{func(c Comparable) bool { return true }, []Int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}},
+		{func(c Comparable) bool { return false }, []Int{2}},
+		{func(c Comparable) bool { return c.LessThan(NewIntKey(15)) }, []Int{2, 3, 4, 6, 7, 9, 13, 15}},
 	}
 	for _, test := range tests {
 		result := []Int{}
 
 		// Act
-		tree.Ascend(func(c *Comparable) bool {
-			result = append(result, (*c).(Int))
+		tree.Ascend(func(c Comparable) bool {
+			result = append(result, c.(Int))
 			return test.predicate(c)
 		})
 
@@ -127,8 +127,8 @@ func Test_AscendEmptyTree(t *testing.T) {
 	result := []Int{}
 
 	// Act
-	tree.Ascend(func(c *Comparable) bool {
-		result = append(result, (*c).(Int))
+	tree.Ascend(func(c Comparable) bool {
+		result = append(result, c.(Int))
 		return true
 	})
 
@@ -160,8 +160,8 @@ func Test_AscendRange(t *testing.T) {
 		to := NewIntKey(test.to)
 
 		// Act
-		tree.AscendRange(from, to, func(c *Comparable) bool {
-			result = append(result, (*c).(Int))
+		tree.AscendRange(from, to, func(c Comparable) bool {
+			result = append(result, c.(Int))
 			return true
 		})
 
@@ -176,8 +176,8 @@ func Test_AscendRangeNilTests(t *testing.T) {
 	tree := createIntegerTestTree()
 
 	var tests = []struct {
-		from *Comparable
-		to   *Comparable
+		from Comparable
+		to   Comparable
 	}{
 		{nil, NewIntKey(6)},
 		{NewIntKey(6), nil},
@@ -187,8 +187,8 @@ func Test_AscendRangeNilTests(t *testing.T) {
 		result := []Int{}
 
 		// Act
-		tree.AscendRange(test.from, test.to, func(c *Comparable) bool {
-			result = append(result, (*c).(Int))
+		tree.AscendRange(test.from, test.to, func(c Comparable) bool {
+			result = append(result, c.(Int))
 			return true
 		})
 
@@ -203,19 +203,19 @@ func Test_Descend(t *testing.T) {
 	tree := createIntegerTestTree()
 
 	var tests = []struct {
-		predicate func(*Comparable) bool
+		predicate func(Comparable) bool
 		expected  []Int
 	}{
-		{func(c *Comparable) bool { return true }, []Int{20, 18, 17, 15, 13, 9, 7, 6, 4, 3, 2}},
-		{func(c *Comparable) bool { return false }, []Int{20}},
-		{func(c *Comparable) bool { return !(*c).LessThan(*NewIntKey(15)) }, []Int{20, 18, 17, 15, 13}},
+		{func(c Comparable) bool { return true }, []Int{20, 18, 17, 15, 13, 9, 7, 6, 4, 3, 2}},
+		{func(c Comparable) bool { return false }, []Int{20}},
+		{func(c Comparable) bool { return !c.LessThan(NewIntKey(15)) }, []Int{20, 18, 17, 15, 13}},
 	}
 	for _, test := range tests {
 		result := []Int{}
 
 		// Act
-		tree.Descend(func(c *Comparable) bool {
-			result = append(result, (*c).(Int))
+		tree.Descend(func(c Comparable) bool {
+			result = append(result, c.(Int))
 			return test.predicate(c)
 		})
 
@@ -231,8 +231,8 @@ func Test_DescendEmptyTree(t *testing.T) {
 	result := []Int{}
 
 	// Act
-	tree.Descend(func(c *Comparable) bool {
-		result = append(result, (*c).(Int))
+	tree.Descend(func(c Comparable) bool {
+		result = append(result, c.(Int))
 		return true
 	})
 
@@ -264,8 +264,8 @@ func Test_DescendRange(t *testing.T) {
 		to := NewIntKey(test.to)
 
 		// Act
-		tree.DescendRange(from, to, func(c *Comparable) bool {
-			result = append(result, (*c).(Int))
+		tree.DescendRange(from, to, func(c Comparable) bool {
+			result = append(result, c.(Int))
 			return true
 		})
 
@@ -280,8 +280,8 @@ func Test_DescendRangeNilTests(t *testing.T) {
 	tree := createIntegerTestTree()
 
 	var tests = []struct {
-		from *Comparable
-		to   *Comparable
+		from Comparable
+		to   Comparable
 	}{
 		{nil, NewIntKey(6)},
 		{NewIntKey(6), nil},
@@ -291,8 +291,8 @@ func Test_DescendRangeNilTests(t *testing.T) {
 		result := []Int{}
 
 		// Act
-		tree.DescendRange(test.from, test.to, func(c *Comparable) bool {
-			result = append(result, (*c).(Int))
+		tree.DescendRange(test.from, test.to, func(c Comparable) bool {
+			result = append(result, c.(Int))
 			return true
 		})
 
@@ -418,7 +418,7 @@ func Test_SearchIntTree_Failure(t *testing.T) {
 
 	var tests = []struct {
 		tree *RbTree
-		key  *Comparable
+		key  Comparable
 	}{
 		{createIntegerTestTree(), NewIntKey(22)},
 		{createIntegerTestTree(), nil},
@@ -768,7 +768,7 @@ func Test_DeleteNode_ResultAsExpected(t *testing.T) {
 	ass := assert.New(t)
 
 	var tests = []struct {
-		key    *Comparable
+		key    Comparable
 		result bool
 		tree   *RbTree
 	}{

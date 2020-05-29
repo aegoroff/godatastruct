@@ -3,7 +3,7 @@ package rbtree
 // This file contains all RB tree search methods implementations
 
 // Search searches value specified within search tree
-func (tree *RbTree) Search(value *Comparable) (*Node, bool) {
+func (tree *RbTree) Search(value Comparable) (*Node, bool) {
 	if tree.Root == nil {
 		return nil, false
 	}
@@ -11,14 +11,14 @@ func (tree *RbTree) Search(value *Comparable) (*Node, bool) {
 }
 
 // Search searches value specified within search tree
-func (n *Node) Search(value *Comparable) (*Node, bool) {
+func (n *Node) Search(value Comparable) (*Node, bool) {
 	if value == nil {
 		return nil, false
 	}
 	var x *Node
 	x = n
-	for x != nil && x.Key != nil && !(*value).EqualTo(*x.Key) {
-		if (*value).LessThan(*x.Key) {
+	for x != nil && x.Key != nil && !value.EqualTo(x.Key) {
+		if value.LessThan(x.Key) {
 			x = x.left
 		} else {
 			x = x.right

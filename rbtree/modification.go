@@ -23,7 +23,7 @@ func (tree *RbTree) Insert(z *Node) {
 	for x != tree.tnil {
 		y = x
 		y.Size++
-		if (*z.Key).LessThan(*x.Key) {
+		if z.Key.LessThan(x.Key) {
 			x = x.left
 		} else {
 			x = x.right
@@ -33,7 +33,7 @@ func (tree *RbTree) Insert(z *Node) {
 	z.parent = y
 	if y == tree.tnil {
 		tree.Root = z
-	} else if (*z.Key).LessThan(*y.Key) {
+	} else if z.Key.LessThan(y.Key) {
 		y.left = z
 	} else {
 		y.right = z
@@ -87,7 +87,7 @@ func rbInsertFixup(tree *RbTree, z *Node) {
 
 // DeleteNode searches and deletes node with key value specified from Red-black tree
 // It returns true if node was successfully deleted otherwise false
-func (tree *RbTree) DeleteNode(key *Comparable) bool {
+func (tree *RbTree) DeleteNode(key Comparable) bool {
 	found, ok := tree.Search(key)
 	if ok {
 		tree.Delete(found)
