@@ -412,6 +412,21 @@ func Test_SearchStringTree_Success(t *testing.T) {
 	ass.Equal("intel", found.GetStringKey())
 }
 
+func Test_SearchStringTree_Fail(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := createTestStringTree()
+	n := NewStringKey("abrakadabra")
+
+	// Act
+	found, ok := tree.Search(n)
+
+	// Assert
+	ass.False(ok)
+	ass.Nil(found)
+	ass.Equal("", found.GetStringKey())
+}
+
 func Test_SearchIntTree_Failure(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)

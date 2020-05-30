@@ -215,7 +215,6 @@ func TestStringHashSet_Items_ResultAsSpecified(t *testing.T) {
 		items := set.Items()
 
 		// Assert
-		ass.Equal(tt.items, items)
 		ass.ElementsMatch(tt.items, items)
 	}
 }
