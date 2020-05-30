@@ -53,7 +53,7 @@ func (x Int) LessThan(y interface{}) bool {
 
 // EqualTo define Comparable interface member for Int
 func (x Int) EqualTo(y interface{}) bool {
-	return x == y.(Int)
+	return x == y
 }
 
 // LessThan define Comparable interface member for String
@@ -73,6 +73,9 @@ func (n *Node) GetIntKey() int {
 
 // GetStringKey gets string key value from tree node
 func (n *Node) GetStringKey() string {
+	if n == nil || n.Key == nil {
+		return ""
+	}
 	return string(*n.Key.(*String))
 }
 
