@@ -486,7 +486,7 @@ func Test_SuccessorOfMax_ReturnNil(t *testing.T) {
 	s := r.successor()
 
 	// Assert
-	ass.Nil(s)
+	ass.Nil(s.key)
 }
 
 func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {

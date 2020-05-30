@@ -2,39 +2,28 @@ package rbtree
 
 // This file contains all RB tree iteration methods implementations
 
-// WalkInorder walks subtree inorder (left, node, right)
-func (n *node) WalkInorder(action func(Comparable)) {
-	if n != nil && n.key != nil {
-		n.left.WalkInorder(action)
-		action(n.key)
-		n.right.WalkInorder(action)
-	}
-}
-
 // WalkInorder walks tree inorder (left, node, right)
 func (tree *rbTree) WalkInorder(action func(Comparable)) {
-	tree.root.WalkInorder(action)
+	tree.root.walkInorder(action)
 }
 
-// walkPreorder walks subtree preorder (node, left, right)
-func (n *node) walkPreorder(action func(Comparable)) {
+func (n *node) walkInorder(action func(Comparable)) {
 	if n != nil && n.key != nil {
+		n.left.walkInorder(action)
 		action(n.key)
-		n.left.walkPreorder(action)
-		n.right.walkPreorder(action)
+		n.right.walkInorder(action)
 	}
 }
 
 // WalkPostorder walks tree postorder (left, right, node)
 func (tree *rbTree) WalkPostorder(action func(Comparable)) {
-	tree.root.WalkPostorder(action)
+	tree.root.walkPostorder(action)
 }
 
-// WalkPostorder walks subtree postorder (left, right, node)
-func (n *node) WalkPostorder(action func(Comparable)) {
+func (n *node) walkPostorder(action func(Comparable)) {
 	if n != nil && n.key != nil {
-		n.left.WalkPostorder(action)
-		n.right.WalkPostorder(action)
+		n.left.walkPostorder(action)
+		n.right.walkPostorder(action)
 		action(n.key)
 	}
 }
@@ -42,6 +31,14 @@ func (n *node) WalkPostorder(action func(Comparable)) {
 // WalkPreorder walks tree preorder (node, left, right)
 func (tree *rbTree) WalkPreorder(action func(Comparable)) {
 	tree.root.walkPreorder(action)
+}
+
+func (n *node) walkPreorder(action func(Comparable)) {
+	if n != nil && n.key != nil {
+		action(n.key)
+		n.left.walkPreorder(action)
+		n.right.walkPreorder(action)
+	}
 }
 
 // Ascend calls the iterator for every value in the tree until iterator returns false.
@@ -57,7 +54,7 @@ func (tree *rbTree) Ascend(iterator KeyIterator) {
 // AscendRange calls the iterator for every value in the tree within the range
 // [from, to], until iterator returns false.
 func (tree *rbTree) AscendRange(from, to Comparable, iterator KeyIterator) {
-	if tree.root == nil || to == nil {
+	if tree.root == nil || tree.root.key == nil || to == nil {
 		return
 	}
 	tree.root.ascend(from, to, iterator)
@@ -84,7 +81,7 @@ func (tree *rbTree) DescendRange(from, to Comparable, iterator KeyIterator) {
 
 func (n *node) ascend(from, to Comparable, iterator KeyIterator) {
 	curr, ok := n.search(from)
-	for ok && curr != nil && curr.key != nil && curr.key.LessThan(to) || curr != nil && curr.key != nil && curr.key.EqualTo(to) {
+	for ok && curr != nil && curr.key != nil && (curr.key).LessThan(to) || curr != nil && curr.key != nil && (curr.key).EqualTo(to) {
 		ok = iterator(curr.key)
 		if ok {
 			curr = curr.successor()

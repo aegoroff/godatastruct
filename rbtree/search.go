@@ -28,7 +28,7 @@ func (n *node) search(value Comparable) (*node, bool) {
 			x = x.right
 		}
 	}
-	ok := x != nil
+	ok := x != nil && x.key != nil
 
 	if !ok {
 		return nil, ok
@@ -48,7 +48,7 @@ func (tree *rbTree) Minimum() Comparable {
 // Minimum gets tree's min element
 func (n *node) minimum() *node {
 	x := n
-	for x != nil && x.left != nil {
+	for x != nil && x.left != nil && x.left.key != nil {
 		x = x.left
 	}
 	return x
@@ -65,7 +65,7 @@ func (tree *rbTree) Maximum() Comparable {
 // Maximum gets tree's max element
 func (n *node) maximum() *node {
 	x := n
-	for x != nil && x.right != nil {
+	for x != nil && x.right != nil && x.right.key != nil {
 		x = x.right
 	}
 	return x
@@ -73,12 +73,12 @@ func (n *node) maximum() *node {
 
 // Successor gets node specified successor
 func (n *node) successor() *node {
-	if n != nil && n.right != nil {
+	if n != nil && n.right != nil && n.right.key != nil {
 		return n.right.minimum()
 	}
 
 	y := n.parent
-	for y != nil && n == y.right {
+	for y != nil && y.key != nil && n == y.right {
 		n = y
 		y = y.parent
 	}
@@ -92,17 +92,17 @@ func (n *node) successor() *node {
 
 // Predecessor gets node specified predecessor
 func (n *node) predecessor() *node {
-	if n != nil && n.left != nil {
+	if n != nil && n.left != nil && n.left.key != nil {
 		return n.left.maximum()
 	}
 
 	y := n.parent
-	for y != nil && n == y.left {
+	for y != nil && y.key != nil && n == y.left {
 		n = y
 		y = y.parent
 	}
 
-	if y == nil {
+	if y == nil || y.key == nil {
 		return nil
 	}
 
