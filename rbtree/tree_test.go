@@ -766,6 +766,20 @@ func Test_Delete_NodeDeleted(t *testing.T) {
 	ass.Equal("microsoft", GetString(found.key))
 }
 
+func Test_DeleteNil_NothingDeleted(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := createTestStringTree()
+
+	// Act
+	tree.delete(nil)
+
+	// Assert
+	found, ok := tree.root.search(NewString("microsoft"))
+	ass.True(ok)
+	ass.Equal("microsoft", GetString(found.key))
+}
+
 func Test_DeleteEmptyTree_NoError(t *testing.T) {
 	// Arrange
 	tree := NewRbTree()
@@ -833,7 +847,7 @@ func Test_InsertNil_NothingIserted(t *testing.T) {
 	ass.Equal(oldSize, tree.Len())
 }
 
-func Test_DeleteNil_NothingDeleted(t *testing.T) {
+func Test_DeleteNodeNil_NothingDeleted(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := createTestStringTree()
