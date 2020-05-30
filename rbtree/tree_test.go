@@ -619,7 +619,7 @@ func Test_LeftRotate_StructureAsExpected(t *testing.T) {
 	r := newNode(NewString("root"))
 
 	tree := newRbTree()
-	tree.Insert(r)
+	tree.insert(r)
 
 	x := newNode(NewString("x"))
 	y := newNode(NewString("y"))

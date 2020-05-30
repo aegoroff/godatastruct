@@ -45,14 +45,6 @@ type node struct {
 	right  *node
 }
 
-func (n *node) LessThan(y interface{}) bool {
-	return n.key.LessThan(y)
-}
-
-func (n *node) EqualTo(y interface{}) bool {
-	return n.key.EqualTo(y)
-}
-
 // KeyIterator allows callers of Ascend* to iterate in-order over portions of
 // the tree.  When this function returns false, iteration will stop and the
 // associated Ascend* function will immediately return.
