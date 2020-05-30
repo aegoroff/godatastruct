@@ -1,7 +1,7 @@
 ﻿# version format
-version: 0.1.{build}
+version: 0.2.{build}
 
-build: off
+build: false
 
 clone_folder: c:\gopath\src\godatastruct
 
@@ -27,7 +27,7 @@ install:
   - go get -u "gonum.org/v1/gonum/graph"
   - go get -u "github.com/stretchr/testify/assert"
 
-stack: go 1.11
+stack: go 1.14
 
 image: Visual Studio 2017
 
