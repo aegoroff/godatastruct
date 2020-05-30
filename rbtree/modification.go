@@ -4,6 +4,9 @@ package rbtree
 
 // Insert inserts new node into Red-Black tree. Creates Root if tree is empty
 func (tree *rbTree) Insert(z Comparable) {
+	if z == nil {
+		return
+	}
 	n := newNode(z)
 	tree.insert(n)
 }

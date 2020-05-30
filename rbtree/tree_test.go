@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"gonum.org/v1/gonum/graph/encoding"
-	"gonum.org/v1/gonum/graph/encoding/dot"
-	"gonum.org/v1/gonum/graph/simple"
+	_ "gonum.org/v1/gonum/graph/encoding/dot"
+	_ "gonum.org/v1/gonum/graph/simple"
 	"math/rand"
 	"strings"
 	"testing"
@@ -649,16 +649,16 @@ func Test_LeftRotate_StructureAsExpected(t *testing.T) {
 	ass.Equal("b", GetString(x.right.key))
 }
 
-func Test_GraphvizInt(t *testing.T) {
-	// Arrange
-	tree := createIntegerTestTree()
-
-	// Act
-	graphviz := getTreeAsGraphviz(tree)
-
-	// Assert
-	t.Log(graphviz)
-}
+//func Test_GraphvizInt(t *testing.T) {
+//	// Arrange
+//	tree := createIntegerTestTree()
+//
+//	// Act
+//	graphviz := getTreeAsGraphviz(tree)
+//
+//	// Assert
+//	t.Log(graphviz)
+//}
 
 func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	// Arrange
@@ -703,49 +703,49 @@ func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
 	}
 
 	// Assert
-	ass.Nil(tree.root)
+	ass.Nil(tree.root.key)
 	ass.Equal(int64(0), tree.Len())
 }
 
-func Test_GraphvizString(t *testing.T) {
-	// Arrange
-	tree := createTestStringTree()
+//func Test_GraphvizString(t *testing.T) {
+//	// Arrange
+//	tree := createTestStringTree()
+//
+//	// Act
+//	graphviz := getTreeAsGraphviz(tree)
+//
+//	// Assert
+//	t.Log(graphviz)
+//}
 
-	// Act
-	graphviz := getTreeAsGraphviz(tree)
-
-	// Assert
-	t.Log(graphviz)
-}
-
-func getTreeAsGraphviz(tree RbTree) string {
-	b := strings.Builder{}
-	gr := simple.NewUndirectedGraph()
-
-	var id int64
-
-	tree.WalkPreorder(func(c Comparable) {
-		nod := c.(*node)
-		gn := &GraphNode{Node: nod, NodeID: id}
-		gr.AddNode(gn)
-		id++
-
-		for i := id - 2; i >= 0; i-- {
-			n := gr.Node(i)
-			if nod.parent != nil && n.(*GraphNode).Node == nod.parent {
-				edge := gr.NewEdge(n, gn)
-				gr.SetEdge(edge)
-				break
-			}
-		}
-	})
-
-	data, _ := dot.Marshal(gr, "", " ", " ")
-
-	b.Write(data)
-
-	return b.String()
-}
+//func getTreeAsGraphviz(tree RbTree) string {
+//	b := strings.Builder{}
+//	gr := simple.NewUndirectedGraph()
+//
+//	var id int64
+//
+//	tree.WalkPreorder(func(c Comparable) {
+//		nod := c.(*node)
+//		gn := &GraphNode{Node: nod, NodeID: id}
+//		gr.AddNode(gn)
+//		id++
+//
+//		for i := id - 2; i >= 0; i-- {
+//			n := gr.Node(i)
+//			if nod.parent != nil && n.(*GraphNode).Node == nod.parent {
+//				edge := gr.NewEdge(n, gn)
+//				gr.SetEdge(edge)
+//				break
+//			}
+//		}
+//	})
+//
+//	data, _ := dot.Marshal(gr, "", " ", " ")
+//
+//	b.Write(data)
+//
+//	return b.String()
+//}
 
 func Test_Delete_NodeDeleted(t *testing.T) {
 	// Arrange
@@ -764,7 +764,7 @@ func Test_Delete_NodeDeleted(t *testing.T) {
 
 	found, ok = tree.root.search(NewString("microsoft"))
 	ass.True(ok)
-	ass.Equal("microsoft", GetString(found))
+	ass.Equal("microsoft", GetString(found.key))
 }
 
 func Test_DeleteEmptyTree_NoError(t *testing.T) {
