@@ -9,24 +9,40 @@ const (
 	Red
 )
 
-// RbTree represents red-black tree structure
-type RbTree struct {
-	Root *Node
-	tnil *Node
+// RbTree represents red-black tree interface
+type RbTree interface {
+	Len() int64
+	Insert(n Comparable)
+	DeleteNode(c Comparable) bool
+	WalkInorder(action func(Comparable))
+	WalkPostorder(action func(Comparable))
+	WalkPreorder(action func(Comparable))
+	Ascend(iterator KeyIterator)
+	AscendRange(from, to Comparable, iterator KeyIterator)
+	Descend(iterator KeyIterator)
+	DescendRange(from, to Comparable, iterator KeyIterator)
+	Search(value Comparable) (Comparable, bool)
+	Minimum() Comparable
+	Maximum() Comparable
+	OrderStatisticSelect(i int64) (Comparable, bool)
+}
+
+type rbTree struct {
+	root *node
+	tnil *node
 }
 
 // Node represent red-black tree node
-type Node struct {
-	// Node key (data)
-	Key Comparable
+type node struct {
+	key Comparable
 
 	// Subtree size including node itself
-	Size int64
+	size int64
 
 	color  int
-	parent *Node
-	left   *Node
-	right  *Node
+	parent *node
+	left   *node
+	right  *node
 }
 
 // KeyIterator allows callers of Ascend* to iterate in-order over portions of
@@ -66,57 +82,46 @@ func (x *String) EqualTo(y interface{}) bool {
 	return *x == *(y.(*String))
 }
 
-// GetIntKey gets int key value from tree node
-func (n *Node) GetIntKey() int {
-	return int(n.Key.(Int))
+// GetInt gets int key value from comparable
+func GetInt(c Comparable) int {
+	return int(c.(Int))
 }
 
-// GetStringKey gets string key value from tree node
-func (n *Node) GetStringKey() string {
-	if n == nil || n.Key == nil {
+// GetString gets string value from Comparable
+func GetString(c Comparable) string {
+	if c == nil {
 		return ""
 	}
-	return string(*n.Key.(*String))
+	return string(*c.(*String))
 }
 
-// NewIntKey creates new int key to be stores as tree node key
-func NewIntKey(v int) Comparable {
+// NewInt creates new Comparable that contains int key
+func NewInt(v int) Comparable {
 	r := Int(v)
 	return r
 }
 
-// NewIntNode creates new node that contains int key
-func NewIntNode(v int) *Node {
-	return NewNode(NewIntKey(v))
-}
-
-// NewStringKey creates new string key to be stores as tree node key
-func NewStringKey(v string) Comparable {
+// NewString creates new string Comparable
+func NewString(v string) Comparable {
 	s := String(v)
 	return &s
 }
 
-// NewStringNode creates new node that contains string key
-func NewStringNode(v string) *Node {
-	return NewNode(NewStringKey(v))
-}
-
 // NewRbTree creates new Red-Black empty tree
-func NewRbTree() *RbTree {
-	tnil := Node{color: Black}
-	return &RbTree{tnil: &tnil}
+func NewRbTree() RbTree {
+	return newRbTree()
 }
 
-// NewNode creates new node
-func NewNode(k Comparable) *Node {
-	return &Node{Key: k}
+func newRbTree() *rbTree {
+	tnil := node{color: Black}
+	return &rbTree{tnil: &tnil}
 }
 
 // Len returns the number of nodes in the tree.
-func (tree *RbTree) Len() int64 {
-	if tree.Root == nil {
+func (tree *rbTree) Len() int64 {
+	if tree.root == nil {
 		return 0
 	}
 
-	return tree.Root.Size
+	return tree.root.size
 }

@@ -3,28 +3,32 @@ package rbtree
 // This file contains all RB tree search methods implementations
 
 // Search searches value specified within search tree
-func (tree *RbTree) Search(value Comparable) (*Node, bool) {
-	if tree.Root == nil {
+func (tree *rbTree) Search(value Comparable) (Comparable, bool) {
+	if tree.root == nil {
 		return nil, false
 	}
-	return tree.Root.Search(value)
+	n, ok := tree.root.search(value)
+	if !ok {
+		return nil, ok
+	}
+	return n.key, ok
 }
 
 // Search searches value specified within search tree
-func (n *Node) Search(value Comparable) (*Node, bool) {
+func (n *node) search(value Comparable) (*node, bool) {
 	if value == nil {
 		return nil, false
 	}
-	var x *Node
+	var x *node
 	x = n
-	for x != nil && x.Key != nil && !value.EqualTo(x.Key) {
-		if value.LessThan(x.Key) {
+	for x != nil && x.key != nil && !value.EqualTo(x.key) {
+		if value.LessThan(x.key) {
 			x = x.left
 		} else {
 			x = x.right
 		}
 	}
-	ok := x != nil && x.Key != nil
+	ok := x != nil && x.key != nil
 
 	if !ok {
 		return nil, ok
@@ -34,52 +38,52 @@ func (n *Node) Search(value Comparable) (*Node, bool) {
 }
 
 // Minimum gets tree's min element
-func (tree *RbTree) Minimum() *Node {
-	if tree.Root == nil {
+func (tree *rbTree) Minimum() Comparable {
+	if tree.root == nil {
 		return nil
 	}
-	return tree.Root.Minimum()
+	return tree.root.minimum().key
 }
 
 // Minimum gets tree's min element
-func (n *Node) Minimum() *Node {
+func (n *node) minimum() *node {
 	x := n
-	for x != nil && x.left != nil && x.left.Key != nil {
+	for x != nil && x.left != nil && x.left.key != nil {
 		x = x.left
 	}
 	return x
 }
 
 // Maximum gets tree's max element
-func (tree *RbTree) Maximum() *Node {
-	if tree.Root == nil {
+func (tree *rbTree) Maximum() Comparable {
+	if tree.root == nil {
 		return nil
 	}
-	return tree.Root.Maximum()
+	return tree.root.maximum().key
 }
 
 // Maximum gets tree's max element
-func (n *Node) Maximum() *Node {
+func (n *node) maximum() *node {
 	x := n
-	for x != nil && x.right != nil && x.right.Key != nil {
+	for x != nil && x.right != nil && x.right.key != nil {
 		x = x.right
 	}
 	return x
 }
 
 // Successor gets node specified successor
-func (n *Node) Successor() *Node {
-	if n != nil && n.right != nil && n.right.Key != nil {
-		return n.right.Minimum()
+func (n *node) successor() *node {
+	if n != nil && n.right != nil && n.right.key != nil {
+		return n.right.minimum()
 	}
 
 	y := n.parent
-	for y != nil && y.Key != nil && n == y.right {
+	for y != nil && y.key != nil && n == y.right {
 		n = y
 		y = y.parent
 	}
 
-	if y == nil || y.Key == nil {
+	if y == nil || y.key == nil {
 		return nil
 	}
 
@@ -87,18 +91,18 @@ func (n *Node) Successor() *Node {
 }
 
 // Predecessor gets node specified predecessor
-func (n *Node) Predecessor() *Node {
-	if n != nil && n.left != nil && n.left.Key != nil {
-		return n.left.Maximum()
+func (n *node) predecessor() *node {
+	if n != nil && n.left != nil && n.left.key != nil {
+		return n.left.maximum()
 	}
 
 	y := n.parent
-	for y != nil && y.Key != nil && n == y.left {
+	for y != nil && y.key != nil && n == y.left {
 		n = y
 		y = y.parent
 	}
 
-	if y == nil || y.Key == nil {
+	if y == nil || y.key == nil {
 		return nil
 	}
 
@@ -106,25 +110,24 @@ func (n *Node) Predecessor() *Node {
 }
 
 // OrderStatisticSelect gets i element from subtree
-func (tree *RbTree) OrderStatisticSelect(i int64) (*Node, bool) {
-	if tree.Root == nil {
+func (tree *rbTree) OrderStatisticSelect(i int64) (Comparable, bool) {
+	if tree.root == nil {
 		return nil, false
 	}
 
-	return tree.Root.OrderStatisticSelect(i)
+	return tree.root.orderStatisticSelect(i)
 }
 
-// OrderStatisticSelect gets i element from subtree
-func (n *Node) OrderStatisticSelect(i int64) (*Node, bool) {
+func (n *node) orderStatisticSelect(i int64) (Comparable, bool) {
 	if n.left == nil {
 		return nil, false
 	}
-	r := n.left.Size + 1
+	r := n.left.size + 1
 	if i == r {
-		return n, true
+		return n.key, true
 	} else if i < r {
-		return n.left.OrderStatisticSelect(i)
+		return n.left.orderStatisticSelect(i)
 	} else {
-		return n.right.OrderStatisticSelect(i - r)
+		return n.right.orderStatisticSelect(i - r)
 	}
 }

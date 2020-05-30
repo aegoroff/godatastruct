@@ -2,102 +2,99 @@ package rbtree
 
 // This file contains all RB tree iteration methods implementations
 
-// WalkInorder walks subtree inorder (left, node, right)
-func (n *Node) WalkInorder(action func(*Node)) {
-	if n != nil && n.Key != nil {
-		n.left.WalkInorder(action)
-		action(n)
-		n.right.WalkInorder(action)
-	}
-}
-
 // WalkInorder walks tree inorder (left, node, right)
-func (tree *RbTree) WalkInorder(action func(*Node)) {
-	tree.Root.WalkInorder(action)
+func (tree *rbTree) WalkInorder(action func(Comparable)) {
+	tree.root.walkInorder(func(n *node) { action(n.key) })
 }
 
-// WalkPreorder walks subtree preorder (node, left, right)
-func (n *Node) WalkPreorder(action func(*Node)) {
-	if n != nil && n.Key != nil {
+func (n *node) walkInorder(action func(*node)) {
+	if n != nil && n.key != nil {
+		n.left.walkInorder(action)
 		action(n)
-		n.left.WalkPreorder(action)
-		n.right.WalkPreorder(action)
+		n.right.walkInorder(action)
 	}
 }
 
 // WalkPostorder walks tree postorder (left, right, node)
-func (tree *RbTree) WalkPostorder(action func(*Node)) {
-	tree.Root.WalkPostorder(action)
+func (tree *rbTree) WalkPostorder(action func(Comparable)) {
+	tree.root.walkPostorder(func(n *node) { action(n.key) })
 }
 
-// WalkPostorder walks subtree postorder (left, right, node)
-func (n *Node) WalkPostorder(action func(*Node)) {
-	if n != nil && n.Key != nil {
-		n.left.WalkPostorder(action)
-		n.right.WalkPostorder(action)
+func (n *node) walkPostorder(action func(*node)) {
+	if n != nil && n.key != nil {
+		n.left.walkPostorder(action)
+		n.right.walkPostorder(action)
 		action(n)
 	}
 }
 
 // WalkPreorder walks tree preorder (node, left, right)
-func (tree *RbTree) WalkPreorder(action func(*Node)) {
-	tree.Root.WalkPreorder(action)
+func (tree *rbTree) WalkPreorder(action func(Comparable)) {
+	tree.root.walkPreorder(func(n *node) { action(n.key) })
+}
+
+func (n *node) walkPreorder(action func(*node)) {
+	if n != nil && n.key != nil {
+		action(n)
+		n.left.walkPreorder(action)
+		n.right.walkPreorder(action)
+	}
 }
 
 // Ascend calls the iterator for every value in the tree until iterator returns false.
-func (tree *RbTree) Ascend(iterator KeyIterator) {
+func (tree *rbTree) Ascend(iterator KeyIterator) {
 	min := tree.Minimum()
 	if min == nil {
 		return
 	}
 	max := tree.Maximum()
-	tree.AscendRange(min.Key, max.Key, iterator)
+	tree.AscendRange(min, max, iterator)
 }
 
 // AscendRange calls the iterator for every value in the tree within the range
 // [from, to], until iterator returns false.
-func (tree *RbTree) AscendRange(from, to Comparable, iterator KeyIterator) {
-	if tree.Root == nil || tree.Root.Key == nil || to == nil {
+func (tree *rbTree) AscendRange(from, to Comparable, iterator KeyIterator) {
+	if tree.root == nil || tree.root.key == nil || to == nil {
 		return
 	}
-	tree.Root.ascend(from, to, iterator)
+	tree.root.ascend(from, to, iterator)
 }
 
 // Descend calls the iterator for every value in the tree until iterator returns false.
-func (tree *RbTree) Descend(iterator KeyIterator) {
+func (tree *rbTree) Descend(iterator KeyIterator) {
 	min := tree.Minimum()
 	if min == nil {
 		return
 	}
 	max := tree.Maximum()
-	tree.DescendRange(max.Key, min.Key, iterator)
+	tree.DescendRange(max, min, iterator)
 }
 
 // DescendRange calls the iterator for every value in the tree within the range
 // [from, to], until iterator returns false.
-func (tree *RbTree) DescendRange(from, to Comparable, iterator KeyIterator) {
-	if tree.Root == nil || tree.Root.Key == nil || to == nil {
+func (tree *rbTree) DescendRange(from, to Comparable, iterator KeyIterator) {
+	if tree.root == nil || to == nil {
 		return
 	}
-	tree.Root.descend(from, to, iterator)
+	tree.root.descend(from, to, iterator)
 }
 
-func (n *Node) ascend(from, to Comparable, iterator KeyIterator) {
-	curr, ok := n.Search(from)
-	for ok && curr != nil && curr.Key != nil && (curr.Key).LessThan(to) || curr != nil && (curr.Key).EqualTo(to) {
-		ok = iterator(curr.Key)
+func (n *node) ascend(from, to Comparable, iterator KeyIterator) {
+	curr, ok := n.search(from)
+	for ok && curr != nil && curr.key != nil && (curr.key).LessThan(to) || curr != nil && curr.key != nil && (curr.key).EqualTo(to) {
+		ok = iterator(curr.key)
 		if ok {
-			curr = curr.Successor()
+			curr = curr.successor()
 		}
 	}
 }
 
-func (n *Node) descend(from, to Comparable, iterator KeyIterator) {
-	curr, ok := n.Search(from)
-	for ok && curr != nil && curr.Key != nil && (!(curr.Key).LessThan(to) || (curr.Key).EqualTo(to)) {
-		ok = iterator(curr.Key)
+func (n *node) descend(from, to Comparable, iterator KeyIterator) {
+	curr, ok := n.search(from)
+	for ok && curr != nil && curr.key != nil && (!curr.key.LessThan(to) || curr.key != nil && curr.key.EqualTo(to)) {
+		ok = iterator(curr.key)
 		if ok {
-			curr = curr.Predecessor()
+			curr = curr.predecessor()
 		}
 	}
 }

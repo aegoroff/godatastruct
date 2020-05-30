@@ -3,27 +3,36 @@ package rbtree
 // This file contains all RB tree modification methods implementations
 
 // Insert inserts new node into Red-Black tree. Creates Root if tree is empty
-func (tree *RbTree) Insert(z *Node) {
+func (tree *rbTree) Insert(z Comparable) {
 	if z == nil {
 		return
 	}
+	n := newNode(z)
+	tree.insert(n)
+}
 
-	if tree.Root == nil {
-		tree.Root = z
-		tree.Root.color = Black
-		tree.Root.parent = tree.tnil
-		tree.Root.left = tree.tnil
-		tree.Root.right = tree.tnil
-		tree.Root.Size = 1
+func newNode(z Comparable) *node {
+	n := node{key: z}
+	return &n
+}
+
+func (tree *rbTree) insert(z *node) {
+	if tree.root == nil {
+		tree.root = z
+		tree.root.color = Black
+		tree.root.parent = tree.tnil
+		tree.root.left = tree.tnil
+		tree.root.right = tree.tnil
+		tree.root.size = 1
 		return
 	}
 	y := tree.tnil
-	x := tree.Root
-	z.Size = 1
+	x := tree.root
+	z.size = 1
 	for x != tree.tnil {
 		y = x
-		y.Size++
-		if z.Key.LessThan(x.Key) {
+		y.size++
+		if z.key.LessThan(x.key) {
 			x = x.left
 		} else {
 			x = x.right
@@ -32,8 +41,8 @@ func (tree *RbTree) Insert(z *Node) {
 
 	z.parent = y
 	if y == tree.tnil {
-		tree.Root = z
-	} else if z.Key.LessThan(y.Key) {
+		tree.root = z
+	} else if z.key.LessThan(y.key) {
 		y.left = z
 	} else {
 		y.right = z
@@ -44,7 +53,7 @@ func (tree *RbTree) Insert(z *Node) {
 	rbInsertFixup(tree, z)
 }
 
-func rbInsertFixup(tree *RbTree, z *Node) {
+func rbInsertFixup(tree *rbTree, z *node) {
 	for z.parent.color == Red {
 		if z.parent == z.parent.parent.left {
 			y := z.parent.parent.right
@@ -82,21 +91,20 @@ func rbInsertFixup(tree *RbTree, z *Node) {
 			}
 		}
 	}
-	tree.Root.color = Black
+	tree.root.color = Black
 }
 
 // DeleteNode searches and deletes node with key value specified from Red-black tree
 // It returns true if node was successfully deleted otherwise false
-func (tree *RbTree) DeleteNode(key Comparable) bool {
-	found, ok := tree.Search(key)
+func (tree *rbTree) DeleteNode(c Comparable) bool {
+	found, ok := tree.root.search(c)
 	if ok {
-		tree.Delete(found)
+		tree.delete(found)
 	}
 	return ok
 }
 
-// Delete deletes node specified from Red-black tree
-func (tree *RbTree) Delete(z *Node) {
+func (tree *rbTree) delete(z *node) {
 	if z == nil || z.parent == nil {
 		return
 	}
@@ -105,11 +113,11 @@ func (tree *RbTree) Delete(z *Node) {
 
 	p := z.parent
 	for p != tree.tnil {
-		p.Size--
+		p.size--
 		p = p.parent
 	}
 
-	var x *Node
+	var x *node
 	yOriginalColor := y.color
 	if z.left == tree.tnil {
 		x = z.right
@@ -118,7 +126,7 @@ func (tree *RbTree) Delete(z *Node) {
 		x = z.left
 		rbTransplant(tree, z, z.left)
 	} else {
-		y := z.right.Minimum()
+		y := z.right.minimum()
 		yOriginalColor = y.color
 		x = y.right
 		if y.parent == z {
@@ -138,8 +146,8 @@ func (tree *RbTree) Delete(z *Node) {
 	}
 }
 
-func rbDeleteFixup(tree *RbTree, x *Node) {
-	for x != tree.Root && x.color == Black {
+func rbDeleteFixup(tree *rbTree, x *node) {
+	for x != tree.root && x.color == Black {
 		if x == x.parent.left {
 			w := x.parent.right
 			if w.color == Red {
@@ -164,7 +172,7 @@ func rbDeleteFixup(tree *RbTree, x *Node) {
 				x.parent.color = Black
 				w.right.color = Black
 				leftRotate(tree, x.parent)
-				x = tree.Root
+				x = tree.root
 			}
 		} else {
 			w := x.parent.left
@@ -190,16 +198,16 @@ func rbDeleteFixup(tree *RbTree, x *Node) {
 				x.parent.color = Black
 				w.left.color = Black
 				rightRotate(tree, x.parent)
-				x = tree.Root
+				x = tree.root
 			}
 		}
 	}
 	x.color = Black
 }
 
-func rbTransplant(tree *RbTree, u *Node, v *Node) {
+func rbTransplant(tree *rbTree, u *node, v *node) {
 	if u.parent == tree.tnil {
-		tree.Root = v
+		tree.root = v
 	} else if u == u.parent.left {
 		u.parent.left = v
 	} else {
@@ -208,7 +216,7 @@ func rbTransplant(tree *RbTree, u *Node, v *Node) {
 	v.parent = u.parent
 }
 
-func leftRotate(tree *RbTree, x *Node) {
+func leftRotate(tree *rbTree, x *node) {
 	y := x.right
 	x.right = y.left
 	if y.left != tree.tnil {
@@ -216,7 +224,7 @@ func leftRotate(tree *RbTree, x *Node) {
 	}
 	y.parent = x.parent
 	if x.parent == tree.tnil {
-		tree.Root = y
+		tree.root = y
 	} else if x == x.parent.left {
 		x.parent.left = y
 	} else {
@@ -226,11 +234,11 @@ func leftRotate(tree *RbTree, x *Node) {
 	y.left = x
 	x.parent = y
 
-	y.Size = x.Size
-	x.Size = x.left.Size + x.right.Size + 1
+	y.size = x.size
+	x.size = x.left.size + x.right.size + 1
 }
 
-func rightRotate(tree *RbTree, x *Node) {
+func rightRotate(tree *rbTree, x *node) {
 	y := x.left
 	x.left = y.right
 	if y.right != tree.tnil {
@@ -238,7 +246,7 @@ func rightRotate(tree *RbTree, x *Node) {
 	}
 	y.parent = x.parent
 	if x.parent == tree.tnil {
-		tree.Root = y
+		tree.root = y
 	} else if x == x.parent.right {
 		x.parent.right = y
 	} else {
@@ -248,6 +256,6 @@ func rightRotate(tree *RbTree, x *Node) {
 	y.right = x
 	x.parent = y
 
-	y.Size = x.Size
-	x.Size = x.left.Size + x.right.Size + 1
+	y.size = x.size
+	x.size = x.left.size + x.right.size + 1
 }
