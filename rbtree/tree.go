@@ -84,9 +84,6 @@ func (x *String) EqualTo(y interface{}) bool {
 
 // GetInt gets int key value from comparable
 func GetInt(c Comparable) int {
-	if c == nil {
-		return 0
-	}
 	return int(c.(Int))
 }
 
