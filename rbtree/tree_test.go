@@ -4,15 +4,15 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"gonum.org/v1/gonum/graph/encoding"
-	_ "gonum.org/v1/gonum/graph/encoding/dot"
-	_ "gonum.org/v1/gonum/graph/simple"
+	"gonum.org/v1/gonum/graph/encoding/dot"
+	"gonum.org/v1/gonum/graph/simple"
 	"math/rand"
 	"strings"
 	"testing"
 )
 
 type GraphNode struct {
-	Node   *node
+	node   *node
 	NodeID int64
 }
 
@@ -21,11 +21,11 @@ func (n GraphNode) ID() int64 {
 }
 
 func (n GraphNode) DOTID() string {
-	if key, ok := n.Node.key.(*String); ok {
-		return fmt.Sprintf("\"%v\"", key)
+	if key, ok := n.node.key.(*String); ok {
+		return fmt.Sprintf("\"%s\"", *key)
 	}
 
-	if key, ok := n.Node.key.(Int); ok {
+	if key, ok := n.node.key.(Int); ok {
 		return fmt.Sprintf("\"%d\"", key)
 	}
 
@@ -33,7 +33,7 @@ func (n GraphNode) DOTID() string {
 }
 
 func (n GraphNode) Attributes() []encoding.Attribute {
-	node := *n.Node
+	node := *n.node
 
 	fc := "black"
 	if node.color == Red {
@@ -649,16 +649,16 @@ func Test_LeftRotate_StructureAsExpected(t *testing.T) {
 	ass.Equal("b", GetString(x.right.key))
 }
 
-//func Test_GraphvizInt(t *testing.T) {
-//	// Arrange
-//	tree := createIntegerTestTree()
-//
-//	// Act
-//	graphviz := getTreeAsGraphviz(tree)
-//
-//	// Assert
-//	t.Log(graphviz)
-//}
+func Test_GraphvizInt(t *testing.T) {
+	// Arrange
+	tree := createIntegerTestTree()
+
+	// Act
+	graphviz := getTreeAsGraphviz(tree)
+
+	// Assert
+	t.Log(graphviz)
+}
 
 func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	// Arrange
@@ -707,45 +707,44 @@ func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
 	ass.Equal(int64(0), tree.Len())
 }
 
-//func Test_GraphvizString(t *testing.T) {
-//	// Arrange
-//	tree := createTestStringTree()
-//
-//	// Act
-//	graphviz := getTreeAsGraphviz(tree)
-//
-//	// Assert
-//	t.Log(graphviz)
-//}
+func Test_GraphvizString(t *testing.T) {
+	// Arrange
+	tree := createTestStringTree()
 
-//func getTreeAsGraphviz(tree RbTree) string {
-//	b := strings.Builder{}
-//	gr := simple.NewUndirectedGraph()
-//
-//	var id int64
-//
-//	tree.WalkPreorder(func(c Comparable) {
-//		nod := c.(*node)
-//		gn := &GraphNode{Node: nod, NodeID: id}
-//		gr.AddNode(gn)
-//		id++
-//
-//		for i := id - 2; i >= 0; i-- {
-//			n := gr.Node(i)
-//			if nod.parent != nil && n.(*GraphNode).Node == nod.parent {
-//				edge := gr.NewEdge(n, gn)
-//				gr.SetEdge(edge)
-//				break
-//			}
-//		}
-//	})
-//
-//	data, _ := dot.Marshal(gr, "", " ", " ")
-//
-//	b.Write(data)
-//
-//	return b.String()
-//}
+	// Act
+	graphviz := getTreeAsGraphviz(tree)
+
+	// Assert
+	t.Log(graphviz)
+}
+
+func getTreeAsGraphviz(tree *rbTree) string {
+	b := strings.Builder{}
+	gr := simple.NewUndirectedGraph()
+
+	var id int64
+
+	tree.root.walkPreorder(func(nod *node) {
+		gn := &GraphNode{node: nod, NodeID: id}
+		gr.AddNode(gn)
+		id++
+
+		for i := id - 2; i >= 0; i-- {
+			n := gr.Node(i)
+			if nod.parent != nil && n.(*GraphNode).node == nod.parent {
+				edge := gr.NewEdge(n, gn)
+				gr.SetEdge(edge)
+				break
+			}
+		}
+	})
+
+	data, _ := dot.Marshal(gr, "", " ", " ")
+
+	b.Write(data)
+
+	return b.String()
+}
 
 func Test_Delete_NodeDeleted(t *testing.T) {
 	// Arrange

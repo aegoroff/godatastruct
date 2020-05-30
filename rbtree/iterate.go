@@ -4,38 +4,38 @@ package rbtree
 
 // WalkInorder walks tree inorder (left, node, right)
 func (tree *rbTree) WalkInorder(action func(Comparable)) {
-	tree.root.walkInorder(action)
+	tree.root.walkInorder(func(n *node) { action(n.key) })
 }
 
-func (n *node) walkInorder(action func(Comparable)) {
+func (n *node) walkInorder(action func(*node)) {
 	if n != nil && n.key != nil {
 		n.left.walkInorder(action)
-		action(n.key)
+		action(n)
 		n.right.walkInorder(action)
 	}
 }
 
 // WalkPostorder walks tree postorder (left, right, node)
 func (tree *rbTree) WalkPostorder(action func(Comparable)) {
-	tree.root.walkPostorder(action)
+	tree.root.walkPostorder(func(n *node) { action(n.key) })
 }
 
-func (n *node) walkPostorder(action func(Comparable)) {
+func (n *node) walkPostorder(action func(*node)) {
 	if n != nil && n.key != nil {
 		n.left.walkPostorder(action)
 		n.right.walkPostorder(action)
-		action(n.key)
+		action(n)
 	}
 }
 
 // WalkPreorder walks tree preorder (node, left, right)
 func (tree *rbTree) WalkPreorder(action func(Comparable)) {
-	tree.root.walkPreorder(action)
+	tree.root.walkPreorder(func(n *node) { action(n.key) })
 }
 
-func (n *node) walkPreorder(action func(Comparable)) {
+func (n *node) walkPreorder(action func(*node)) {
 	if n != nil && n.key != nil {
-		action(n.key)
+		action(n)
 		n.left.walkPreorder(action)
 		n.right.walkPreorder(action)
 	}
