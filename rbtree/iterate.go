@@ -4,9 +4,9 @@ package rbtree
 
 // WalkInorder walks subtree inorder (left, node, right)
 func (n *node) WalkInorder(action func(Comparable)) {
-	if n != nil {
+	if n != nil && n.key != nil {
 		n.left.WalkInorder(action)
-		action(n)
+		action(n.key)
 		n.right.WalkInorder(action)
 	}
 }
@@ -18,8 +18,8 @@ func (tree *rbTree) WalkInorder(action func(Comparable)) {
 
 // walkPreorder walks subtree preorder (node, left, right)
 func (n *node) walkPreorder(action func(Comparable)) {
-	if n != nil {
-		action(n)
+	if n != nil && n.key != nil {
+		action(n.key)
 		n.left.walkPreorder(action)
 		n.right.walkPreorder(action)
 	}
@@ -32,10 +32,10 @@ func (tree *rbTree) WalkPostorder(action func(Comparable)) {
 
 // WalkPostorder walks subtree postorder (left, right, node)
 func (n *node) WalkPostorder(action func(Comparable)) {
-	if n != nil {
+	if n != nil && n.key != nil {
 		n.left.WalkPostorder(action)
 		n.right.WalkPostorder(action)
-		action(n)
+		action(n.key)
 	}
 }
 
@@ -84,8 +84,8 @@ func (tree *rbTree) DescendRange(from, to Comparable, iterator KeyIterator) {
 
 func (n *node) ascend(from, to Comparable, iterator KeyIterator) {
 	curr, ok := n.search(from)
-	for ok && curr != nil && curr.LessThan(to) || curr != nil && curr.EqualTo(to) {
-		ok = iterator(curr)
+	for ok && curr != nil && curr.key != nil && curr.key.LessThan(to) || curr != nil && curr.key != nil && curr.key.EqualTo(to) {
+		ok = iterator(curr.key)
 		if ok {
 			curr = curr.successor()
 		}
@@ -94,8 +94,8 @@ func (n *node) ascend(from, to Comparable, iterator KeyIterator) {
 
 func (n *node) descend(from, to Comparable, iterator KeyIterator) {
 	curr, ok := n.search(from)
-	for ok && curr != nil && (!curr.LessThan(to) || curr.EqualTo(to)) {
-		ok = iterator(curr)
+	for ok && curr != nil && curr.key != nil && (!curr.key.LessThan(to) || curr.key != nil && curr.key.EqualTo(to)) {
+		ok = iterator(curr.key)
 		if ok {
 			curr = curr.predecessor()
 		}

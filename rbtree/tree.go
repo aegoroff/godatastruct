@@ -13,7 +13,6 @@ const (
 type RbTree interface {
 	Len() int64
 	Insert(n Comparable)
-	Delete(n Comparable)
 	DeleteNode(c Comparable) bool
 	WalkInorder(action func(Comparable))
 	WalkPostorder(action func(Comparable))
@@ -35,7 +34,7 @@ type rbTree struct {
 
 // Node represent red-black tree node
 type node struct {
-	Comparable
+	key Comparable
 
 	// Subtree size including node itself
 	size int64
@@ -46,13 +45,13 @@ type node struct {
 	right  *node
 }
 
-//func (n *node) LessThan(y interface{}) bool {
-//	return n.LessThan(y)
-//}
-//
-//func (n *node) EqualTo(y interface{}) bool {
-//	return n.EqualTo(y)
-//}
+func (n *node) LessThan(y interface{}) bool {
+	return n.key.LessThan(y)
+}
+
+func (n *node) EqualTo(y interface{}) bool {
+	return n.key.EqualTo(y)
+}
 
 // KeyIterator allows callers of Ascend* to iterate in-order over portions of
 // the tree.  When this function returns false, iteration will stop and the
@@ -73,44 +72,30 @@ type String string
 
 // LessThan define Comparable interface member for Int
 func (x Int) LessThan(y interface{}) bool {
-	switch t := y.(type) {
-	case *node:
-		return x < t.Comparable.(Int)
-	case Int:
-		return x < t
-	default:
-		return false
-	}
+	return x < y.(Int)
 }
 
 // EqualTo define Comparable interface member for Int
 func (x Int) EqualTo(y interface{}) bool {
-	switch t := y.(type) {
-	case *node:
-		return x == t.Comparable.(Int)
-	case Int:
-		return x == y
-	default:
-		return false
-	}
+	return x == y
 }
 
 // LessThan define Comparable interface member for String
 func (x *String) LessThan(y interface{}) bool {
-	return *x < *(y.(*node).Comparable.(*String))
+	return *x < *(y.(*String))
 }
 
 // EqualTo define Comparable interface member for String
 func (x *String) EqualTo(y interface{}) bool {
-	return *x == *(y.(*node).Comparable.(*String))
+	return *x == *(y.(*String))
 }
 
 // GetInt gets int key value from comparable
 func GetInt(c Comparable) int {
-	if c.(*node).Comparable == nil {
+	if c == nil {
 		return 0
 	}
-	return int(c.(*node).Comparable.(Int))
+	return int(c.(Int))
 }
 
 // GetString gets string value from Comparable
@@ -118,7 +103,7 @@ func GetString(c Comparable) string {
 	if c == nil {
 		return ""
 	}
-	return string(*c.(*node).Comparable.(*String))
+	return string(*c.(*String))
 }
 
 // NewInt creates new Comparable that contains int key

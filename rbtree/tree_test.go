@@ -21,11 +21,11 @@ func (n GraphNode) ID() int64 {
 }
 
 func (n GraphNode) DOTID() string {
-	if key, ok := n.Node.Comparable.(*String); ok {
+	if key, ok := n.Node.key.(*String); ok {
 		return fmt.Sprintf("\"%v\"", key)
 	}
 
-	if key, ok := n.Node.Comparable.(Int); ok {
+	if key, ok := n.Node.key.(Int); ok {
 		return fmt.Sprintf("\"%d\"", key)
 	}
 
@@ -471,7 +471,7 @@ func Test_Successor_ReturnSuccessor(t *testing.T) {
 		s := r.successor()
 
 		// Assert
-		ass.Equal(test.expected, GetInt(s))
+		ass.Equal(test.expected, GetInt(s.key))
 	}
 }
 
@@ -511,7 +511,7 @@ func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 		s := r.predecessor()
 
 		// Assert
-		ass.Equal(test.expected, GetInt(s))
+		ass.Equal(test.expected, GetInt(s.key))
 	}
 }
 
@@ -606,11 +606,11 @@ func Test_RightRotate_StructureAsExpected(t *testing.T) {
 	rightRotate(tree, y)
 
 	// Assert
-	ass.Equal("root", GetString(x.parent))
-	ass.Equal("a", GetString(x.left))
-	ass.Equal("y", GetString(x.right))
-	ass.Equal("b", GetString(y.left))
-	ass.Equal("g", GetString(y.right))
+	ass.Equal("root", GetString(x.parent.key))
+	ass.Equal("a", GetString(x.left.key))
+	ass.Equal("y", GetString(x.right.key))
+	ass.Equal("b", GetString(y.left.key))
+	ass.Equal("g", GetString(y.right.key))
 }
 
 func Test_LeftRotate_StructureAsExpected(t *testing.T) {
@@ -642,11 +642,11 @@ func Test_LeftRotate_StructureAsExpected(t *testing.T) {
 	leftRotate(tree, x)
 
 	// Assert
-	ass.Equal("root", GetString(y.parent))
-	ass.Equal("x", GetString(y.left))
-	ass.Equal("g", GetString(y.right))
-	ass.Equal("a", GetString(x.left))
-	ass.Equal("b", GetString(x.right))
+	ass.Equal("root", GetString(y.parent.key))
+	ass.Equal("x", GetString(y.left.key))
+	ass.Equal("g", GetString(y.right.key))
+	ass.Equal("a", GetString(x.left.key))
+	ass.Equal("b", GetString(x.right.key))
 }
 
 func Test_GraphvizInt(t *testing.T) {
@@ -674,7 +674,7 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	found, _ := tree.root.search(n)
 
 	// Act
-	tree.Delete(found)
+	tree.delete(found)
 
 	// Assert
 	n = NewInt(28)
@@ -698,8 +698,8 @@ func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
 
 	for i := 1; i < nodesCount; i++ {
 		n := NewInt(nodes[i-1])
-		found, _ := tree.Search(n)
-		tree.Delete(found)
+		found, _ := tree.root.search(n)
+		tree.delete(found)
 	}
 
 	// Assert
@@ -752,17 +752,17 @@ func Test_Delete_NodeDeleted(t *testing.T) {
 	ass := assert.New(t)
 	tree := createTestStringTree()
 	n := NewString("intel")
-	found, _ := tree.Search(n)
+	found, _ := tree.root.search(n)
 
 	// Act
-	tree.Delete(found)
+	tree.delete(found)
 
 	// Assert
-	found, ok := tree.Search(n)
+	found, ok := tree.root.search(n)
 	ass.False(ok)
 	ass.Nil(found)
 
-	found, ok = tree.Search(NewString("microsoft"))
+	found, ok = tree.root.search(NewString("microsoft"))
 	ass.True(ok)
 	ass.Equal("microsoft", GetString(found))
 }
@@ -773,7 +773,7 @@ func Test_DeleteEmptyTree_NoError(t *testing.T) {
 	n := NewString("intel")
 
 	// Act
-	tree.Delete(n)
+	tree.DeleteNode(n)
 
 	// Assert
 }
@@ -841,7 +841,7 @@ func Test_DeleteNil_NothingDeleted(t *testing.T) {
 	oldSize := tree.Len()
 
 	// Act
-	tree.Delete(nil)
+	tree.DeleteNode(nil)
 
 	// Assert
 	ass.Equal(oldSize, tree.Len())
@@ -852,7 +852,7 @@ func createIntegerTestTree() *rbTree {
 	return createIntTree(nodes)
 }
 
-func createTestStringTree() RbTree {
+func createTestStringTree() *rbTree {
 	nodes := []string{"abc", "amd", "cisco", "do", "fake", "intel", "it", "let", "microsoft", "russia", "usa", "xxx", "yyy", "zen"}
 	return createStringTree(nodes)
 }

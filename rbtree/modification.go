@@ -9,7 +9,7 @@ func (tree *rbTree) Insert(z Comparable) {
 }
 
 func newNode(z Comparable) *node {
-	n := node{Comparable: z}
+	n := node{key: z}
 	return &n
 }
 
@@ -33,7 +33,7 @@ func (tree *rbTree) insert(z *node) {
 	for x != tree.tnil {
 		y = x
 		y.size++
-		if z.LessThan(x) {
+		if z.key.LessThan(x.key) {
 			x = x.left
 		} else {
 			x = x.right
@@ -43,7 +43,7 @@ func (tree *rbTree) insert(z *node) {
 	z.parent = y
 	if y == tree.tnil {
 		tree.root = z
-	} else if z.LessThan(y) {
+	} else if z.key.LessThan(y.key) {
 		y.left = z
 	} else {
 		y.right = z
@@ -98,16 +98,11 @@ func rbInsertFixup(tree *rbTree, z *node) {
 // DeleteNode searches and deletes node with key value specified from Red-black tree
 // It returns true if node was successfully deleted otherwise false
 func (tree *rbTree) DeleteNode(c Comparable) bool {
-	found, ok := tree.Search(c)
+	found, ok := tree.root.search(c)
 	if ok {
-		tree.Delete(found)
+		tree.delete(found)
 	}
 	return ok
-}
-
-// Delete deletes node specified from Red-black tree
-func (tree *rbTree) Delete(z Comparable) {
-	tree.delete(z.(*node))
 }
 
 func (tree *rbTree) delete(z *node) {

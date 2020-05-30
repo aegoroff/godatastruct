@@ -7,7 +7,11 @@ func (tree *rbTree) Search(value Comparable) (Comparable, bool) {
 	if tree.root == nil {
 		return nil, false
 	}
-	return tree.root.search(value)
+	n, ok := tree.root.search(value)
+	if !ok {
+		return nil, ok
+	}
+	return n.key, ok
 }
 
 // Search searches value specified within search tree
@@ -17,8 +21,8 @@ func (n *node) search(value Comparable) (*node, bool) {
 	}
 	var x *node
 	x = n
-	for x != nil && x.Comparable != nil && !value.EqualTo(x) {
-		if value.LessThan(x) {
+	for x != nil && x.key != nil && !value.EqualTo(x.key) {
+		if value.LessThan(x.key) {
 			x = x.left
 		} else {
 			x = x.right
@@ -38,7 +42,7 @@ func (tree *rbTree) Minimum() Comparable {
 	if tree.root == nil {
 		return nil
 	}
-	return tree.root.minimum()
+	return tree.root.minimum().key
 }
 
 // Minimum gets tree's min element
@@ -55,7 +59,7 @@ func (tree *rbTree) Maximum() Comparable {
 	if tree.root == nil {
 		return nil
 	}
-	return tree.root.maximum()
+	return tree.root.maximum().key
 }
 
 // Maximum gets tree's max element
@@ -120,7 +124,7 @@ func (n *node) orderStatisticSelect(i int64) (Comparable, bool) {
 	}
 	r := n.left.size + 1
 	if i == r {
-		return n, true
+		return n.key, true
 	} else if i < r {
 		return n.left.orderStatisticSelect(i)
 	} else {
