@@ -83,7 +83,7 @@ func (n *node) successor() *node {
 		y = y.parent
 	}
 
-	if y == nil {
+	if y == nil || y.key == nil {
 		return nil
 	}
 
