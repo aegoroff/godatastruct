@@ -73,13 +73,14 @@ func (n *node) maximum() *node {
 
 // Successor gets node specified successor
 func (n *node) successor() *node {
-	if n != nil && n.right != nil && n.right.key != nil {
-		return n.right.minimum()
+	x := n
+	if x.right != nil && x.right.key != nil {
+		return x.right.minimum()
 	}
 
-	y := n.parent
-	for y != nil && y.key != nil && n == y.right {
-		n = y
+	y := x.parent
+	for y != nil && y.key != nil && x == y.right {
+		x = y
 		y = y.parent
 	}
 
@@ -92,13 +93,14 @@ func (n *node) successor() *node {
 
 // Predecessor gets node specified predecessor
 func (n *node) predecessor() *node {
-	if n != nil && n.left != nil && n.left.key != nil {
-		return n.left.maximum()
+	x := n
+	if x.left != nil && x.left.key != nil {
+		return x.left.maximum()
 	}
 
-	y := n.parent
-	for y != nil && y.key != nil && n == y.left {
-		n = y
+	y := x.parent
+	for y != nil && y.key != nil && x == y.left {
+		x = y
 		y = y.parent
 	}
 
