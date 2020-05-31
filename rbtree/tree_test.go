@@ -902,6 +902,50 @@ func Test_RestrictedSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testin
 	ass.Equal([]string{"200", "199", "198", "197", "196"}, result)
 }
 
+func Test_RestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+
+	topTree := NewRbTree()
+
+	var nodes []string
+	var result []string
+	const nodesCount = 200
+
+	for i := 1; i <= nodesCount; i++ {
+		l := 1 + rand.Intn(50)
+		nodes = append(nodes, randomString(l))
+	}
+	tree := createStringTree(nodes)
+	top := int64(5)
+
+	// Act
+	tree.WalkInorder(func(n Node) {
+		insertTo(topTree, top, n)
+	})
+
+	iterationCount := int64(0)
+	topTree.Descend(func(n Node) bool {
+		iterationCount++
+		result = append(result, n.String())
+		return true
+	})
+
+	// Assert
+	ass.Equal(top, topTree.Len())
+	ass.Equal(top, iterationCount)
+}
+
+func randomString(n int) string {
+	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+
+	s := make([]rune, n)
+	for i := range s {
+		s[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(s)
+}
+
 func insertTo(tree RbTree, size int64, c Comparable) {
 	if tree.Len() < size {
 		tree.Insert(c)
