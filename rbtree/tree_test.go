@@ -55,8 +55,8 @@ func Test_InorderWalkTreeInt_AllElementsAscending(t *testing.T) {
 	var result []int
 
 	// Act
-	tree.WalkInorder(func(node Comparable) {
-		result = append(result, GetInt(node))
+	tree.WalkInorder(func(n Node) {
+		result = append(result, GetInt(n.(*node).key))
 	})
 
 	// Assert
@@ -70,8 +70,8 @@ func Test_PreorderAllTreeWalkInt_AllElementsAsSpecified(t *testing.T) {
 	var result []int
 
 	// Act
-	tree.WalkPreorder(func(node Comparable) {
-		result = append(result, GetInt(node))
+	tree.WalkPreorder(func(n Node) {
+		result = append(result, GetInt(n.(*node).key))
 	})
 
 	// Assert
@@ -85,8 +85,8 @@ func Test_PostorderAllTreeWalkInt_AllElementsAsSpecified(t *testing.T) {
 	var result []int
 
 	// Act
-	tree.WalkPostorder(func(node Comparable) {
-		result = append(result, GetInt(node))
+	tree.WalkPostorder(func(n Node) {
+		result = append(result, GetInt(n.(*node).key))
 	})
 
 	// Assert
@@ -110,7 +110,8 @@ func Test_Ascend(t *testing.T) {
 		result := []Int{}
 
 		// Act
-		tree.Ascend(func(c Comparable) bool {
+		tree.Ascend(func(n Node) bool {
+			c := n.(*node).key
 			result = append(result, c.(Int))
 			return test.predicate(c)
 		})
@@ -127,8 +128,8 @@ func Test_AscendEmptyTree(t *testing.T) {
 	result := []Int{}
 
 	// Act
-	tree.Ascend(func(c Comparable) bool {
-		result = append(result, c.(Int))
+	tree.Ascend(func(n Node) bool {
+		result = append(result, n.(*node).key.(Int))
 		return true
 	})
 
@@ -160,8 +161,8 @@ func Test_AscendRange(t *testing.T) {
 		to := NewInt(test.to)
 
 		// Act
-		tree.AscendRange(from, to, func(c Comparable) bool {
-			result = append(result, c.(Int))
+		tree.AscendRange(from, to, func(n Node) bool {
+			result = append(result, n.(*node).key.(Int))
 			return true
 		})
 
@@ -187,8 +188,8 @@ func Test_AscendRangeNilTests(t *testing.T) {
 		result := []Int{}
 
 		// Act
-		tree.AscendRange(test.from, test.to, func(c Comparable) bool {
-			result = append(result, c.(Int))
+		tree.AscendRange(test.from, test.to, func(n Node) bool {
+			result = append(result, n.(*node).key.(Int))
 			return true
 		})
 
@@ -214,9 +215,9 @@ func Test_Descend(t *testing.T) {
 		result := []Int{}
 
 		// Act
-		tree.Descend(func(c Comparable) bool {
-			result = append(result, c.(Int))
-			return test.predicate(c)
+		tree.Descend(func(n Node) bool {
+			result = append(result, n.(*node).key.(Int))
+			return test.predicate(n)
 		})
 
 		// Assert
@@ -231,8 +232,8 @@ func Test_DescendEmptyTree(t *testing.T) {
 	result := []Int{}
 
 	// Act
-	tree.Descend(func(c Comparable) bool {
-		result = append(result, c.(Int))
+	tree.Descend(func(n Node) bool {
+		result = append(result, n.(*node).key.(Int))
 		return true
 	})
 
@@ -264,8 +265,8 @@ func Test_DescendRange(t *testing.T) {
 		to := NewInt(test.to)
 
 		// Act
-		tree.DescendRange(from, to, func(c Comparable) bool {
-			result = append(result, c.(Int))
+		tree.DescendRange(from, to, func(n Node) bool {
+			result = append(result, n.(*node).key.(Int))
 			return true
 		})
 
@@ -291,8 +292,8 @@ func Test_DescendRangeNilTests(t *testing.T) {
 		result := []Int{}
 
 		// Act
-		tree.DescendRange(test.from, test.to, func(c Comparable) bool {
-			result = append(result, c.(Int))
+		tree.DescendRange(test.from, test.to, func(n Node) bool {
+			result = append(result, n.(*node).key.(Int))
 			return true
 		})
 
@@ -328,8 +329,8 @@ func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 	var result []string
 
 	// Act
-	tree.WalkInorder(func(node Comparable) {
-		result = append(result, GetString(node))
+	tree.WalkInorder(func(n Node) {
+		result = append(result, GetString(n.(*node).key))
 	})
 
 	// Assert
@@ -357,7 +358,7 @@ func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
 
 		// Assert
 		ass.NotNil(found)
-		ass.Equal(test.expected, GetInt(found))
+		ass.Equal(test.expected, GetInt(found.(*node).key))
 	}
 }
 
@@ -394,7 +395,7 @@ func Test_SearchIntTree_Success(t *testing.T) {
 	// Assert
 	ass.True(ok)
 	ass.NotNil(found)
-	ass.Equal(13, GetInt(found))
+	ass.Equal(13, GetInt(found.(*node).key))
 }
 
 func Test_SearchStringTree_Success(t *testing.T) {
@@ -409,7 +410,7 @@ func Test_SearchStringTree_Success(t *testing.T) {
 	// Assert
 	ass.True(ok)
 	ass.NotNil(found)
-	ass.Equal("intel", GetString(found))
+	ass.Equal("intel", GetString(found.(*node).key))
 }
 
 func Test_SearchStringTree_Fail(t *testing.T) {
@@ -538,7 +539,7 @@ func Test_Minimum_ValueAsExpected(t *testing.T) {
 	r := tree.Minimum()
 
 	// Assert
-	ass.Equal(2, GetInt(r))
+	ass.Equal(2, GetInt(r.(*node).key))
 }
 
 func Test_MinimumEmptyTree(t *testing.T) {
@@ -562,7 +563,7 @@ func Test_Maximum_ValueAsExpected(t *testing.T) {
 	r := tree.Maximum()
 
 	// Assert
-	ass.Equal(20, GetInt(r))
+	ass.Equal(20, GetInt(r.(*node).key))
 }
 
 func Test_MaximumEmptyTree(t *testing.T) {

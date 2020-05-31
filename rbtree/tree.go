@@ -14,17 +14,17 @@ type RbTree interface {
 	Len() int64
 	Insert(n Comparable)
 	DeleteNode(c Comparable) bool
-	WalkInorder(action func(Comparable))
-	WalkPostorder(action func(Comparable))
-	WalkPreorder(action func(Comparable))
-	Ascend(iterator KeyIterator)
-	AscendRange(from, to Comparable, iterator KeyIterator)
-	Descend(iterator KeyIterator)
-	DescendRange(from, to Comparable, iterator KeyIterator)
-	Search(value Comparable) (Comparable, bool)
-	Minimum() Comparable
-	Maximum() Comparable
-	OrderStatisticSelect(i int64) (Comparable, bool)
+	WalkInorder(action func(Node))
+	WalkPostorder(action func(Node))
+	WalkPreorder(action func(Node))
+	Ascend(iterator NodeIterator)
+	AscendRange(from, to Comparable, iterator NodeIterator)
+	Descend(iterator NodeIterator)
+	DescendRange(from, to Comparable, iterator NodeIterator)
+	Search(value Comparable) (Node, bool)
+	Minimum() Node
+	Maximum() Node
+	OrderStatisticSelect(i int64) (Node, bool)
 }
 
 type rbTree struct {
@@ -32,7 +32,15 @@ type rbTree struct {
 	tnil *node
 }
 
-// Node represent red-black tree node
+// Node represent red-black tree node interface
+type Node interface {
+	Comparable
+
+	// Subtree size including node itself
+	Size() int64
+}
+
+// node represent red-black tree node implementation
 type node struct {
 	key Comparable
 
@@ -45,10 +53,10 @@ type node struct {
 	right  *node
 }
 
-// KeyIterator allows callers of Ascend* to iterate in-order over portions of
+// NodeIterator allows callers of Ascend* to iterate in-order over portions of
 // the tree.  When this function returns false, iteration will stop and the
 // associated Ascend* function will immediately return.
-type KeyIterator func(c Comparable) bool
+type NodeIterator func(Node) bool
 
 // Comparable defines comparable type interface
 type Comparable interface {
@@ -61,6 +69,32 @@ type Int int
 
 // String is the string type key that can be stored as Node key
 type String string
+
+func (n *node) LessThan(y interface{}) bool {
+	switch t := y.(type) {
+	case *node:
+		return n.key.LessThan(t.key)
+	case Comparable:
+		return n.key.LessThan(t)
+	}
+
+	return n.key == nil
+}
+
+func (n *node) EqualTo(y interface{}) bool {
+	switch t := y.(type) {
+	case *node:
+		return n.key.EqualTo(t.key)
+	case Comparable:
+		return n.key.EqualTo(t)
+	}
+
+	return n.key != nil
+}
+
+func (n *node) Size() int64 {
+	return n.size
+}
 
 // LessThan define Comparable interface member for Int
 func (x Int) LessThan(y interface{}) bool {

@@ -3,7 +3,7 @@ package rbtree
 // This file contains all RB tree search methods implementations
 
 // Search searches value specified within search tree
-func (tree *rbTree) Search(value Comparable) (Comparable, bool) {
+func (tree *rbTree) Search(value Comparable) (Node, bool) {
 	if tree.root == nil {
 		return nil, false
 	}
@@ -11,7 +11,7 @@ func (tree *rbTree) Search(value Comparable) (Comparable, bool) {
 	if !ok {
 		return nil, ok
 	}
-	return n.key, ok
+	return n, ok
 }
 
 // Search searches value specified within search tree
@@ -38,11 +38,11 @@ func (n *node) search(value Comparable) (*node, bool) {
 }
 
 // Minimum gets tree's min element
-func (tree *rbTree) Minimum() Comparable {
+func (tree *rbTree) Minimum() Node {
 	if tree.root == nil {
 		return nil
 	}
-	return tree.root.minimum().key
+	return tree.root.minimum()
 }
 
 // Minimum gets tree's min element
@@ -55,11 +55,11 @@ func (n *node) minimum() *node {
 }
 
 // Maximum gets tree's max element
-func (tree *rbTree) Maximum() Comparable {
+func (tree *rbTree) Maximum() Node {
 	if tree.root == nil {
 		return nil
 	}
-	return tree.root.maximum().key
+	return tree.root.maximum()
 }
 
 // Maximum gets tree's max element
@@ -110,7 +110,7 @@ func (n *node) predecessor() *node {
 }
 
 // OrderStatisticSelect gets i element from subtree
-func (tree *rbTree) OrderStatisticSelect(i int64) (Comparable, bool) {
+func (tree *rbTree) OrderStatisticSelect(i int64) (Node, bool) {
 	if tree.root == nil {
 		return nil, false
 	}
@@ -118,13 +118,13 @@ func (tree *rbTree) OrderStatisticSelect(i int64) (Comparable, bool) {
 	return tree.root.orderStatisticSelect(i)
 }
 
-func (n *node) orderStatisticSelect(i int64) (Comparable, bool) {
+func (n *node) orderStatisticSelect(i int64) (*node, bool) {
 	if n.left == nil {
 		return nil, false
 	}
 	r := n.left.size + 1
 	if i == r {
-		return n.key, true
+		return n, true
 	} else if i < r {
 		return n.left.orderStatisticSelect(i)
 	} else {
