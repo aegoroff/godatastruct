@@ -886,14 +886,13 @@ func Test_RestrictedSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testin
 	topTree := NewRbTree()
 
 	var nodes []int
-	const nodesCount = 12
-	r := rand.New(rand.NewSource(1000))
+	var result []string
+	const nodesCount = 200
 
-	for i := 1; i < nodesCount; i++ {
-		nodes = append(nodes, r.Int())
+	for i := 1; i <= nodesCount; i++ {
+		nodes = append(nodes, i)
 	}
 	tree := createIntTree(nodes)
-	ass.Nil(topTree.(*rbTree).tnil.parent)
 
 	// Act
 	tree.WalkInorder(func(n Node) {
@@ -903,14 +902,14 @@ func Test_RestrictedSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testin
 	iterationCount := 0
 	topTree.Descend(func(n Node) bool {
 		iterationCount++
+		result = append(result, n.String())
 		return true
 	})
 
 	// Assert
 	ass.Equal(int64(10), topTree.Len())
 	ass.Equal(10, iterationCount)
-	ass.Nil(tree.tnil.parent)
-	ass.Nil(topTree.(*rbTree).tnil.parent)
+	ass.Equal([]string{"200", "199", "198", "197", "196", "195", "194", "193", "192", "191"}, result)
 }
 
 func insertTo(tree RbTree, size int, c Comparable) {
