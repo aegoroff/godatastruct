@@ -143,14 +143,6 @@ func GetInt(c Comparable) int {
 	return int(c.(Int))
 }
 
-// GetString gets string value from Comparable
-func GetString(c Comparable) string {
-	if c == nil {
-		return ""
-	}
-	return string(*c.(*String))
-}
-
 // NewInt creates new Comparable that contains int key
 func NewInt(v int) Comparable {
 	r := Int(v)
