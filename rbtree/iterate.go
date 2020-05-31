@@ -91,7 +91,7 @@ func (n *node) ascend(from, to Comparable, iterator NodeIterator) {
 
 func (n *node) descend(from, to Comparable, iterator NodeIterator) {
 	curr, ok := n.search(from)
-	for ok && curr != nil && curr.key != nil && (!curr.LessThan(to) || curr.EqualTo(to)) {
+	for ok && curr != nil && curr.key != nil && !curr.LessThan(to) {
 		ok = iterator(curr)
 		if ok {
 			curr = curr.predecessor()
