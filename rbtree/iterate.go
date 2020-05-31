@@ -43,12 +43,13 @@ func (n *node) walkPreorder(action func(*node)) {
 
 // Ascend calls the iterator for every value in the tree until iterator returns false.
 func (tree *rbTree) Ascend(iterator NodeIterator) {
-	min := tree.Minimum()
-	if min == nil {
+	max := tree.Maximum()
+	if max == nil {
 		return
 	}
-	max := tree.Maximum()
-	tree.AscendRange(min, max, iterator)
+
+	min := tree.root.minimum()
+	min.ascend(max, iterator)
 }
 
 // AscendRange calls the iterator for every value in the tree within the range
@@ -57,30 +58,15 @@ func (tree *rbTree) AscendRange(from, to Comparable, iterator NodeIterator) {
 	if tree.root == nil || tree.root.key == nil || to == nil {
 		return
 	}
-	tree.root.ascend(from, to, iterator)
-}
-
-// Descend calls the iterator for every value in the tree until iterator returns false.
-func (tree *rbTree) Descend(iterator NodeIterator) {
-	min := tree.Minimum()
-	if min == nil {
-		return
+	curr, ok := tree.root.search(from)
+	if ok {
+		curr.ascend(to, iterator)
 	}
-	max := tree.Maximum()
-	tree.DescendRange(max, min, iterator)
 }
 
-// DescendRange calls the iterator for every value in the tree within the range
-// [from, to], until iterator returns false.
-func (tree *rbTree) DescendRange(from, to Comparable, iterator NodeIterator) {
-	if tree.root == nil || to == nil {
-		return
-	}
-	tree.root.descend(from, to, iterator)
-}
-
-func (n *node) ascend(from, to Comparable, iterator NodeIterator) {
-	curr, ok := n.search(from)
+func (n *node) ascend(to Comparable, iterator NodeIterator) {
+	curr := n
+	ok := true
 	for ok && curr != nil && curr.key != nil && (curr.LessThan(to) || curr.EqualTo(to)) {
 		ok = iterator(curr)
 		if ok {
@@ -89,8 +75,31 @@ func (n *node) ascend(from, to Comparable, iterator NodeIterator) {
 	}
 }
 
-func (n *node) descend(from, to Comparable, iterator NodeIterator) {
-	curr, ok := n.search(from)
+// Descend calls the iterator for every value in the tree until iterator returns false.
+func (tree *rbTree) Descend(iterator NodeIterator) {
+	min := tree.Minimum()
+	if min == nil {
+		return
+	}
+	max := tree.root.maximum()
+	max.descend(min, iterator)
+}
+
+// DescendRange calls the iterator for every value in the tree within the range
+// [from, to], until iterator returns false.
+func (tree *rbTree) DescendRange(from, to Comparable, iterator NodeIterator) {
+	if tree.root == nil || to == nil {
+		return
+	}
+	curr, ok := tree.root.search(from)
+	if ok {
+		curr.descend(to, iterator)
+	}
+}
+
+func (n *node) descend(to Comparable, iterator NodeIterator) {
+	curr := n
+	ok := true
 	for ok && curr != nil && curr.key != nil && !curr.LessThan(to) {
 		ok = iterator(curr)
 		if ok {
