@@ -1,6 +1,8 @@
 // Package rbtree is a Red-black search binary tree implementation with support ordered statistic on the tree
 package rbtree
 
+import "fmt"
+
 const (
 	// Black RB tree node
 	Black = iota
@@ -38,6 +40,9 @@ type Node interface {
 
 	// Subtree size including node itself
 	Size() int64
+
+	// Key gets node's key
+	Key() Comparable
 }
 
 // node represent red-black tree node implementation
@@ -60,6 +65,7 @@ type NodeIterator func(Node) bool
 
 // Comparable defines comparable type interface
 type Comparable interface {
+	fmt.Stringer
 	LessThan(y interface{}) bool
 	EqualTo(y interface{}) bool
 }
@@ -96,6 +102,14 @@ func (n *node) Size() int64 {
 	return n.size
 }
 
+func (n *node) String() string {
+	return n.key.String()
+}
+
+func (n *node) Key() Comparable {
+	return n.key
+}
+
 // LessThan define Comparable interface member for Int
 func (x Int) LessThan(y interface{}) bool {
 	return x < y.(Int)
@@ -106,6 +120,10 @@ func (x Int) EqualTo(y interface{}) bool {
 	return x == y
 }
 
+func (x Int) String() string {
+	return fmt.Sprintf("%d", x)
+}
+
 // LessThan define Comparable interface member for String
 func (x *String) LessThan(y interface{}) bool {
 	return *x < *(y.(*String))
@@ -114,6 +132,10 @@ func (x *String) LessThan(y interface{}) bool {
 // EqualTo define Comparable interface member for String
 func (x *String) EqualTo(y interface{}) bool {
 	return *x == *(y.(*String))
+}
+
+func (x *String) String() string {
+	return string(*x)
 }
 
 // GetInt gets int key value from comparable
