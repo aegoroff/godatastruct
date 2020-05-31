@@ -902,11 +902,11 @@ func Test_RestrictedSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testin
 	ass.Equal([]string{"200", "199", "198", "197", "196"}, result)
 }
 
-func IgnoreTestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
+func ITestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 
-	topTree := NewRbTree()
+	topTree := newRbTree()
 
 	var nodes []string
 	var result []string
@@ -930,9 +930,15 @@ func IgnoreTestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffect
 		result = append(result, n.String())
 		return true
 	})
+	max := topTree.root.maximum()
 
 	// Assert
 	ass.Equal(top, topTree.Len())
+	ass.Equal(max.String(), result[0])
+	ass.Equal(max.predecessor().String(), result[1])
+	ass.Equal(max.predecessor().predecessor().String(), result[2])
+	ass.Equal(max.predecessor().predecessor().predecessor().String(), result[3])
+	ass.Equal(max.predecessor().predecessor().predecessor().predecessor().String(), result[4])
 	ass.Equal(top, iterationCount)
 }
 
