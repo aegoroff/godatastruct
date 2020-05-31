@@ -514,6 +514,7 @@ func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 		// Assert
 		ass.Equal(test.expected, GetInt(s.key))
 	}
+	ass.Nil(tree.tnil.parent)
 }
 
 func Test_PredecessorOfMin_ReturnNil(t *testing.T) {
@@ -564,6 +565,7 @@ func Test_Maximum_ValueAsExpected(t *testing.T) {
 
 	// Assert
 	ass.Equal(20, GetInt(r.(*node).key))
+	ass.Nil(tree.tnil.parent)
 }
 
 func Test_MaximumEmptyTree(t *testing.T) {
@@ -612,6 +614,7 @@ func Test_RightRotate_StructureAsExpected(t *testing.T) {
 	ass.Equal("y", GetString(x.right.key))
 	ass.Equal("b", GetString(y.left.key))
 	ass.Equal("g", GetString(y.right.key))
+	ass.Nil(tree.tnil.parent)
 }
 
 func Test_LeftRotate_StructureAsExpected(t *testing.T) {
@@ -648,10 +651,12 @@ func Test_LeftRotate_StructureAsExpected(t *testing.T) {
 	ass.Equal("g", GetString(y.right.key))
 	ass.Equal("a", GetString(x.left.key))
 	ass.Equal("b", GetString(x.right.key))
+	ass.Nil(tree.tnil.parent)
 }
 
 func Test_GraphvizInt(t *testing.T) {
 	// Arrange
+	//ass := assert.New(t)
 	tree := createIntegerTestTree()
 
 	// Act
@@ -659,6 +664,7 @@ func Test_GraphvizInt(t *testing.T) {
 
 	// Assert
 	t.Log(graphviz)
+	//ass.Nil(tree.tnil.parent)
 }
 
 func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
@@ -681,6 +687,7 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	n = NewInt(28)
 	found, _ = tree.root.search(n)
 	ass.Equal(Black, found.color)
+	ass.Nil(tree.tnil.parent)
 }
 
 func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
@@ -706,6 +713,7 @@ func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
 	// Assert
 	ass.Nil(tree.root.key)
 	ass.Equal(int64(0), tree.Len())
+	ass.Nil(tree.tnil.parent)
 }
 
 func Test_GraphvizString(t *testing.T) {
@@ -765,6 +773,7 @@ func Test_Delete_NodeDeleted(t *testing.T) {
 	found, ok = tree.root.search(NewString("microsoft"))
 	ass.True(ok)
 	ass.Equal("microsoft", GetString(found.key))
+	ass.Nil(tree.tnil.parent)
 }
 
 func Test_DeleteNil_NothingDeleted(t *testing.T) {
@@ -779,6 +788,7 @@ func Test_DeleteNil_NothingDeleted(t *testing.T) {
 	found, ok := tree.root.search(NewString("microsoft"))
 	ass.True(ok)
 	ass.Equal("microsoft", GetString(found.key))
+	//ass.Nil(tree.tnil.parent)
 }
 
 func Test_DeleteEmptyTree_NoError(t *testing.T) {
@@ -833,6 +843,7 @@ func Test_DeleteNodeDeleteSeveralNodesWithTheSameKey_ResultAsExpected(t *testing
 	ass.True(ok1)
 	ass.True(ok2)
 	ass.False(ok3)
+	ass.Nil(tree.tnil.parent)
 }
 
 func Test_InsertNil_NothingIserted(t *testing.T) {
@@ -846,6 +857,7 @@ func Test_InsertNil_NothingIserted(t *testing.T) {
 
 	// Assert
 	ass.Equal(oldSize, tree.Len())
+	ass.Nil(tree.tnil.parent)
 }
 
 func Test_DeleteNodeNil_NothingDeleted(t *testing.T) {
@@ -859,6 +871,7 @@ func Test_DeleteNodeNil_NothingDeleted(t *testing.T) {
 
 	// Assert
 	ass.Equal(oldSize, tree.Len())
+	ass.Nil(tree.tnil.parent)
 }
 
 func createIntegerTestTree() *rbTree {
