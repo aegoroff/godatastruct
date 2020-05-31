@@ -903,12 +903,15 @@ func Test_RestrictedSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testin
 }
 
 func insertTo(tree RbTree, size int64, c Comparable) {
-	min := tree.Minimum()
-	if tree.Len() < size || min.LessThan(c) {
-		if tree.Len() == size {
-			tree.DeleteNode(min)
-		}
+	if tree.Len() < size {
+		tree.Insert(c)
+		return
+	}
 
+	min := tree.Minimum()
+
+	if min.LessThan(c) {
+		tree.DeleteNode(min)
 		tree.Insert(c)
 	}
 }
