@@ -866,6 +866,51 @@ func createIntegerTestTree() *rbTree {
 	return createIntTree(nodes)
 }
 
+func Test_RestrictedSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+
+	topTree := NewRbTree()
+
+	var nodes []int
+	const nodesCount = 12
+	r := rand.New(rand.NewSource(1000))
+
+	for i := 1; i < nodesCount; i++ {
+		nodes = append(nodes, r.Int())
+	}
+	tree := createIntTree(nodes)
+	ass.Nil(topTree.(*rbTree).tnil.parent)
+
+	// Act
+	tree.WalkInorder(func(n Node) {
+		insertTo(topTree, 10, n)
+	})
+
+	iterationCount := 0
+	topTree.Descend(func(n Node) bool {
+		iterationCount++
+		return true
+	})
+
+	// Assert
+	ass.Equal(int64(10), topTree.Len())
+	ass.Equal(10, iterationCount)
+	ass.Nil(tree.tnil.parent)
+	ass.Nil(topTree.(*rbTree).tnil.parent)
+}
+
+func insertTo(tree RbTree, size int, c Comparable) {
+	min := tree.Minimum()
+	if tree.Len() < int64(size) || min.LessThan(c) {
+		if tree.Len() == int64(size) {
+			tree.DeleteNode(min)
+		}
+
+		tree.Insert(c)
+	}
+}
+
 func createTestStringTree() *rbTree {
 	nodes := []string{"abc", "amd", "cisco", "do", "fake", "intel", "it", "let", "microsoft", "russia", "usa", "xxx", "yyy", "zen"}
 	return createStringTree(nodes)
