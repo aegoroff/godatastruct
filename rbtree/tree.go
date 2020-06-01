@@ -23,6 +23,10 @@ type RbTree interface {
 	// It returns true if node was successfully deleted otherwise false
 	DeleteNode(c Comparable) bool
 
+	// DeleteAllNodes searches and deletes all found nodes with key value specified from Red-black tree
+	// It returns true if nodes was successfully deleted otherwise false
+	DeleteAllNodes(c Comparable) bool
+
 	// WalkInorder walks tree inorder (left, node, right)
 	WalkInorder(action func(Node))
 
@@ -179,7 +183,7 @@ func newRbTree() *rbTree {
 
 // Len returns the number of nodes in the tree.
 func (tree *rbTree) Len() int64 {
-	if tree.root == nil {
+	if tree.root == nil || tree.root == tree.tnil {
 		return 0
 	}
 
