@@ -48,8 +48,8 @@ func (tree *rbTree) Ascend(iterator NodeIterator) {
 		return
 	}
 
-	min := tree.root.minimum()
-	min.ascend(max.Key(), iterator)
+	min := tree.minimum(tree.root)
+	tree.ascend(min, max.Key(), iterator)
 }
 
 // AscendRange calls the iterator for every value in the tree within the range
@@ -60,17 +60,17 @@ func (tree *rbTree) AscendRange(from, to Comparable, iterator NodeIterator) {
 	}
 	curr, ok := tree.root.search(from)
 	if ok {
-		curr.ascend(to, iterator)
+		tree.ascend(curr, to, iterator)
 	}
 }
 
-func (n *node) ascend(to Comparable, iterator NodeIterator) {
+func (tree *rbTree) ascend(n *node, to Comparable, iterator NodeIterator) {
 	curr := n
 	ok := true
 	for ok && curr != nil && curr.key != nil && (curr.key.LessThan(to) || curr.key.EqualTo(to)) {
 		ok = iterator(curr)
 		if ok {
-			curr = curr.successor()
+			curr = tree.successor(curr)
 		}
 	}
 }
@@ -81,8 +81,8 @@ func (tree *rbTree) Descend(iterator NodeIterator) {
 	if min == nil {
 		return
 	}
-	max := tree.root.maximum()
-	max.descend(min.Key(), iterator)
+	max := tree.maximum(tree.root)
+	tree.descend(max, min.Key(), iterator)
 }
 
 // DescendRange calls the iterator for every value in the tree within the range
@@ -93,17 +93,17 @@ func (tree *rbTree) DescendRange(from, to Comparable, iterator NodeIterator) {
 	}
 	curr, ok := tree.root.search(from)
 	if ok {
-		curr.descend(to, iterator)
+		tree.descend(curr, to, iterator)
 	}
 }
 
-func (n *node) descend(to Comparable, iterator NodeIterator) {
+func (tree *rbTree) descend(n *node, to Comparable, iterator NodeIterator) {
 	curr := n
 	ok := true
 	for ok && curr != nil && curr.key != nil && !curr.key.LessThan(to) {
 		ok = iterator(curr)
 		if ok {
-			curr = curr.predecessor()
+			curr = tree.predecessor(curr)
 		}
 	}
 }

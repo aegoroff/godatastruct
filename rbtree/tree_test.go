@@ -468,7 +468,7 @@ func Test_Successor_ReturnSuccessor(t *testing.T) {
 		r, _ := tree.root.search(v)
 
 		// Act
-		s := r.Successor()
+		s := tree.Successor(r)
 
 		// Assert
 		ass.Equal(test.expected, GetInt(s.Key()))
@@ -483,7 +483,7 @@ func Test_SuccessorOfMax_ReturnNil(t *testing.T) {
 	r, _ := tree.root.search(v)
 
 	// Act
-	s := r.Successor()
+	s := tree.Successor(r)
 
 	// Assert
 	ass.Nil(s)
@@ -508,7 +508,7 @@ func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 		r, _ := tree.root.search(v)
 
 		// Act
-		s := r.Predecessor()
+		s := tree.Predecessor(r)
 
 		// Assert
 		ass.Equal(test.expected, GetInt(s.Key()))
@@ -523,7 +523,7 @@ func Test_PredecessorOfMin_ReturnNil(t *testing.T) {
 	r, _ := tree.root.search(v)
 
 	// Act
-	p := r.Predecessor()
+	p := tree.Predecessor(r)
 
 	// Assert
 	ass.Nil(p)
@@ -957,18 +957,18 @@ func TestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *t
 	})
 
 	// Assert
-	max := topTree.root.maximum()
-	pred1 := max.Predecessor().Key()
-	pred2 := max.Predecessor().Predecessor().Key()
-	pred3 := max.Predecessor().Predecessor().Predecessor().Key()
-	pred4 := max.Predecessor().Predecessor().Predecessor().Predecessor().Key()
+	max := topTree.Maximum()
+	pred1 := topTree.Predecessor(max)
+	pred2 := topTree.Predecessor(pred1)
+	pred3 := topTree.Predecessor(pred2)
+	pred4 := topTree.Predecessor(pred3)
 
 	ass.Equal(top, topTree.Len())
-	ass.Equal(max.String(), result[0])
-	ass.Equal(pred1.String(), result[1])
-	ass.Equal(pred2.String(), result[2])
-	ass.Equal(pred3.String(), result[3])
-	ass.Equal(pred4.String(), result[4])
+	ass.Equal(max.Key().String(), result[0])
+	ass.Equal(pred1.Key().String(), result[1])
+	ass.Equal(pred2.Key().String(), result[2])
+	ass.Equal(pred3.Key().String(), result[3])
+	ass.Equal(pred4.Key().String(), result[4])
 	// TODO: ass.Equal(top, iterationCount)
 }
 

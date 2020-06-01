@@ -42,13 +42,13 @@ func (tree *rbTree) Minimum() Node {
 	if tree.root == nil {
 		return nil
 	}
-	return tree.root.minimum()
+	return tree.minimum(tree.root)
 }
 
 // Minimum gets tree's min element
-func (n *node) minimum() *node {
+func (tree *rbTree) minimum(n *node) *node {
 	x := n
-	for x != nil && x.left != nil && x.left.key != nil {
+	for x != nil && x.left != nil && x.left.key != nil && x != tree.tnil {
 		x = x.left
 	}
 	return x
@@ -59,27 +59,28 @@ func (tree *rbTree) Maximum() Node {
 	if tree.root == nil {
 		return nil
 	}
-	return tree.root.maximum()
+	return tree.maximum(tree.root)
 }
 
 // Maximum gets tree's max element
-func (n *node) maximum() *node {
+func (tree *rbTree) maximum(n *node) *node {
 	x := n
-	for x != nil && x.right != nil && x.right.key != nil {
+	for x != nil && x.right != nil && x.right.key != nil && x != tree.tnil {
 		x = x.right
 	}
 	return x
 }
 
 // Successor gets node specified successor
-func (n *node) Successor() Node {
-	return n.successor()
+func (tree *rbTree) Successor(n Node) Node {
+	// TODO: think over invalid casting here in case of custom Node implementation
+	return tree.successor(n.(*node))
 }
 
-func (n *node) successor() *node {
+func (tree *rbTree) successor(n *node) *node {
 	x := n
 	if x.right != nil && x.right.key != nil {
-		return x.right.minimum()
+		return tree.minimum(x.right)
 	}
 
 	y := x.parent
@@ -96,14 +97,15 @@ func (n *node) successor() *node {
 }
 
 // Predecessor gets node specified predecessor
-func (n *node) Predecessor() Node {
-	return n.predecessor()
+func (tree *rbTree) Predecessor(n Node) Node {
+	// TODO: think over invalid casting here in case of custom Node implementation
+	return tree.predecessor(n.(*node))
 }
 
-func (n *node) predecessor() *node {
+func (tree *rbTree) predecessor(n *node) *node {
 	x := n
 	if x.left != nil && x.left.key != nil {
-		return x.left.maximum()
+		return tree.maximum(x.left)
 	}
 
 	y := x.parent

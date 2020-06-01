@@ -124,7 +124,7 @@ func (tree *rbTree) delete(z *node) {
 		x = z.left
 		rbTransplant(tree, z, z.left)
 	} else {
-		y := z.right.minimum()
+		y := tree.minimum(z.right)
 		yOriginalColor = y.color
 		x = y.right
 		if y.parent == z {
