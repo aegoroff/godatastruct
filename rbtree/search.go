@@ -83,7 +83,7 @@ func (tree *rbTree) successor(n *node) *node {
 	}
 
 	y := x.parent
-	for y != nil && y.key != nil && x == y.right && y != tree.tnil {
+	for y != nil && y.key != nil && y != tree.tnil && x == y.right {
 		x = y
 		y = y.parent
 	}
@@ -108,7 +108,7 @@ func (tree *rbTree) predecessor(n *node) *node {
 	}
 
 	y := x.parent
-	for y != nil && y.key != nil && x == y.left && y != tree.tnil {
+	for y != nil && y.key != nil && y != tree.tnil && x == y.left {
 		x = y
 		y = y.parent
 	}
