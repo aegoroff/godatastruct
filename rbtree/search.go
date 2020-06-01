@@ -78,7 +78,7 @@ func (tree *rbTree) Successor(n Node) Node {
 
 func (tree *rbTree) successor(n *node) *node {
 	x := n
-	if x.right != nil && x.right.key != nil && x.right != tree.tnil {
+	if x.right != tree.tnil && x.right != nil && x.right.key != nil {
 		return tree.minimum(x.right)
 	}
 
@@ -103,7 +103,7 @@ func (tree *rbTree) Predecessor(n Node) Node {
 
 func (tree *rbTree) predecessor(n *node) *node {
 	x := n
-	if x.left != nil && x.left.key != nil && x.left != tree.tnil {
+	if x.left != tree.tnil && x.left != nil && x.left.key != nil {
 		return tree.maximum(x.left)
 	}
 
