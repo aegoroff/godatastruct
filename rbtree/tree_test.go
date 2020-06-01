@@ -835,7 +835,7 @@ func Test_DeleteNodeDeleteSeveralNodesWithTheSameKey_ResultAsExpected(t *testing
 	ass.False(ok3)
 }
 
-func Test_InsertNil_NothingIserted(t *testing.T) {
+func Test_InsertNil_NothingInserted(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := createTestStringTree()
@@ -847,6 +847,31 @@ func Test_InsertNil_NothingIserted(t *testing.T) {
 	// Assert
 	ass.Equal(oldSize, tree.Len())
 	ass.Nil(tree.tnil.parent)
+}
+
+func Test_InsertIntoEmpty_Inserted(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := NewRbTree()
+
+	// Act
+	tree.Insert(NewString("1"))
+
+	// Assert
+	ass.Equal(int64(1), tree.Len())
+}
+
+func Test_InsertIntoNotEmpty_Inserted(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := NewRbTree()
+	tree.Insert(NewString("1"))
+
+	// Act
+	tree.Insert(NewString("2"))
+
+	// Assert
+	ass.Equal(int64(2), tree.Len())
 }
 
 func Test_DeleteNodeNil_NothingDeleted(t *testing.T) {
