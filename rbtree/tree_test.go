@@ -198,6 +198,37 @@ func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
 	ass.Equal(int64(0), tree.Len())
 }
 
+func Test_DeleteAllNodesWhenTreeContainsSameElements_TreeLenAsExpected(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	const nodesCount = 5
+
+	var tests = []struct {
+		input       []string
+		expectedlen int64
+	}{
+		{[]string{"tst"}, 0},
+		{[]string{"tst", "www"}, nodesCount},
+	}
+	for _, test := range tests {
+		tree := NewRbTree()
+
+		for _, in := range test.input {
+			k := NewString(in)
+			for i := 0; i < nodesCount; i++ {
+				tree.Insert(k)
+			}
+		}
+
+		// Act
+		res := tree.DeleteAllNodes(NewString(test.input[0]))
+
+		// Assert
+		ass.True(res)
+		ass.Equal(test.expectedlen, tree.Len())
+	}
+}
+
 func Test_GraphvizString(t *testing.T) {
 	// Arrange
 	tree := createTestStringTree()

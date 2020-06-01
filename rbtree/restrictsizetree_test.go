@@ -78,7 +78,7 @@ func TestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *t
 	ass.Equal(max.Key().String(), result[0])
 	ass.Equal(pred1.Key().String(), result[1])
 	ass.Equal(pred2.Key().String(), result[2])
-	//ass.Equal(top, iterationCount)
+	ass.Equal(top, iterationCount)
 }
 
 func randomString(n int) string {
@@ -103,11 +103,7 @@ func insertTo(tree RbTree, size int64, c Comparable) {
 	k := min.Key()
 
 	if k.LessThan(c) {
-		ok := tree.DeleteNode(k)
-		for ok {
-			ok = tree.DeleteNode(k)
-		}
-
+		tree.DeleteAllNodes(k)
 		tree.Insert(c)
 	}
 }
