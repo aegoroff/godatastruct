@@ -221,6 +221,7 @@ func rbDeleteFixup(tree *rbTree, x *node) {
 func rbTransplant(tree *rbTree, u *node, v *node) {
 	if u.parent == tree.tnil {
 		tree.root = v
+		tree.root.size = u.size - 1
 	} else if u == u.parent.left {
 		u.parent.left = v
 	} else {

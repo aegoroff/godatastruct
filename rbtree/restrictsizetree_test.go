@@ -103,7 +103,7 @@ func insertTo(tree RbTree, size int64, c Comparable) {
 	k := min.Key()
 
 	if k.LessThan(c) {
-		tree.DeleteAllNodes(k)
+		tree.DeleteNode(k)
 		tree.Insert(c)
 	}
 }

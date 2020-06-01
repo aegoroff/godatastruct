@@ -229,6 +229,85 @@ func Test_DeleteAllNodesWhenTreeContainsSameElements_TreeLenAsExpected(t *testin
 	}
 }
 
+func Test_SameKeyInsertDeleteLen_TreeLenAsExpected(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := NewRbTree()
+
+	k := NewString("tst")
+
+	// Act
+	tree.Insert(k)
+	ass.Equal(int64(1), tree.Len())
+	tree.Insert(k)
+	ass.Equal(int64(2), tree.Len())
+	tree.Insert(k)
+	ass.Equal(int64(3), tree.Len())
+
+	tree.DeleteNode(k)
+	ass.Equal(int64(2), tree.Len())
+	tree.DeleteNode(k)
+	ass.Equal(int64(1), tree.Len())
+	tree.DeleteNode(k)
+	ass.Equal(int64(0), tree.Len())
+
+	// Assert
+}
+
+func Test_DifferentKeyInsertDeleteSameOrderLen_TreeLenAsExpected(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := NewRbTree()
+
+	k1 := NewString("tst1")
+	k2 := NewString("tst2")
+	k3 := NewString("tst3")
+
+	// Act
+	tree.Insert(k1)
+	ass.Equal(int64(1), tree.Len())
+	tree.Insert(k2)
+	ass.Equal(int64(2), tree.Len())
+	tree.Insert(k3)
+	ass.Equal(int64(3), tree.Len())
+
+	tree.DeleteNode(k1)
+	ass.Equal(int64(2), tree.Len())
+	tree.DeleteNode(k2)
+	ass.Equal(int64(1), tree.Len())
+	tree.DeleteNode(k3)
+	ass.Equal(int64(0), tree.Len())
+
+	// Assert
+}
+
+func Test_DifferentKeyInsertDeleteReverseOrderLen_TreeLenAsExpected(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := NewRbTree()
+
+	k1 := NewString("tst1")
+	k2 := NewString("tst2")
+	k3 := NewString("tst3")
+
+	// Act
+	tree.Insert(k1)
+	ass.Equal(int64(1), tree.Len())
+	tree.Insert(k2)
+	ass.Equal(int64(2), tree.Len())
+	tree.Insert(k3)
+	ass.Equal(int64(3), tree.Len())
+
+	tree.DeleteNode(k3)
+	ass.Equal(int64(2), tree.Len())
+	tree.DeleteNode(k2)
+	ass.Equal(int64(1), tree.Len())
+	tree.DeleteNode(k1)
+	ass.Equal(int64(0), tree.Len())
+
+	// Assert
+}
+
 func Test_GraphvizString(t *testing.T) {
 	// Arrange
 	tree := createTestStringTree()
