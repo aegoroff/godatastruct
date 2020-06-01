@@ -270,6 +270,6 @@ func rightRotate(tree *rbTree, x *node) {
 	y.right = x
 	x.parent = y
 
-	x.size = y.size
-	y.size = y.left.size + y.right.size + 1
+	y.size = x.size
+	x.size = x.left.size + x.right.size + 1
 }

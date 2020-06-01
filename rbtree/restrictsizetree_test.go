@@ -48,23 +48,26 @@ func TestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *t
 
 	var nodes []string
 	var result []string
-	const nodesCount = 44
+	const nodesCount = 500
 
 	for i := 1; i <= nodesCount; i++ {
-		l := 1 + rand.Intn(5)
+		l := 1 + rand.Intn(50)
 		nodes = append(nodes, randomString(l))
 	}
-	tree := createStringTree(nodes)
-	top := int64(3)
+	tree := NewRbTree()
+	for _, n := range nodes {
+		c := NewString(n)
+		tree.Insert(c)
+	}
+
+	top := int64(10)
 
 	// Act
 	tree.WalkInorder(func(n Node) {
 		insertTo(topTree, top, n.Key())
 	})
 
-	iterationCount := int64(0)
 	topTree.Descend(func(n Node) bool {
-		iterationCount++
 		result = append(result, n.Key().String())
 		return true
 	})
@@ -78,7 +81,8 @@ func TestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *t
 	ass.Equal(max.Key().String(), result[0])
 	ass.Equal(pred1.Key().String(), result[1])
 	ass.Equal(pred2.Key().String(), result[2])
-	ass.Equal(top, iterationCount)
+	ass.Equal(top, int64(len(result)))
+	ass.Equal(int64(nodesCount), tree.Len())
 }
 
 func randomString(n int) string {

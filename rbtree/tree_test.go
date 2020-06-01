@@ -435,6 +435,31 @@ func Test_DeleteNodeDeleteSeveralNodesWithTheSameKey_ResultAsExpected(t *testing
 	ass.False(ok3)
 }
 
+func Test_InsertAndCheckLen(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+
+	tree := NewRbTree()
+
+	// Act
+	tree.Insert(NewString("pp"))
+	ass.Equal(int64(1), tree.Len())
+
+	tree.Insert(NewString("nnn"))
+	ass.Equal(int64(2), tree.Len())
+
+	tree.Insert(NewString("gg"))
+	ass.Equal(int64(3), tree.Len())
+
+	tree.Insert(NewString("s"))
+	ass.Equal(int64(4), tree.Len())
+
+	tree.Insert(NewString("22"))
+	ass.Equal(int64(5), tree.Len())
+
+	// Assert
+}
+
 func Test_InsertNil_NothingInserted(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
