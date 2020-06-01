@@ -13,19 +13,49 @@ const (
 
 // RbTree represents red-black tree interface
 type RbTree interface {
+	// Len returns the number of nodes in the tree.
 	Len() int64
+
+	// Insert inserts new node into Red-Black tree. Creates Root if tree is empty
 	Insert(n Comparable)
+
+	// DeleteNode searches and deletes node with key value specified from Red-black tree
+	// It returns true if node was successfully deleted otherwise false
 	DeleteNode(c Comparable) bool
+
+	// WalkInorder walks tree inorder (left, node, right)
 	WalkInorder(action func(Node))
+
+	// WalkPostorder walks tree postorder (left, right, node)
 	WalkPostorder(action func(Node))
+
+	// WalkPreorder walks tree preorder (node, left, right)
 	WalkPreorder(action func(Node))
+
+	// Ascend calls the iterator for every value in the tree until iterator returns false.
 	Ascend(iterator NodeIterator)
+
+	// AscendRange calls the iterator for every value in the tree within the range
+	// [from, to], until iterator returns false.
 	AscendRange(from, to Comparable, iterator NodeIterator)
+
+	// Descend calls the iterator for every value in the tree until iterator returns false.
 	Descend(iterator NodeIterator)
+
+	// DescendRange calls the iterator for every value in the tree within the range
+	// [from, to], until iterator returns false.
 	DescendRange(from, to Comparable, iterator NodeIterator)
+
+	// Search searches value specified within search tree
 	Search(value Comparable) (Node, bool)
+
+	// Minimum gets tree's min element
 	Minimum() Node
+
+	// Maximum gets tree's max element
 	Maximum() Node
+
+	// OrderStatisticSelect gets i element from subtree
 	OrderStatisticSelect(i int64) (Node, bool)
 }
 
@@ -36,13 +66,17 @@ type rbTree struct {
 
 // Node represent red-black tree node interface
 type Node interface {
-	Comparable
-
 	// Subtree size including node itself
 	Size() int64
 
 	// Key gets node's key
 	Key() Comparable
+
+	// Successor gets node specified successor
+	Successor() Node
+
+	// Predecessor gets node specified predecessor
+	Predecessor() Node
 }
 
 // node represent red-black tree node implementation
@@ -75,28 +109,6 @@ type Int int
 
 // String is the string type key that can be stored as Node key
 type String string
-
-func (n *node) LessThan(y interface{}) bool {
-	switch t := y.(type) {
-	case *node:
-		return n.key.LessThan(t.key)
-	case Comparable:
-		return n.key.LessThan(t)
-	}
-
-	return n.key == nil
-}
-
-func (n *node) EqualTo(y interface{}) bool {
-	switch t := y.(type) {
-	case *node:
-		return n.key.EqualTo(t.key)
-	case Comparable:
-		return n.key.EqualTo(t)
-	}
-
-	return n.key != nil
-}
 
 func (n *node) Size() int64 {
 	return n.size

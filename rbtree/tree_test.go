@@ -217,7 +217,7 @@ func Test_Descend(t *testing.T) {
 		// Act
 		tree.Descend(func(n Node) bool {
 			result = append(result, n.Key().(Int))
-			return test.predicate(n)
+			return test.predicate(n.Key())
 		})
 
 		// Assert
@@ -330,7 +330,7 @@ func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 
 	// Act
 	tree.WalkInorder(func(n Node) {
-		result = append(result, n.String())
+		result = append(result, n.Key().String())
 	})
 
 	// Assert
@@ -410,7 +410,7 @@ func Test_SearchStringTree_Success(t *testing.T) {
 	// Assert
 	ass.True(ok)
 	ass.NotNil(found)
-	ass.Equal("intel", found.String())
+	ass.Equal("intel", found.Key().String())
 }
 
 func Test_SearchStringTree_Fail(t *testing.T) {
@@ -468,10 +468,10 @@ func Test_Successor_ReturnSuccessor(t *testing.T) {
 		r, _ := tree.root.search(v)
 
 		// Act
-		s := r.successor()
+		s := r.Successor()
 
 		// Assert
-		ass.Equal(test.expected, GetInt(s.key))
+		ass.Equal(test.expected, GetInt(s.Key()))
 	}
 }
 
@@ -483,7 +483,7 @@ func Test_SuccessorOfMax_ReturnNil(t *testing.T) {
 	r, _ := tree.root.search(v)
 
 	// Act
-	s := r.successor()
+	s := r.Successor()
 
 	// Assert
 	ass.Nil(s)
@@ -508,10 +508,10 @@ func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 		r, _ := tree.root.search(v)
 
 		// Act
-		s := r.predecessor()
+		s := r.Predecessor()
 
 		// Assert
-		ass.Equal(test.expected, GetInt(s.key))
+		ass.Equal(test.expected, GetInt(s.Key()))
 	}
 }
 
@@ -523,7 +523,7 @@ func Test_PredecessorOfMin_ReturnNil(t *testing.T) {
 	r, _ := tree.root.search(v)
 
 	// Act
-	p := r.predecessor()
+	p := r.Predecessor()
 
 	// Assert
 	ass.Nil(p)
@@ -886,13 +886,13 @@ func Test_RestrictedSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testin
 
 	// Act
 	tree.WalkInorder(func(n Node) {
-		insertTo(topTree, top, n)
+		insertTo(topTree, top, n.Key())
 	})
 
 	iterationCount := int64(0)
 	topTree.Descend(func(n Node) bool {
 		iterationCount++
-		result = append(result, n.String())
+		result = append(result, n.Key().String())
 		return true
 	})
 
@@ -921,24 +921,29 @@ func ITestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *
 
 	// Act
 	tree.WalkInorder(func(n Node) {
-		insertTo(topTree, top, n)
+		insertTo(topTree, top, n.Key())
 	})
 
 	iterationCount := int64(0)
 	topTree.Descend(func(n Node) bool {
 		iterationCount++
-		result = append(result, n.String())
+		result = append(result, n.Key().String())
 		return true
 	})
-	max := topTree.root.maximum()
 
 	// Assert
+	max := topTree.root.maximum()
+	pred1 := max.Predecessor().Key()
+	pred2 := max.Predecessor().Predecessor().Key()
+	pred3 := max.Predecessor().Predecessor().Predecessor().Key()
+	pred4 := max.Predecessor().Predecessor().Predecessor().Predecessor().Key()
+
 	ass.Equal(top, topTree.Len())
 	ass.Equal(max.String(), result[0])
-	ass.Equal(max.predecessor().String(), result[1])
-	ass.Equal(max.predecessor().predecessor().String(), result[2])
-	ass.Equal(max.predecessor().predecessor().predecessor().String(), result[3])
-	ass.Equal(max.predecessor().predecessor().predecessor().predecessor().String(), result[4])
+	ass.Equal(pred1.String(), result[1])
+	ass.Equal(pred2.String(), result[2])
+	ass.Equal(pred3.String(), result[3])
+	ass.Equal(pred4.String(), result[4])
 	ass.Equal(top, iterationCount)
 }
 
@@ -960,8 +965,8 @@ func insertTo(tree RbTree, size int64, c Comparable) {
 
 	min := tree.Minimum()
 
-	if min.LessThan(c) {
-		tree.DeleteNode(min)
+	if min.Key().LessThan(c) {
+		tree.DeleteNode(min.Key())
 		tree.Insert(c)
 	}
 }
