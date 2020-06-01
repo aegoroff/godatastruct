@@ -465,7 +465,7 @@ func Test_Successor_ReturnSuccessor(t *testing.T) {
 	}
 	for _, test := range tests {
 		v := NewInt(test.node)
-		r, _ := tree.root.search(v)
+		r, _ := tree.search(tree.root, v)
 
 		// Act
 		s := tree.Successor(r)
@@ -480,7 +480,7 @@ func Test_SuccessorOfMax_ReturnNil(t *testing.T) {
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
 	v := NewInt(20)
-	r, _ := tree.root.search(v)
+	r, _ := tree.search(tree.root, v)
 
 	// Act
 	s := tree.Successor(r)
@@ -505,7 +505,7 @@ func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 	}
 	for _, test := range tests {
 		v := NewInt(test.node)
-		r, _ := tree.root.search(v)
+		r, _ := tree.search(tree.root, v)
 
 		// Act
 		s := tree.Predecessor(r)
@@ -520,7 +520,7 @@ func Test_PredecessorOfMin_ReturnNil(t *testing.T) {
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
 	v := NewInt(2)
-	r, _ := tree.root.search(v)
+	r, _ := tree.search(tree.root, v)
 
 	// Act
 	p := tree.Predecessor(r)
@@ -672,14 +672,14 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	tree := createIntTree(nodes)
 
 	n := NewInt(24)
-	found, _ := tree.root.search(n)
+	found, _ := tree.search(tree.root, n)
 
 	// Act
 	tree.delete(found)
 
 	// Assert
 	n = NewInt(28)
-	found, _ = tree.root.search(n)
+	found, _ = tree.search(tree.root, n)
 	ass.Equal(Black, found.color)
 }
 
@@ -699,7 +699,7 @@ func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
 
 	for i := 1; i < nodesCount; i++ {
 		n := NewInt(nodes[i-1])
-		found, _ := tree.root.search(n)
+		found, _ := tree.search(tree.root, n)
 		tree.delete(found)
 	}
 
@@ -725,7 +725,7 @@ func getTreeAsGraphviz(tree *rbTree) string {
 
 	var id int64
 
-	tree.root.walkPreorder(func(nod *node) {
+	tree.walkPreorder(tree.root, func(nod *node) {
 		gn := &GraphNode{node: nod, NodeID: id}
 		gr.AddNode(gn)
 		id++
@@ -752,17 +752,17 @@ func Test_Delete_NodeDeleted(t *testing.T) {
 	ass := assert.New(t)
 	tree := createTestStringTree()
 	n := NewString("intel")
-	found, _ := tree.root.search(n)
+	found, _ := tree.search(tree.root, n)
 
 	// Act
 	tree.delete(found)
 
 	// Assert
-	found, ok := tree.root.search(n)
+	found, ok := tree.search(tree.root, n)
 	ass.False(ok)
 	ass.Nil(found)
 
-	found, ok = tree.root.search(NewString("microsoft"))
+	found, ok = tree.search(tree.root, NewString("microsoft"))
 	ass.True(ok)
 	ass.Equal("microsoft", found.String())
 }
@@ -776,7 +776,7 @@ func Test_DeleteNil_NothingDeleted(t *testing.T) {
 	tree.delete(nil)
 
 	// Assert
-	found, ok := tree.root.search(NewString("microsoft"))
+	found, ok := tree.search(tree.root, NewString("microsoft"))
 	ass.True(ok)
 	ass.Equal("microsoft", found.String())
 }
@@ -942,7 +942,7 @@ func TestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *t
 		nodes = append(nodes, randomString(l))
 	}
 	tree := createStringTree(nodes)
-	top := int64(5)
+	top := int64(3)
 
 	// Act
 	tree.WalkInorder(func(n Node) {
@@ -960,15 +960,11 @@ func TestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *t
 	max := topTree.Maximum()
 	pred1 := topTree.Predecessor(max)
 	pred2 := topTree.Predecessor(pred1)
-	pred3 := topTree.Predecessor(pred2)
-	pred4 := topTree.Predecessor(pred3)
 
 	ass.Equal(top, topTree.Len())
 	ass.Equal(max.Key().String(), result[0])
 	ass.Equal(pred1.Key().String(), result[1])
 	ass.Equal(pred2.Key().String(), result[2])
-	ass.Equal(pred3.Key().String(), result[3])
-	ass.Equal(pred4.Key().String(), result[4])
 	// TODO: ass.Equal(top, iterationCount)
 }
 
