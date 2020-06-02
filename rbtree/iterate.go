@@ -44,7 +44,28 @@ func (tree *rbTree) walkPostorder(n *node, action func(*node)) {
 
 // WalkPreorder walks tree preorder (node, left, right)
 func (tree *rbTree) WalkPreorder(action func(Node)) {
-	tree.walkPreorder(tree.root, func(n *node) { action(n) })
+	n := tree.root
+	if n.isNil() {
+		return
+	}
+
+	var stack []*node
+	p := n
+	stack = append(stack, p)
+	for len(stack) > 0 {
+		top := len(stack) - 1
+		p = stack[top]
+		action(p)
+		stack = stack[:top]
+
+		if !p.right.isNil() {
+			stack = append(stack, p.right)
+		}
+
+		if !p.left.isNil() {
+			stack = append(stack, p.left)
+		}
+	}
 }
 
 func (tree *rbTree) walkPreorder(n *node, action func(*node)) {
