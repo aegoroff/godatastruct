@@ -4,14 +4,28 @@ package rbtree
 
 // WalkInorder walks tree inorder (left, node, right)
 func (tree *rbTree) WalkInorder(action func(Node)) {
-	tree.walkInorder(tree.root, func(n *node) { action(n) })
-}
+	n := tree.root
+	if n.isNil() {
+		return
+	}
 
-func (tree *rbTree) walkInorder(n *node, action func(*node)) {
-	if n != nil && n.key != nil && n != tree.tnil {
-		tree.walkInorder(n.left, action)
-		action(n)
-		tree.walkInorder(n.right, action)
+	var stack []*node
+	p := n
+	stack = append(stack, p)
+	for len(stack) > 0 {
+		if !p.isNil() {
+			p = p.left
+		} else {
+			top := len(stack) - 1
+			p = stack[top]
+			action(p)
+			stack = stack[:top]
+			p = p.right
+		}
+
+		if !p.isNil() {
+			stack = append(stack, p)
+		}
 	}
 }
 
@@ -21,7 +35,7 @@ func (tree *rbTree) WalkPostorder(action func(Node)) {
 }
 
 func (tree *rbTree) walkPostorder(n *node, action func(*node)) {
-	if n != nil && n.key != nil && n != tree.tnil {
+	if !n.isNil() {
 		tree.walkPostorder(n.left, action)
 		tree.walkPostorder(n.right, action)
 		action(n)
@@ -34,7 +48,7 @@ func (tree *rbTree) WalkPreorder(action func(Node)) {
 }
 
 func (tree *rbTree) walkPreorder(n *node, action func(*node)) {
-	if n != nil && n.key != nil && n != tree.tnil {
+	if !n.isNil() {
 		action(n)
 		tree.walkPreorder(n.left, action)
 		tree.walkPreorder(n.right, action)
@@ -55,7 +69,7 @@ func (tree *rbTree) Ascend(iterator NodeIterator) {
 // AscendRange calls the iterator for every value in the tree within the range
 // [from, to], until iterator returns false.
 func (tree *rbTree) AscendRange(from, to Comparable, iterator NodeIterator) {
-	if tree.root == nil || tree.root.key == nil || to == nil {
+	if tree.root.isNil() || to == nil {
 		return
 	}
 	curr, ok := tree.search(tree.root, from)
@@ -67,7 +81,7 @@ func (tree *rbTree) AscendRange(from, to Comparable, iterator NodeIterator) {
 func (tree *rbTree) ascend(n *node, to Comparable, iterator NodeIterator) {
 	curr := n
 	ok := true
-	for ok && curr != nil && curr.key != nil && curr != tree.tnil && (curr.key.LessThan(to) || curr.key.EqualTo(to)) {
+	for ok && !curr.isNil() && (curr.key.LessThan(to) || curr.key.EqualTo(to)) {
 		ok = iterator(curr)
 		if ok {
 			curr = tree.successor(curr)
@@ -100,7 +114,7 @@ func (tree *rbTree) DescendRange(from, to Comparable, iterator NodeIterator) {
 func (tree *rbTree) descend(n *node, to Comparable, iterator NodeIterator) {
 	curr := n
 	ok := true
-	for ok && curr != nil && curr.key != nil && curr != tree.tnil && !curr.key.LessThan(to) {
+	for ok && !curr.isNil() && !curr.key.LessThan(to) {
 		ok = iterator(curr)
 		if ok {
 			curr = tree.predecessor(curr)

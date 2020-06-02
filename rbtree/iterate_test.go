@@ -20,6 +20,21 @@ func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 	ass.Equal([]string{"abc", "amd", "cisco", "do", "fake", "intel", "it", "let", "microsoft", "russia", "usa", "xxx", "yyy", "zen"}, result)
 }
 
+func Test_InorderEmptyTree_NothingHappened(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := NewRbTree()
+	var result []string
+
+	// Act
+	tree.WalkInorder(func(n Node) {
+		result = append(result, n.Key().String())
+	})
+
+	// Assert
+	ass.Equal(0, len(result))
+}
+
 func Test_InorderWalkTreeInt_AllElementsAscending(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)

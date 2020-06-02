@@ -20,14 +20,14 @@ func (tree *rbTree) search(n *node, value Comparable) (*node, bool) {
 	}
 	var x *node
 	x = n
-	for x != nil && x.key != nil && x != tree.tnil && !value.EqualTo(x.key) {
+	for !x.isNil() && !value.EqualTo(x.key) {
 		if value.LessThan(x.key) {
 			x = x.left
 		} else {
 			x = x.right
 		}
 	}
-	ok := x != nil && x.key != nil && x != tree.tnil
+	ok := !x.isNil()
 
 	if !ok {
 		return nil, ok
@@ -47,7 +47,7 @@ func (tree *rbTree) Minimum() Node {
 // Minimum gets tree's min element
 func (tree *rbTree) minimum(n *node) *node {
 	x := n
-	for x != nil && x.left != nil && x.left.key != nil && x.left != tree.tnil {
+	for !x.isNil() && !x.left.isNil() {
 		x = x.left
 	}
 	return x
@@ -64,7 +64,7 @@ func (tree *rbTree) Maximum() Node {
 // Maximum gets tree's max element
 func (tree *rbTree) maximum(n *node) *node {
 	x := n
-	for x != nil && x.right != nil && x.right.key != nil && x.right != tree.tnil {
+	for !x.isNil() && !x.right.isNil() {
 		x = x.right
 	}
 	return x
@@ -78,17 +78,17 @@ func (tree *rbTree) Successor(n Node) Node {
 
 func (tree *rbTree) successor(n *node) *node {
 	x := n
-	if x.right != tree.tnil && x.right != nil && x.right.key != nil {
+	if !x.right.isNil() {
 		return tree.minimum(x.right)
 	}
 
 	y := x.parent
-	for y != nil && y.key != nil && y != tree.tnil && x == y.right {
+	for !y.isNil() && x == y.right {
 		x = y
 		y = y.parent
 	}
 
-	if y == nil || y.key == nil || y == tree.tnil {
+	if y.isNil() {
 		return nil
 	}
 
@@ -103,17 +103,17 @@ func (tree *rbTree) Predecessor(n Node) Node {
 
 func (tree *rbTree) predecessor(n *node) *node {
 	x := n
-	if x.left != tree.tnil && x.left != nil && x.left.key != nil {
+	if !x.left.isNil() {
 		return tree.maximum(x.left)
 	}
 
 	y := x.parent
-	for y != nil && y.key != nil && y != tree.tnil && x == y.left {
+	for !y.isNil() && x == y.left {
 		x = y
 		y = y.parent
 	}
 
-	if y == nil || y.key == nil || y == tree.tnil {
+	if y.isNil() {
 		return nil
 	}
 

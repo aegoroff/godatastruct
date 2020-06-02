@@ -126,6 +126,10 @@ func (n *node) Key() Comparable {
 	return n.key
 }
 
+func (n *node) isNil() bool {
+	return n == nil || n.key == nil
+}
+
 // LessThan define Comparable interface member for Int
 func (x Int) LessThan(y interface{}) bool {
 	return x < y.(Int)
