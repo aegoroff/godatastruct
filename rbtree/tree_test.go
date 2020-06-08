@@ -325,7 +325,8 @@ func getTreeAsGraphviz(tree *rbTree) string {
 
 	var id int64
 
-	tree.walkPreorder(tree.root, func(nod *node) {
+	tree.WalkPreorder(func(n Node) {
+		nod := n.(*node)
 		gn := &GraphNode{node: nod, NodeID: id}
 		gr.AddNode(gn)
 		id++
