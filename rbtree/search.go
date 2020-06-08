@@ -14,7 +14,7 @@ func (tree *rbTree) Search(value Comparable) (Node, bool) {
 	return n, ok
 }
 
-func (tree *rbTree) search(n *node, value Comparable) (*node, bool) {
+func (*rbTree) search(n *node, value Comparable) (*node, bool) {
 	if value == nil {
 		return nil, false
 	}
@@ -45,7 +45,7 @@ func (tree *rbTree) Minimum() Node {
 }
 
 // Minimum gets tree's min element
-func (tree *rbTree) minimum(n *node) *node {
+func (*rbTree) minimum(n *node) *node {
 	x := n
 	for !x.isNil() && !x.left.isNil() {
 		x = x.left
@@ -62,7 +62,7 @@ func (tree *rbTree) Maximum() Node {
 }
 
 // Maximum gets tree's max element
-func (tree *rbTree) maximum(n *node) *node {
+func (*rbTree) maximum(n *node) *node {
 	x := n
 	for !x.isNil() && !x.right.isNil() {
 		x = x.right
