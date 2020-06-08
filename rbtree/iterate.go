@@ -29,19 +29,6 @@ func (tree *rbTree) WalkInorder(action func(Node)) {
 	}
 }
 
-// WalkPostorder walks tree postorder (left, right, node)
-func (tree *rbTree) WalkPostorder(action func(Node)) {
-	tree.walkPostorder(tree.root, func(n *node) { action(n) })
-}
-
-func (tree *rbTree) walkPostorder(n *node, action func(*node)) {
-	if !n.isNil() {
-		tree.walkPostorder(n.left, action)
-		tree.walkPostorder(n.right, action)
-		action(n)
-	}
-}
-
 // WalkPreorder walks tree preorder (node, left, right)
 func (tree *rbTree) WalkPreorder(action func(Node)) {
 	n := tree.root
@@ -68,11 +55,16 @@ func (tree *rbTree) WalkPreorder(action func(Node)) {
 	}
 }
 
-func (tree *rbTree) walkPreorder(n *node, action func(*node)) {
+// WalkPostorder walks tree postorder (left, right, node)
+func (tree *rbTree) WalkPostorder(action func(Node)) {
+	tree.walkPostorder(tree.root, func(n *node) { action(n) })
+}
+
+func (tree *rbTree) walkPostorder(n *node, action func(*node)) {
 	if !n.isNil() {
+		tree.walkPostorder(n.left, action)
+		tree.walkPostorder(n.right, action)
 		action(n)
-		tree.walkPreorder(n.left, action)
-		tree.walkPreorder(n.right, action)
 	}
 }
 
