@@ -3,7 +3,7 @@ version: 0.2.{build}
 
 build: false
 
-#clone_folder: c:\gopath\src\godatastruct
+clone_folder: c:\gopath\src\godatastruct
 
 # branches to build
 branches:
@@ -15,13 +15,13 @@ branches:
 skip_tags: true
 
 # environment variables
-#environment:
-#  GOPATH: c:\gopath
+environment:
+  GOPATH: c:\gopath
 
 install:
   - echo %PATH%
   - echo %GOPATH%
- # - set PATH=%GOPATH%\bin;c:\go\bin;C:\msys64\usr\bin;%PATH%
+  - set PATH=%GOPATH%\bin;c:\go\bin;C:\msys64\usr\bin;%PATH%
   - go version
   - go env
   - go get -u "gonum.org/v1/gonum/graph"
@@ -29,8 +29,7 @@ install:
 
 stack: go 1.14
 
-build_cloud: EGOROFF Docker
-image: Linux
+image: Visual Studio 2017
 
 test_script:
   - go test -coverprofile=coverage.txt -covermode=atomic godatastruct/...
