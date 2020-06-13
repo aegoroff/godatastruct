@@ -19,7 +19,7 @@ environment:
   GOPATH: /appveyor/projects/
 
 install:
-  - run export GOPATH=/appveyor/projects/
+  - export GOPATH=/appveyor/projects/
   - go version
   - go env
   - go get -u "gonum.org/v1/gonum/graph"
