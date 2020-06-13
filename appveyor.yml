@@ -29,7 +29,8 @@ install:
 
 stack: go 1.14
 
-image: Visual Studio 2019
+build_cloud: EGOROFF Docker
+image: Ubuntu
 
 test_script:
   - go test -coverprofile=coverage.txt -covermode=atomic godatastruct/...
