@@ -14,16 +14,12 @@ branches:
 # Do not build on tags (GitHub only)
 skip_tags: true
 
-# environment variables
-environment:
-  GOPATH: /appveyor/projects/
-
 install:
   - export GOPATH=/appveyor/projects/
   - go version
   - go env
-  - go get -u "gonum.org/v1/gonum/graph"
-  - go get -u "github.com/stretchr/testify/assert"
+  - sudo go get -u "gonum.org/v1/gonum/graph"
+  - sudo go get -u "github.com/stretchr/testify/assert"
 
 stack: go 1.14
 
