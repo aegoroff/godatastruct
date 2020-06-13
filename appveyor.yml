@@ -16,11 +16,9 @@ skip_tags: true
 
 # environment variables
 environment:
-  GOPATH: /appveyor/projects
+  GOPATH: /appveyor/projects/
 
 install:
-  - echo %PATH%
-  - echo %GOPATH%
   - go version
   - go env
   - go get -u "gonum.org/v1/gonum/graph"
