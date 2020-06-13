@@ -18,8 +18,8 @@ install:
   - export GOPATH=/appveyor/projects/
   - go version
   - go env
-  - sudo go get -u "gonum.org/v1/gonum/graph"
-  - sudo go get -u "github.com/stretchr/testify/assert"
+  - go get -u "gonum.org/v1/gonum/graph"
+  - go get -u "github.com/stretchr/testify/assert"
 
 stack: go 1.14
 
