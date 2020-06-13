@@ -16,7 +16,7 @@ skip_tags: true
 
 install:
   - export GOPATH=/appveyor/projects/
-  - chmod ugo+rwx /appveyor/projects/
+  - sudo chmod ugo+rwx /appveyor/projects/
   - go version
   - go env
   - go get -u "gonum.org/v1/gonum/graph"
