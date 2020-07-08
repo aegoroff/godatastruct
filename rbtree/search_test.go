@@ -157,6 +157,18 @@ func Test_SuccessorOfMax_ReturnNil(t *testing.T) {
 	ass.Nil(s)
 }
 
+func Test_SuccessorOfNil_ReturnNil(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var r *node
+
+	// Act
+	s := r.Successor()
+
+	// Assert
+	ass.Nil(s)
+}
+
 func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
@@ -189,6 +201,18 @@ func Test_PredecessorOfMin_ReturnNil(t *testing.T) {
 	tree := createIntegerTestTree()
 	v := NewInt(2)
 	r, _ := tree.root.search(v)
+
+	// Act
+	p := r.Predecessor()
+
+	// Assert
+	ass.Nil(p)
+}
+
+func Test_PredecessorOfNull_ReturnNil(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var r *node
 
 	// Act
 	p := r.Predecessor()
