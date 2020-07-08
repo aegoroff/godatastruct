@@ -76,10 +76,10 @@ type Node interface {
 	// Key gets node's key
 	Key() Comparable
 
-	// Successor gets node's specified successor
+	// Successor gets node's successor
 	Successor() Node
 
-	// Predecessor gets node's specified predecessor
+	// Predecessor gets node's predecessor
 	Predecessor() Node
 }
 
