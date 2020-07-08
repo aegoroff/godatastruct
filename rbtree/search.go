@@ -7,14 +7,14 @@ func (tree *rbTree) Search(value Comparable) (Node, bool) {
 	if tree.root == nil {
 		return nil, false
 	}
-	n, ok := tree.search(tree.root, value)
+	n, ok := tree.root.search(value)
 	if !ok {
 		return nil, ok
 	}
 	return n, ok
 }
 
-func (*rbTree) search(n *node, value Comparable) (*node, bool) {
+func (n *node) search(value Comparable) (*node, bool) {
 	if value == nil {
 		return nil, false
 	}
@@ -41,11 +41,10 @@ func (tree *rbTree) Minimum() Node {
 	if tree.root == nil {
 		return nil
 	}
-	return tree.minimum(tree.root)
+	return tree.root.minimum()
 }
 
-// Minimum gets tree's min element
-func (*rbTree) minimum(n *node) *node {
+func (n *node) minimum() *node {
 	x := n
 	for !x.isNil() && !x.left.isNil() {
 		x = x.left
@@ -58,11 +57,10 @@ func (tree *rbTree) Maximum() Node {
 	if tree.root == nil {
 		return nil
 	}
-	return tree.maximum(tree.root)
+	return tree.root.maximum()
 }
 
-// Maximum gets tree's max element
-func (*rbTree) maximum(n *node) *node {
+func (n *node) maximum() *node {
 	x := n
 	for !x.isNil() && !x.right.isNil() {
 		x = x.right
@@ -71,15 +69,15 @@ func (*rbTree) maximum(n *node) *node {
 }
 
 // Successor gets node specified successor
-func (tree *rbTree) Successor(n Node) Node {
+func (*rbTree) Successor(n Node) Node {
 	// TODO: think over invalid casting here in case of custom Node implementation
-	return tree.successor(n.(*node))
+	return n.(*node).successor()
 }
 
-func (tree *rbTree) successor(n *node) *node {
+func (n *node) successor() *node {
 	x := n
 	if !x.right.isNil() {
-		return tree.minimum(x.right)
+		return x.right.minimum()
 	}
 
 	y := x.parent
@@ -98,13 +96,13 @@ func (tree *rbTree) successor(n *node) *node {
 // Predecessor gets node specified predecessor
 func (tree *rbTree) Predecessor(n Node) Node {
 	// TODO: think over invalid casting here in case of custom Node implementation
-	return tree.predecessor(n.(*node))
+	return n.(*node).predecessor()
 }
 
-func (tree *rbTree) predecessor(n *node) *node {
+func (n *node) predecessor() *node {
 	x := n
 	if !x.left.isNil() {
-		return tree.maximum(x.left)
+		return x.left.maximum()
 	}
 
 	y := x.parent

@@ -162,14 +162,14 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	tree := createIntTree(nodes)
 
 	n := NewInt(24)
-	found, _ := tree.search(tree.root, n)
+	found, _ := tree.root.search(n)
 
 	// Act
 	tree.delete(found)
 
 	// Assert
 	n = NewInt(28)
-	found, _ = tree.search(tree.root, n)
+	found, _ = tree.root.search(n)
 	ass.Equal(Black, found.color)
 }
 
@@ -189,7 +189,7 @@ func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
 
 	for i := 1; i < nodesCount; i++ {
 		n := NewInt(nodes[i-1])
-		found, _ := tree.search(tree.root, n)
+		found, _ := tree.root.search(n)
 		tree.delete(found)
 	}
 
@@ -353,17 +353,17 @@ func Test_Delete_NodeDeleted(t *testing.T) {
 	ass := assert.New(t)
 	tree := createTestStringTree()
 	n := NewString("intel")
-	found, _ := tree.search(tree.root, n)
+	found, _ := tree.root.search(n)
 
 	// Act
 	tree.delete(found)
 
 	// Assert
-	found, ok := tree.search(tree.root, n)
+	found, ok := tree.root.search(n)
 	ass.False(ok)
 	ass.Nil(found)
 
-	found, ok = tree.search(tree.root, NewString("microsoft"))
+	found, ok = tree.root.search(NewString("microsoft"))
 	ass.True(ok)
 	ass.Equal("microsoft", found.String())
 }
@@ -377,7 +377,7 @@ func Test_DeleteNil_NothingDeleted(t *testing.T) {
 	tree.delete(nil)
 
 	// Assert
-	found, ok := tree.search(tree.root, NewString("microsoft"))
+	found, ok := tree.root.search(NewString("microsoft"))
 	ass.True(ok)
 	ass.Equal("microsoft", found.String())
 }

@@ -110,7 +110,7 @@ func (tree *rbTree) DeleteAllNodes(c Comparable) bool {
 }
 
 func (tree *rbTree) deleteNode(c Comparable) bool {
-	found, ok := tree.search(tree.root, c)
+	found, ok := tree.root.search(c)
 	if ok {
 		tree.delete(found)
 	}
@@ -139,7 +139,7 @@ func (tree *rbTree) delete(z *node) {
 		x = z.left
 		rbTransplant(tree, z, z.left)
 	} else {
-		y := tree.minimum(z.right)
+		y := z.right.minimum()
 		yOriginalColor = y.color
 		x = y.right
 		if y.parent == z {

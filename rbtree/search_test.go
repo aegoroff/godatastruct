@@ -133,7 +133,7 @@ func Test_Successor_ReturnSuccessor(t *testing.T) {
 	}
 	for _, test := range tests {
 		v := NewInt(test.node)
-		r, _ := tree.search(tree.root, v)
+		r, _ := tree.root.search(v)
 
 		// Act
 		s := tree.Successor(r)
@@ -148,7 +148,7 @@ func Test_SuccessorOfMax_ReturnNil(t *testing.T) {
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
 	v := NewInt(20)
-	r, _ := tree.search(tree.root, v)
+	r, _ := tree.root.search(v)
 
 	// Act
 	s := tree.Successor(r)
@@ -173,7 +173,7 @@ func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 	}
 	for _, test := range tests {
 		v := NewInt(test.node)
-		r, _ := tree.search(tree.root, v)
+		r, _ := tree.root.search(v)
 
 		// Act
 		s := tree.Predecessor(r)
@@ -188,7 +188,7 @@ func Test_PredecessorOfMin_ReturnNil(t *testing.T) {
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
 	v := NewInt(2)
-	r, _ := tree.search(tree.root, v)
+	r, _ := tree.root.search(v)
 
 	// Act
 	p := tree.Predecessor(r)
