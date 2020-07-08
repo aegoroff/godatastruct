@@ -61,12 +61,6 @@ type RbTree interface {
 
 	// OrderStatisticSelect gets i element from subtree
 	OrderStatisticSelect(i int64) (Node, bool)
-
-	// Successor gets node's specified successor
-	Successor(Node) Node
-
-	// Predecessor gets node's specified predecessor
-	Predecessor(Node) Node
 }
 
 type rbTree struct {
@@ -81,6 +75,12 @@ type Node interface {
 
 	// Key gets node's key
 	Key() Comparable
+
+	// Successor gets node's specified successor
+	Successor() Node
+
+	// Predecessor gets node's specified predecessor
+	Predecessor() Node
 }
 
 // node represent red-black tree node implementation

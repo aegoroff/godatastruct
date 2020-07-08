@@ -74,8 +74,8 @@ func TestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *t
 
 	// Assert
 	max := topTree.Maximum()
-	pred1 := topTree.Predecessor(max)
-	pred2 := topTree.Predecessor(pred1)
+	pred1 := max.Predecessor()
+	pred2 := pred1.Predecessor()
 
 	ass.Equal(top, topTree.Len())
 	ass.Equal(max.Key().String(), result[0])

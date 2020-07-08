@@ -69,9 +69,8 @@ func (n *node) maximum() *node {
 }
 
 // Successor gets node specified successor
-func (*rbTree) Successor(n Node) Node {
-	// TODO: think over invalid casting here in case of custom Node implementation
-	return n.(*node).successor()
+func (n *node) Successor() Node {
+	return n.successor()
 }
 
 func (n *node) successor() *node {
@@ -94,9 +93,8 @@ func (n *node) successor() *node {
 }
 
 // Predecessor gets node specified predecessor
-func (*rbTree) Predecessor(n Node) Node {
-	// TODO: think over invalid casting here in case of custom Node implementation
-	return n.(*node).predecessor()
+func (n *node) Predecessor() Node {
+	return n.predecessor()
 }
 
 func (n *node) predecessor() *node {
