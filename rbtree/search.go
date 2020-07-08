@@ -94,7 +94,7 @@ func (n *node) successor() *node {
 }
 
 // Predecessor gets node specified predecessor
-func (tree *rbTree) Predecessor(n Node) Node {
+func (*rbTree) Predecessor(n Node) Node {
 	// TODO: think over invalid casting here in case of custom Node implementation
 	return n.(*node).predecessor()
 }
