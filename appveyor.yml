@@ -20,8 +20,6 @@ install:
   - sudo chmod ugo+rwx /appveyor/projects/
   - go version
   - go env
-  - go get -u "gonum.org/v1/gonum/graph"
-  - go get -u "github.com/stretchr/testify/assert"
 
 stack: go 1.14
 
