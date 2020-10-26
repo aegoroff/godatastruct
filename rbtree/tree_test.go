@@ -176,12 +176,14 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	nodes := []int{}
+
 	const nodesCount = 128
 	r := rand.New(rand.NewSource(1000))
 
+	nodes := make([]int, nodesCount-1)
+
 	for i := 1; i < nodesCount; i++ {
-		nodes = append(nodes, r.Int())
+		nodes[i-1] = r.Int()
 	}
 	tree := createIntTree(nodes)
 
