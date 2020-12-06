@@ -68,67 +68,67 @@ func (tree *rbTree) walkPostorder(n *node, action func(*node)) {
 	}
 }
 
-// Ascend calls the iterator for every value in the tree until iterator returns false.
-func (tree *rbTree) Ascend(iterator NodeIterator) {
+// Ascend calls the callback for every value in the tree until callback returns false.
+func (tree *rbTree) Ascend(callback NodeValidator) {
 	max := tree.Maximum()
 	if max == nil {
 		return
 	}
 
 	min := tree.root.minimum()
-	min.ascend(max.Key(), iterator)
+	min.ascend(max.Key(), callback)
 }
 
-// AscendRange calls the iterator for every value in the tree within the range
-// [from, to], until iterator returns false.
-func (tree *rbTree) AscendRange(from, to Comparable, iterator NodeIterator) {
+// AscendRange calls the callback for every value in the tree within the range
+// [from, to], until callback returns false.
+func (tree *rbTree) AscendRange(from, to Comparable, callback NodeValidator) {
 	if tree.root.isNil() || to == nil {
 		return
 	}
 	curr, ok := tree.root.search(from)
 	if ok {
-		curr.ascend(to, iterator)
+		curr.ascend(to, callback)
 	}
 }
 
-func (n *node) ascend(to Comparable, iterator NodeIterator) {
+func (n *node) ascend(to Comparable, callback NodeValidator) {
 	curr := n
 	ok := true
 	for ok && !curr.isNil() && (curr.key.LessThan(to) || curr.key.EqualTo(to)) {
-		ok = iterator(curr)
+		ok = callback(curr)
 		if ok {
 			curr = curr.successor()
 		}
 	}
 }
 
-// Descend calls the iterator for every value in the tree until iterator returns false.
-func (tree *rbTree) Descend(iterator NodeIterator) {
+// Descend calls the callback for every value in the tree until callback returns false.
+func (tree *rbTree) Descend(callback NodeValidator) {
 	min := tree.Minimum()
 	if min == nil {
 		return
 	}
 	max := tree.root.maximum()
-	max.descend(min.Key(), iterator)
+	max.descend(min.Key(), callback)
 }
 
-// DescendRange calls the iterator for every value in the tree within the range
-// [from, to], until iterator returns false.
-func (tree *rbTree) DescendRange(from, to Comparable, iterator NodeIterator) {
+// DescendRange calls the callback for every value in the tree within the range
+// [from, to], until callback returns false.
+func (tree *rbTree) DescendRange(from, to Comparable, callback NodeValidator) {
 	if tree.root == nil || to == nil {
 		return
 	}
 	curr, ok := tree.root.search(from)
 	if ok {
-		curr.descend(to, iterator)
+		curr.descend(to, callback)
 	}
 }
 
-func (n *node) descend(to Comparable, iterator NodeIterator) {
+func (n *node) descend(to Comparable, callback NodeValidator) {
 	curr := n
 	ok := true
 	for ok && !curr.isNil() && !curr.key.LessThan(to) {
-		ok = iterator(curr)
+		ok = callback(curr)
 		if ok {
 			curr = curr.predecessor()
 		}

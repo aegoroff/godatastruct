@@ -36,19 +36,19 @@ type RbTree interface {
 	// WalkPreorder walks tree preorder (node, left, right)
 	WalkPreorder(action func(Node))
 
-	// Ascend calls the iterator for every value in the tree until iterator returns false.
-	Ascend(iterator NodeIterator)
+	// Ascend calls the callback for every value in the tree until callback returns false.
+	Ascend(callback NodeValidator)
 
-	// AscendRange calls the iterator for every value in the tree within the range
-	// [from, to], until iterator returns false.
-	AscendRange(from, to Comparable, iterator NodeIterator)
+	// AscendRange calls the callback for every value in the tree within the range
+	// [from, to], until callback returns false.
+	AscendRange(from, to Comparable, callback NodeValidator)
 
-	// Descend calls the iterator for every value in the tree until iterator returns false.
-	Descend(iterator NodeIterator)
+	// Descend calls the callback for every value in the tree until callback returns false.
+	Descend(callback NodeValidator)
 
-	// DescendRange calls the iterator for every value in the tree within the range
-	// [from, to], until iterator returns false.
-	DescendRange(from, to Comparable, iterator NodeIterator)
+	// DescendRange calls the callback for every value in the tree within the range
+	// [from, to], until callback returns false.
+	DescendRange(from, to Comparable, callback NodeValidator)
 
 	// Search searches value specified within search tree
 	Search(value Comparable) (Node, bool)
@@ -96,10 +96,10 @@ type node struct {
 	right  *node
 }
 
-// NodeIterator allows callers of an iteration method to iterate over portions of
+// NodeValidator defines function prototype that used by an iteration method to iterate over portions of
 // the tree.  When this function returns false, iteration will stop and the
 // associated iteration method function will immediately return.
-type NodeIterator func(Node) bool
+type NodeValidator func(Node) bool
 
 // Comparable defines comparable type interface
 type Comparable interface {
