@@ -59,7 +59,7 @@ func Test_Iterate_Normal(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			// Arrange
 			ass := assert.New(t)
-			result := []Int{}
+			result := make([]Int, 0)
 
 			// Act
 			test.it.Iterate(func(n Node) bool {
