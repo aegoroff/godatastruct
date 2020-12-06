@@ -27,29 +27,6 @@ type RbTree interface {
 	// It returns true if nodes was successfully deleted otherwise false
 	DeleteAllNodes(c Comparable) bool
 
-	// WalkInorder walks tree inorder (left, node, right)
-	WalkInorder(action func(Node))
-
-	// WalkPostorder walks tree postorder (left, right, node)
-	WalkPostorder(action func(Node))
-
-	// WalkPreorder walks tree preorder (node, left, right)
-	WalkPreorder(action func(Node))
-
-	// Ascend calls the callback for every value in the tree until callback returns false.
-	Ascend(callback NodeValidator)
-
-	// AscendRange calls the callback for every value in the tree within the range
-	// [from, to], until callback returns false.
-	AscendRange(from, to Comparable, callback NodeValidator)
-
-	// Descend calls the callback for every value in the tree until callback returns false.
-	Descend(callback NodeValidator)
-
-	// DescendRange calls the callback for every value in the tree within the range
-	// [from, to], until callback returns false.
-	DescendRange(from, to Comparable, callback NodeValidator)
-
 	// Search searches value specified within search tree
 	Search(value Comparable) (Node, bool)
 
@@ -61,6 +38,13 @@ type RbTree interface {
 
 	// OrderStatisticSelect gets i element from subtree
 	OrderStatisticSelect(i int64) (Node, bool)
+}
+
+// Iterator represents tree iteration interface
+type Iterator interface {
+	// Iterate does tree iteration and calls the callback for
+	// every value in the tree until callback returns false.
+	Iterate(callback NodeValidator)
 }
 
 type rbTree struct {

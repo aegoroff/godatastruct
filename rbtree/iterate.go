@@ -2,9 +2,61 @@ package rbtree
 
 // This file contains all RB tree iteration methods implementations
 
-// WalkInorder walks tree inorder (left, node, right)
-func (tree *rbTree) WalkInorder(action func(Node)) {
-	n := tree.root
+type walkInorder struct{ tree *rbTree }
+type walkPreorder struct{ tree *rbTree }
+type walkPostorder struct{ tree *rbTree }
+type ascend struct{ tree *rbTree }
+type ascendRange struct {
+	tree *rbTree
+	from Comparable
+	to   Comparable
+}
+type descend struct{ tree *rbTree }
+type descendRange struct {
+	tree *rbTree
+	from Comparable
+	to   Comparable
+}
+
+// NewWalkInorder walks tree inorder (left, node, right)
+func NewWalkInorder(t RbTree) Iterator { return &walkInorder{tree: t.(*rbTree)} }
+
+// NewWalkPreorder walks tree preorder (node, left, right)
+func NewWalkPreorder(t RbTree) Iterator { return &walkPreorder{tree: t.(*rbTree)} }
+
+// NewWalkPostorder walks tree postorder (left, right, node)
+func NewWalkPostorder(t RbTree) Iterator { return &walkPostorder{tree: t.(*rbTree)} }
+
+// NewAscend calls the callback for every value in the tree until callback returns false.
+func NewAscend(t RbTree) Iterator { return &ascend{tree: t.(*rbTree)} }
+
+// NewAscendRange calls the callback for every value in the tree within the range
+// [from, to], until callback returns false.
+func NewAscendRange(t RbTree, from, to Comparable) Iterator {
+	return &ascendRange{
+		tree: t.(*rbTree),
+		from: from,
+		to:   to,
+	}
+}
+
+// NewDescend calls the callback for every value in the tree until callback returns false.
+func NewDescend(t RbTree) Iterator { return &descend{tree: t.(*rbTree)} }
+
+// NewDescendRange calls the callback for every value in the tree within the range
+// [from, to], until callback returns false.
+func NewDescendRange(t RbTree, from, to Comparable) Iterator {
+	return &descendRange{
+		tree: t.(*rbTree),
+		from: from,
+		to:   to,
+	}
+}
+
+// Iterate does tree iteration and calls the callback for
+// every value in the tree until callback returns false.
+func (i *walkInorder) Iterate(callback NodeValidator) {
+	n := i.tree.root
 	if n.isNil() {
 		return
 	}
@@ -18,7 +70,9 @@ func (tree *rbTree) WalkInorder(action func(Node)) {
 		} else {
 			top := len(stack) - 1
 			p = stack[top]
-			action(p)
+			if !callback(p) {
+				return
+			}
 			stack = stack[:top]
 			p = p.right
 		}
@@ -29,9 +83,10 @@ func (tree *rbTree) WalkInorder(action func(Node)) {
 	}
 }
 
-// WalkPreorder walks tree preorder (node, left, right)
-func (tree *rbTree) WalkPreorder(action func(Node)) {
-	n := tree.root
+// Iterate does tree iteration and calls the callback for
+// every value in the tree until callback returns false.
+func (i *walkPreorder) Iterate(callback NodeValidator) {
+	n := i.tree.root
 	if n.isNil() {
 		return
 	}
@@ -42,7 +97,9 @@ func (tree *rbTree) WalkPreorder(action func(Node)) {
 	for len(stack) > 0 {
 		top := len(stack) - 1
 		p = stack[top]
-		action(p)
+		if !callback(p) {
+			return
+		}
 		stack = stack[:top]
 
 		if !p.right.isNil() {
@@ -55,39 +112,44 @@ func (tree *rbTree) WalkPreorder(action func(Node)) {
 	}
 }
 
-// WalkPostorder walks tree postorder (left, right, node)
-func (tree *rbTree) WalkPostorder(action func(Node)) {
-	tree.walkPostorder(tree.root, func(n *node) { action(n) })
+// Iterate does tree iteration and calls the callback for
+// every value in the tree until callback returns false.
+func (i *walkPostorder) Iterate(callback NodeValidator) {
+	i.tree.walkPostorder(i.tree.root, callback)
 }
 
-func (tree *rbTree) walkPostorder(n *node, action func(*node)) {
+func (tree *rbTree) walkPostorder(n *node, callback NodeValidator) {
 	if !n.isNil() {
-		tree.walkPostorder(n.left, action)
-		tree.walkPostorder(n.right, action)
-		action(n)
+		tree.walkPostorder(n.left, callback)
+		tree.walkPostorder(n.right, callback)
+
+		if !callback(n) {
+			return
+		}
 	}
 }
 
-// Ascend calls the callback for every value in the tree until callback returns false.
-func (tree *rbTree) Ascend(callback NodeValidator) {
-	max := tree.Maximum()
+// Iterate does tree iteration and calls the callback for
+// every value in the tree until callback returns false.
+func (i *ascend) Iterate(callback NodeValidator) {
+	max := i.tree.Maximum()
 	if max == nil {
 		return
 	}
 
-	min := tree.root.minimum()
+	min := i.tree.root.minimum()
 	min.ascend(max.Key(), callback)
 }
 
-// AscendRange calls the callback for every value in the tree within the range
-// [from, to], until callback returns false.
-func (tree *rbTree) AscendRange(from, to Comparable, callback NodeValidator) {
-	if tree.root.isNil() || to == nil {
+// Iterate does tree iteration and calls the callback for
+// every value in the tree until callback returns false.
+func (i *ascendRange) Iterate(callback NodeValidator) {
+	if i.tree.root.isNil() || i.to == nil {
 		return
 	}
-	curr, ok := tree.root.search(from)
+	curr, ok := i.tree.root.search(i.from)
 	if ok {
-		curr.ascend(to, callback)
+		curr.ascend(i.to, callback)
 	}
 }
 
@@ -102,25 +164,26 @@ func (n *node) ascend(to Comparable, callback NodeValidator) {
 	}
 }
 
-// Descend calls the callback for every value in the tree until callback returns false.
-func (tree *rbTree) Descend(callback NodeValidator) {
-	min := tree.Minimum()
+// Iterate does tree iteration and calls the callback for
+// every value in the tree until callback returns false.
+func (i *descend) Iterate(callback NodeValidator) {
+	min := i.tree.Minimum()
 	if min == nil {
 		return
 	}
-	max := tree.root.maximum()
+	max := i.tree.root.maximum()
 	max.descend(min.Key(), callback)
 }
 
-// DescendRange calls the callback for every value in the tree within the range
-// [from, to], until callback returns false.
-func (tree *rbTree) DescendRange(from, to Comparable, callback NodeValidator) {
-	if tree.root == nil || to == nil {
+// Iterate does tree iteration and calls the callback for
+// every value in the tree until callback returns false.
+func (i *descendRange) Iterate(callback NodeValidator) {
+	if i.tree.root == nil || i.to == nil {
 		return
 	}
-	curr, ok := tree.root.search(from)
+	curr, ok := i.tree.root.search(i.from)
 	if ok {
-		curr.descend(to, callback)
+		curr.descend(i.to, callback)
 	}
 }
 

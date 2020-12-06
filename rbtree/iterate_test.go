@@ -10,10 +10,12 @@ func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 	ass := assert.New(t)
 	tree := createTestStringTree()
 	var result []string
+	it := NewWalkInorder(tree)
 
 	// Act
-	tree.WalkInorder(func(n Node) {
+	it.Iterate(func(n Node) bool {
 		result = append(result, n.Key().String())
+		return true
 	})
 
 	// Assert
@@ -25,10 +27,12 @@ func Test_InorderEmptyTree_NothingHappened(t *testing.T) {
 	ass := assert.New(t)
 	tree := NewRbTree()
 	var result []string
+	it := NewWalkInorder(tree)
 
 	// Act
-	tree.WalkInorder(func(n Node) {
+	it.Iterate(func(n Node) bool {
 		result = append(result, n.Key().String())
+		return true
 	})
 
 	// Assert
@@ -40,14 +44,34 @@ func Test_InorderWalkTreeInt_AllElementsAscending(t *testing.T) {
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
 	var result []int
+	it := NewWalkInorder(tree)
 
 	// Act
-	tree.WalkInorder(func(n Node) {
+	it.Iterate(func(n Node) bool {
 		result = append(result, GetInt(n.Key()))
+		return true
 	})
 
 	// Assert
 	ass.Equal([]int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}, result)
+}
+
+func Test_InorderWalkTreeIntIterateBreaking_AllElementsAscending(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := createIntegerTestTree()
+	var result []int
+	it := NewWalkInorder(tree)
+
+	// Act
+	it.Iterate(func(n Node) bool {
+		i := GetInt(n.Key())
+		result = append(result, i)
+		return i <= 9
+	})
+
+	// Assert
+	ass.Equal([]int{2, 3, 4, 6, 7, 9, 13}, result)
 }
 
 func Test_PreorderAllTreeWalkInt_AllElementsAsSpecified(t *testing.T) {
@@ -55,14 +79,34 @@ func Test_PreorderAllTreeWalkInt_AllElementsAsSpecified(t *testing.T) {
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
 	var result []int
+	it := NewWalkPreorder(tree)
 
 	// Act
-	tree.WalkPreorder(func(n Node) {
+	it.Iterate(func(n Node) bool {
 		result = append(result, GetInt(n.Key()))
+		return true
 	})
 
 	// Assert
 	ass.Equal([]int{6, 3, 2, 4, 15, 9, 7, 13, 18, 17, 20}, result)
+}
+
+func Test_PreorderAllTreeWithBreaking_AllElementsAsSpecified(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := createIntegerTestTree()
+	var result []int
+	it := NewWalkPreorder(tree)
+
+	// Act
+	it.Iterate(func(n Node) bool {
+		i := GetInt(n.Key())
+		result = append(result, i)
+		return i <= 9
+	})
+
+	// Assert
+	ass.Equal([]int{6, 3, 2, 4, 15}, result)
 }
 
 func Test_PreorderEmptyTree_NothingHappened(t *testing.T) {
@@ -70,10 +114,12 @@ func Test_PreorderEmptyTree_NothingHappened(t *testing.T) {
 	ass := assert.New(t)
 	tree := NewRbTree()
 	var result []string
+	it := NewWalkPreorder(tree)
 
 	// Act
-	tree.WalkPreorder(func(n Node) {
+	it.Iterate(func(n Node) bool {
 		result = append(result, n.Key().String())
+		return true
 	})
 
 	// Assert
@@ -85,10 +131,30 @@ func Test_PostorderAllTreeWalkInt_AllElementsAsSpecified(t *testing.T) {
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
 	var result []int
+	it := NewWalkPostorder(tree)
 
 	// Act
-	tree.WalkPostorder(func(n Node) {
+	it.Iterate(func(n Node) bool {
 		result = append(result, GetInt(n.Key()))
+		return true
+	})
+
+	// Assert
+	ass.Equal([]int{2, 4, 3, 7, 13, 9, 17, 20, 18, 15, 6}, result)
+}
+
+func Test_PostorderAllTreeWithBreaking_AllElementsAsSpecified(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := createIntegerTestTree()
+	var result []int
+	it := NewWalkPostorder(tree)
+
+	// Act
+	it.Iterate(func(n Node) bool {
+		i := GetInt(n.Key())
+		result = append(result, i)
+		return i <= 6
 	})
 
 	// Assert
@@ -100,10 +166,12 @@ func Test_PostorderEmptyTree_NothingHappened(t *testing.T) {
 	ass := assert.New(t)
 	tree := NewRbTree()
 	var result []string
+	it := NewWalkPostorder(tree)
 
 	// Act
-	tree.WalkPostorder(func(n Node) {
+	it.Iterate(func(n Node) bool {
 		result = append(result, n.Key().String())
+		return true
 	})
 
 	// Assert
@@ -114,6 +182,7 @@ func Test_Ascend(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
+	it := NewAscend(tree)
 
 	var tests = []struct {
 		predicate func(Comparable) bool
@@ -127,7 +196,7 @@ func Test_Ascend(t *testing.T) {
 		result := []Int{}
 
 		// Act
-		tree.Ascend(func(n Node) bool {
+		it.Iterate(func(n Node) bool {
 			c := n.(*node).key
 			result = append(result, c.(Int))
 			return test.predicate(c)
@@ -143,9 +212,10 @@ func Test_AscendEmptyTree(t *testing.T) {
 	ass := assert.New(t)
 	tree := NewRbTree()
 	result := []Int{}
+	it := NewAscend(tree)
 
 	// Act
-	tree.Ascend(func(n Node) bool {
+	it.Iterate(func(n Node) bool {
 		result = append(result, n.Key().(Int))
 		return true
 	})
@@ -176,9 +246,10 @@ func Test_AscendRange(t *testing.T) {
 		result := []Int{}
 		from := NewInt(test.from)
 		to := NewInt(test.to)
+		it := NewAscendRange(tree, from, to)
 
 		// Act
-		tree.AscendRange(from, to, func(n Node) bool {
+		it.Iterate(func(n Node) bool {
 			result = append(result, n.Key().(Int))
 			return true
 		})
@@ -203,9 +274,10 @@ func Test_AscendRangeNilTests(t *testing.T) {
 	}
 	for _, test := range tests {
 		result := []Int{}
+		it := NewAscendRange(tree, test.from, test.to)
 
 		// Act
-		tree.AscendRange(test.from, test.to, func(n Node) bool {
+		it.Iterate(func(n Node) bool {
 			result = append(result, n.Key().(Int))
 			return true
 		})
@@ -219,6 +291,7 @@ func Test_Descend(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
+	it := NewDescend(tree)
 
 	var tests = []struct {
 		predicate func(Comparable) bool
@@ -232,7 +305,7 @@ func Test_Descend(t *testing.T) {
 		result := []Int{}
 
 		// Act
-		tree.Descend(func(n Node) bool {
+		it.Iterate(func(n Node) bool {
 			result = append(result, n.Key().(Int))
 			return test.predicate(n.Key())
 		})
@@ -247,9 +320,10 @@ func Test_DescendEmptyTree(t *testing.T) {
 	ass := assert.New(t)
 	tree := NewRbTree()
 	result := []Int{}
+	it := NewDescend(tree)
 
 	// Act
-	tree.Descend(func(n Node) bool {
+	it.Iterate(func(n Node) bool {
 		result = append(result, n.Key().(Int))
 		return true
 	})
@@ -280,9 +354,10 @@ func Test_DescendRange(t *testing.T) {
 		result := []Int{}
 		from := NewInt(test.from)
 		to := NewInt(test.to)
+		it := NewDescendRange(tree, from, to)
 
 		// Act
-		tree.DescendRange(from, to, func(n Node) bool {
+		it.Iterate(func(n Node) bool {
 			result = append(result, n.Key().(Int))
 			return true
 		})
@@ -307,9 +382,10 @@ func Test_DescendRangeNilTests(t *testing.T) {
 	}
 	for _, test := range tests {
 		result := []Int{}
+		it := NewDescendRange(tree, test.from, test.to)
 
 		// Act
-		tree.DescendRange(test.from, test.to, func(n Node) bool {
+		it.Iterate(func(n Node) bool {
 			result = append(result, n.Key().(Int))
 			return true
 		})
