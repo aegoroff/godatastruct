@@ -1,0 +1,11 @@
+env:
+  - GO111MODULE=on
+
+snapshot:
+  name_template: "{{ .Tag }}"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
