@@ -1,5 +1,5 @@
 ﻿# version format
-version: 0.4.2.{build}
+version: 0.4.3.{build}
 
 build: false
 
