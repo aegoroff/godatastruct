@@ -27,7 +27,7 @@ build_cloud: EGOROFF Docker
 image: Ubuntu
 
 test_script:
-  - go test -coverprofile=coverage.txt -covermode=atomic godatastruct/...
+  - go test -coverprofile=coverage.txt -covermode=atomic ./...
 
 after_test:
   - ps: |
