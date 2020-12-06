@@ -52,8 +52,8 @@ func Test_Iterate_Normal(t *testing.T) {
 		{"preorder normal", NewWalkPreorder(tree), allTrue, []Int{6, 3, 2, 4, 15, 9, 7, 13, 18, 17, 20}},
 		{"preorder with breaking", NewWalkPreorder(tree), func(c Comparable) bool { return GetInt(c) <= 9 }, []Int{6, 3, 2, 4, 15}},
 		{"postorder normal", NewWalkPostorder(tree), allTrue, []Int{2, 4, 3, 7, 13, 9, 17, 20, 18, 15, 6}},
-		{"postorder with breaking", NewWalkPostorder(tree), func(c Comparable) bool { return GetInt(c) <= 6 }, []Int{2, 4, 3, 7, 13, 9, 17, 20, 18, 15, 6}},
-		{"postorder with breaking immediately", NewWalkPostorder(tree), allFalse, []Int{2, 4, 3, 7, 13, 9, 17, 20, 18, 15, 6}},
+		{"postorder with breaking", NewWalkPostorder(tree), func(c Comparable) bool { return GetInt(c) <= 6 }, []Int{2, 4, 3, 7}},
+		{"postorder with breaking immediately", NewWalkPostorder(tree), allFalse, []Int{2}},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {

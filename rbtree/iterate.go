@@ -113,16 +113,32 @@ func (i *walkPreorder) Iterate(callback NodeEvaluator) {
 // Iterate does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
 func (i *walkPostorder) Iterate(callback NodeEvaluator) {
-	i.tree.walkPostorder(i.tree.root, callback)
-}
+	n := i.tree.root
+	if n.isNil() {
+		return
+	}
+	var stack []*node
+	p := n
 
-func (tree *rbTree) walkPostorder(n *node, callback NodeEvaluator) {
-	if !n.isNil() {
-		tree.walkPostorder(n.left, callback)
-		tree.walkPostorder(n.right, callback)
+	var lp *node
+	var peekn *node
 
-		if !callback(n) {
-			return
+	for len(stack) > 0 || !p.isNil() {
+		if !p.isNil() {
+			stack = append(stack, p)
+			p = p.left
+		} else {
+			top := len(stack) - 1
+			peekn = stack[top]
+			if !peekn.right.isNil() && lp != nil && !lp.Key().EqualTo(peekn.right.Key()) {
+				p = peekn.right
+			} else {
+				stack = stack[:top]
+				if !callback(peekn) {
+					return
+				}
+				lp = peekn
+			}
 		}
 	}
 }
