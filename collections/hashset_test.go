@@ -352,7 +352,7 @@ func TestStringHashSet_ItemsDecorated_ResultAsSpecified(t *testing.T) {
 	}
 }
 
-func ExampleIntHashSet_Contains() {
+func ExampleStringHashSet_Contains() {
 	var set = make(StringHashSet)
 	set.Add("1")
 	fmt.Println(set.Contains("1"))
