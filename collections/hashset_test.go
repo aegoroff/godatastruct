@@ -346,27 +346,30 @@ func TestStringHashSet_Items_ResultAsSpecified(t *testing.T) {
 func TestStringHashSet_ItemsDecorated_ResultAsSpecified(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
+	items := []string{"a", "b"}
 
 	var tests = []struct {
-		items     []string
+		name      string
 		decorator func(s string) string
 		result    []string
 	}{
-		{[]string{"a"}, func(s string) string { return s }, []string{"a"}},
-		{[]string{"a", "b"}, func(s string) string { return strings.ToUpper(s) }, []string{"A", "B"}},
+		{"pass through", func(s string) string { return s }, []string{"a", "b"}},
+		{"transform", func(s string) string { return strings.ToUpper(s) }, []string{"A", "B"}},
 	}
 
 	for _, tt := range tests {
-		var set = make(StringHashSet)
-		for _, i := range tt.items {
-			set.Add(i)
-		}
+		t.Run(tt.name, func(t *testing.T) {
+			var set = make(StringHashSet)
+			for _, i := range items {
+				set.Add(i)
+			}
 
-		// Act
-		items := set.ItemsDecorated(tt.decorator)
+			// Act
+			items := set.ItemsDecorated(tt.decorator)
 
-		// Assert
-		ass.ElementsMatch(tt.result, items)
+			// Assert
+			ass.ElementsMatch(tt.result, items)
+		})
 	}
 }
 
