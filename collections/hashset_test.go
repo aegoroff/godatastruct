@@ -65,25 +65,28 @@ func TestIntHashSet_Count_ResultAsSpecified(t *testing.T) {
 	ass := assert.New(t)
 
 	var tests = []struct {
+		name  string
 		items []int
 		count int
 	}{
-		{[]int{1}, 1},
-		{[]int{}, 0},
-		{[]int{1, 2}, 2},
+		{"one", []int{1}, 1},
+		{"empty", []int{}, 0},
+		{"many", []int{1, 2}, 2},
 	}
 
 	for _, tt := range tests {
-		var set = make(IntHashSet)
-		for _, i := range tt.items {
-			set.Add(i)
-		}
+		t.Run(tt.name, func(t *testing.T) {
+			var set = make(IntHashSet)
+			for _, i := range tt.items {
+				set.Add(i)
+			}
 
-		// Act
-		count := set.Count()
+			// Act
+			count := set.Count()
 
-		// Assert
-		ass.Equal(tt.count, count)
+			// Assert
+			ass.Equal(tt.count, count)
+		})
 	}
 }
 
@@ -92,24 +95,27 @@ func TestIntHashSet_Items_ResultAsSpecified(t *testing.T) {
 	ass := assert.New(t)
 
 	var tests = []struct {
+		name  string
 		items []int
 	}{
-		{[]int{1}},
-		{[]int{}},
-		{[]int{3, 1}},
+		{"one", []int{1}},
+		{"empty", []int{}},
+		{"many", []int{3, 1}},
 	}
 
 	for _, tt := range tests {
-		var set = make(IntHashSet)
-		for _, i := range tt.items {
-			set.Add(i)
-		}
+		t.Run(tt.name, func(t *testing.T) {
+			var set = make(IntHashSet)
+			for _, i := range tt.items {
+				set.Add(i)
+			}
 
-		// Act
-		items := set.Items()
+			// Act
+			items := set.Items()
 
-		// Assert
-		ass.ElementsMatch(tt.items, items)
+			// Assert
+			ass.ElementsMatch(tt.items, items)
+		})
 	}
 }
 
@@ -171,25 +177,28 @@ func TestInt64HashSet_Count_ResultAsSpecified(t *testing.T) {
 	ass := assert.New(t)
 
 	var tests = []struct {
+		name  string
 		items []int64
 		count int
 	}{
-		{[]int64{1}, 1},
-		{[]int64{}, 0},
-		{[]int64{1, 2}, 2},
+		{"one", []int64{1}, 1},
+		{"empty", []int64{}, 0},
+		{"many", []int64{1, 2}, 2},
 	}
 
 	for _, tt := range tests {
-		var set = make(Int64HashSet)
-		for _, i := range tt.items {
-			set.Add(i)
-		}
+		t.Run(tt.name, func(t *testing.T) {
+			var set = make(Int64HashSet)
+			for _, i := range tt.items {
+				set.Add(i)
+			}
 
-		// Act
-		count := set.Count()
+			// Act
+			count := set.Count()
 
-		// Assert
-		ass.Equal(tt.count, count)
+			// Assert
+			ass.Equal(tt.count, count)
+		})
 	}
 }
 
@@ -198,24 +207,27 @@ func TestInt64HashSet_Items_ResultAsSpecified(t *testing.T) {
 	ass := assert.New(t)
 
 	var tests = []struct {
+		name  string
 		items []int64
 	}{
-		{[]int64{1}},
-		{[]int64{}},
-		{[]int64{3, 1}},
+		{"one", []int64{1}},
+		{"empty", []int64{}},
+		{"many", []int64{3, 1}},
 	}
 
 	for _, tt := range tests {
-		var set = make(Int64HashSet)
-		for _, i := range tt.items {
-			set.Add(i)
-		}
+		t.Run(tt.name, func(t *testing.T) {
+			var set = make(Int64HashSet)
+			for _, i := range tt.items {
+				set.Add(i)
+			}
 
-		// Act
-		items := set.Items()
+			// Act
+			items := set.Items()
 
-		// Assert
-		ass.ElementsMatch(tt.items, items)
+			// Assert
+			ass.ElementsMatch(tt.items, items)
+		})
 	}
 }
 
@@ -277,25 +289,28 @@ func TestStringHashSet_Count_ResultAsSpecified(t *testing.T) {
 	ass := assert.New(t)
 
 	var tests = []struct {
+		name  string
 		items []string
 		count int
 	}{
-		{[]string{"1"}, 1},
-		{[]string{}, 0},
-		{[]string{"1", "2"}, 2},
+		{"one", []string{"1"}, 1},
+		{"empty", []string{}, 0},
+		{"many", []string{"1", "2"}, 2},
 	}
 
 	for _, tt := range tests {
-		var set = make(StringHashSet)
-		for _, i := range tt.items {
-			set.Add(i)
-		}
+		t.Run(tt.name, func(t *testing.T) {
+			var set = make(StringHashSet)
+			for _, i := range tt.items {
+				set.Add(i)
+			}
 
-		// Act
-		count := set.Count()
+			// Act
+			count := set.Count()
 
-		// Assert
-		ass.Equal(tt.count, count)
+			// Assert
+			ass.Equal(tt.count, count)
+		})
 	}
 }
 
@@ -304,24 +319,27 @@ func TestStringHashSet_Items_ResultAsSpecified(t *testing.T) {
 	ass := assert.New(t)
 
 	var tests = []struct {
+		name  string
 		items []string
 	}{
-		{[]string{"1"}},
-		{[]string{}},
-		{[]string{"3", "1"}},
+		{"one", []string{"1"}},
+		{"empty", []string{}},
+		{"many", []string{"3", "1"}},
 	}
 
 	for _, tt := range tests {
-		var set = make(StringHashSet)
-		for _, i := range tt.items {
-			set.Add(i)
-		}
+		t.Run(tt.name, func(t *testing.T) {
+			var set = make(StringHashSet)
+			for _, i := range tt.items {
+				set.Add(i)
+			}
 
-		// Act
-		items := set.Items()
+			// Act
+			items := set.Items()
 
-		// Assert
-		ass.ElementsMatch(tt.items, items)
+			// Assert
+			ass.ElementsMatch(tt.items, items)
+		})
 	}
 }
 
