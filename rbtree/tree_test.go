@@ -568,3 +568,19 @@ func ExampleNewRbTree() {
 	// <nil>
 	// false
 }
+
+func ExampleRbTree_OrderStatisticSelect() {
+	tree := NewRbTree()
+
+	tree.Insert(NewInt(6))
+	tree.Insert(NewInt(18))
+	tree.Insert(NewInt(3))
+
+	found, ok := tree.OrderStatisticSelect(2)
+	fmt.Println(found)
+	fmt.Println(ok)
+
+	// Output
+	// 6
+	// true
+}

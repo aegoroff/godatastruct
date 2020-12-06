@@ -37,6 +37,7 @@ type RbTree interface {
 	Maximum() Node
 
 	// OrderStatisticSelect gets i element from subtree
+	// IMPORTANT: numeration starts from 1 not from 0
 	OrderStatisticSelect(i int64) (Node, bool)
 }
 

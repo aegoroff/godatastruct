@@ -123,6 +123,7 @@ func (n *node) predecessor() *node {
 }
 
 // OrderStatisticSelect gets i element from subtree
+// IMPORTANT: numeration starts from 1 not from 0
 func (tree *rbTree) OrderStatisticSelect(i int64) (Node, bool) {
 	if tree.root == nil {
 		return nil, false
