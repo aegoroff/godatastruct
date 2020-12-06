@@ -45,13 +45,13 @@ type RbTree interface {
 type Iterator interface {
 	// Iterate does tree iteration and calls the callback for
 	// every value in the tree until callback returns false.
-	Iterate(callback NodeValidator)
+	Iterate(callback NodeEvaluator)
 }
 
-// NodeValidator defines function prototype that used by an iteration method to iterate over portions of
+// NodeEvaluator defines function prototype that used by an iteration method to iterate over portions of
 // the tree.  When this function returns false, iteration will stop and the
 // associated iteration method function will immediately return.
-type NodeValidator func(Node) bool
+type NodeEvaluator func(Node) bool
 
 type rbTree struct {
 	root *node

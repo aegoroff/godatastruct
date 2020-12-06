@@ -53,7 +53,7 @@ func NewDescendRange(t RbTree, from, to Comparable) Iterator {
 
 // Iterate does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
-func (i *walkInorder) Iterate(callback NodeValidator) {
+func (i *walkInorder) Iterate(callback NodeEvaluator) {
 	n := i.tree.root
 	if n.isNil() {
 		return
@@ -83,7 +83,7 @@ func (i *walkInorder) Iterate(callback NodeValidator) {
 
 // Iterate does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
-func (i *walkPreorder) Iterate(callback NodeValidator) {
+func (i *walkPreorder) Iterate(callback NodeEvaluator) {
 	n := i.tree.root
 	if n.isNil() {
 		return
@@ -112,11 +112,11 @@ func (i *walkPreorder) Iterate(callback NodeValidator) {
 
 // Iterate does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
-func (i *walkPostorder) Iterate(callback NodeValidator) {
+func (i *walkPostorder) Iterate(callback NodeEvaluator) {
 	i.tree.walkPostorder(i.tree.root, callback)
 }
 
-func (tree *rbTree) walkPostorder(n *node, callback NodeValidator) {
+func (tree *rbTree) walkPostorder(n *node, callback NodeEvaluator) {
 	if !n.isNil() {
 		tree.walkPostorder(n.left, callback)
 		tree.walkPostorder(n.right, callback)
@@ -129,7 +129,7 @@ func (tree *rbTree) walkPostorder(n *node, callback NodeValidator) {
 
 // Iterate does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
-func (i *ascend) Iterate(callback NodeValidator) {
+func (i *ascend) Iterate(callback NodeEvaluator) {
 	max := i.tree.Maximum()
 	if max == nil {
 		return
@@ -141,7 +141,7 @@ func (i *ascend) Iterate(callback NodeValidator) {
 
 // Iterate does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
-func (i *ascendRange) Iterate(callback NodeValidator) {
+func (i *ascendRange) Iterate(callback NodeEvaluator) {
 	if i.tree.root.isNil() || i.to == nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (i *ascendRange) Iterate(callback NodeValidator) {
 	}
 }
 
-func (n *node) ascend(to Comparable, callback NodeValidator) {
+func (n *node) ascend(to Comparable, callback NodeEvaluator) {
 	curr := n
 	ok := true
 	for ok && !curr.isNil() && (curr.key.LessThan(to) || curr.key.EqualTo(to)) {
@@ -164,7 +164,7 @@ func (n *node) ascend(to Comparable, callback NodeValidator) {
 
 // Iterate does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
-func (i *descend) Iterate(callback NodeValidator) {
+func (i *descend) Iterate(callback NodeEvaluator) {
 	min := i.tree.Minimum()
 	if min == nil {
 		return
@@ -175,7 +175,7 @@ func (i *descend) Iterate(callback NodeValidator) {
 
 // Iterate does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
-func (i *descendRange) Iterate(callback NodeValidator) {
+func (i *descendRange) Iterate(callback NodeEvaluator) {
 	if i.tree.root == nil || i.to == nil {
 		return
 	}
@@ -185,7 +185,7 @@ func (i *descendRange) Iterate(callback NodeValidator) {
 	}
 }
 
-func (n *node) descend(to Comparable, callback NodeValidator) {
+func (n *node) descend(to Comparable, callback NodeEvaluator) {
 	curr := n
 	ok := true
 	for ok && !curr.isNil() && !curr.key.LessThan(to) {
