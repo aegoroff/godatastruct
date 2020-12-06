@@ -20,7 +20,7 @@ func Test_RestrictedSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testin
 		nodes = append(nodes, i)
 	}
 	tree := createIntTree(nodes)
-	descIt := NewDescend(tree)
+	descIt := NewDescend(topTree)
 	it := NewWalkInorder(tree)
 	top := int64(5)
 
@@ -58,7 +58,7 @@ func TestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *t
 		nodes = append(nodes, randomString(l))
 	}
 	tree := NewRbTree()
-	descIt := NewDescend(tree)
+	descIt := NewDescend(topTree)
 	it := NewWalkInorder(tree)
 	for _, n := range nodes {
 		c := NewString(n)
