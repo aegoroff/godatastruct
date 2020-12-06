@@ -6,6 +6,9 @@ type StringHashSet map[string]interface{}
 // IntHashSet defines integers hash set
 type IntHashSet map[int]interface{}
 
+// Int64HashSet defines large integers hash set
+type Int64HashSet map[int64]interface{}
+
 // Count gets the number of items in the set
 func (s *StringHashSet) Count() int {
 	return len(*s)
@@ -62,5 +65,30 @@ func (s *IntHashSet) Contains(key int) bool {
 
 // Add adds new item into the set
 func (s *IntHashSet) Add(key int) {
+	(*s)[key] = nil
+}
+
+// Count gets the number of items in the set
+func (s *Int64HashSet) Count() int {
+	return len(*s)
+}
+
+// Items gets all set's items
+func (s *Int64HashSet) Items() []int64 {
+	keys := make([]int64, 0, len(*s))
+	for k := range *s {
+		keys = append(keys, k)
+	}
+	return keys
+}
+
+// Contains gets whether a key is presented within the set
+func (s *Int64HashSet) Contains(key int64) bool {
+	_, ok := (*s)[key]
+	return ok
+}
+
+// Add adds new item into the set
+func (s *Int64HashSet) Add(key int64) {
 	(*s)[key] = nil
 }

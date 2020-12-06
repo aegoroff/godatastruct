@@ -113,6 +113,112 @@ func TestIntHashSet_Items_ResultAsSpecified(t *testing.T) {
 	}
 }
 
+// Int64HashSet
+
+func TestInt64HashSet_EmptySet_NoKey(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var set = make(Int64HashSet)
+
+	// Act
+
+	// Assert
+	_, ok := set[1]
+	ass.False(ok)
+}
+
+func TestInt64HashSet_AddItem_ItemAdded(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var set = make(Int64HashSet)
+
+	// Act
+	set.Add(1)
+
+	// Assert
+	_, ok := set[1]
+	ass.True(ok)
+}
+
+func TestInt64HashSet_Contains_ResultTrue(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var set = make(Int64HashSet)
+	set.Add(1)
+
+	// Act
+	ok := set.Contains(1)
+
+	// Assert
+	ass.True(ok)
+}
+
+func TestInt64HashSet_ContainsUnexistKey_ResultFalse(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var set = make(Int64HashSet)
+	set.Add(1)
+
+	// Act
+	ok := set.Contains(2)
+
+	// Assert
+	ass.False(ok)
+}
+
+func TestInt64HashSet_Count_ResultAsSpecified(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+
+	var tests = []struct {
+		items []int64
+		count int
+	}{
+		{[]int64{1}, 1},
+		{[]int64{}, 0},
+		{[]int64{1, 2}, 2},
+	}
+
+	for _, tt := range tests {
+		var set = make(Int64HashSet)
+		for _, i := range tt.items {
+			set.Add(i)
+		}
+
+		// Act
+		count := set.Count()
+
+		// Assert
+		ass.Equal(tt.count, count)
+	}
+}
+
+func TestInt64HashSet_Items_ResultAsSpecified(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+
+	var tests = []struct {
+		items []int64
+	}{
+		{[]int64{1}},
+		{[]int64{}},
+		{[]int64{3, 1}},
+	}
+
+	for _, tt := range tests {
+		var set = make(Int64HashSet)
+		for _, i := range tt.items {
+			set.Add(i)
+		}
+
+		// Act
+		items := set.Items()
+
+		// Assert
+		ass.ElementsMatch(tt.items, items)
+	}
+}
+
 // StringHashSet
 
 func TestStringHashSet_EmptySet_NoKey(t *testing.T) {
