@@ -96,7 +96,7 @@ type node struct {
 	right  *node
 }
 
-// NodeIterator allows callers of an iteration method to iterate in-order over portions of
+// NodeIterator allows callers of an iteration method to iterate over portions of
 // the tree.  When this function returns false, iteration will stop and the
 // associated iteration method function will immediately return.
 type NodeIterator func(Node) bool
