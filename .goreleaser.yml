@@ -1,5 +1,17 @@
 env:
   - GO111MODULE=on
+before:
+  hooks:
+    - go mod download
+builds:
+  - id: "x64"
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+    skip: true
 
 snapshot:
   name_template: "{{ .Tag }}"
