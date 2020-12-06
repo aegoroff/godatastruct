@@ -30,7 +30,7 @@ func NewWalkPostorder(t RbTree) Iterator { return &walkPostorder{tree: t.(*rbTre
 // NewAscend creates Iterator that walks tree in ascending order
 func NewAscend(t RbTree) Iterator { return &ascend{tree: t.(*rbTree)} }
 
-// NewAscend creates Iterator that walks tree in ascending order within the range [from, to]
+// NewAscendRange creates Iterator that walks tree in ascending order within the range [from, to]
 func NewAscendRange(t RbTree, from, to Comparable) Iterator {
 	return &ascendRange{
 		tree: t.(*rbTree),
