@@ -1,7 +1,7 @@
 ﻿# version format
 version: 0.6.0.{build}
 
-image: Ubuntu
+image: Ubuntu2004
 
 build: false
 
