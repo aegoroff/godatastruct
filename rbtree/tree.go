@@ -96,9 +96,9 @@ type node struct {
 	right  *node
 }
 
-// NodeIterator allows callers of Ascend* to iterate in-order over portions of
+// NodeIterator allows callers of an iteration method to iterate in-order over portions of
 // the tree.  When this function returns false, iteration will stop and the
-// associated Ascend* function will immediately return.
+// associated iteration method function will immediately return.
 type NodeIterator func(Node) bool
 
 // Comparable defines comparable type interface
