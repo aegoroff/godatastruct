@@ -540,3 +540,27 @@ func createStringTree(nodes []string) *rbTree {
 	}
 	return tree
 }
+
+func ExampleNewRbTree() {
+	tree := NewRbTree()
+	node := NewString("a")
+	tree.Insert(node)
+
+	size := tree.Len()
+	fmt.Println(size)
+
+	n, ok := tree.Search(node)
+	fmt.Println(n)
+	fmt.Println(ok)
+
+	n, ok = tree.Search(NewString("b"))
+	fmt.Println(n)
+	fmt.Println(ok)
+
+	// Output
+	// 1
+	// a
+	// true
+	// <nil>
+	// false
+}

@@ -361,3 +361,19 @@ func ExampleStringHashSet_Contains() {
 	// true
 	// false
 }
+
+func ExampleStringHashSet_ItemsDecorated() {
+	var set = make(StringHashSet)
+	set.Add("a")
+	set.Add("b")
+
+	itemsOriginal := set.ItemsDecorated(func(s string) string { return s })
+	itemsUpperCased := set.ItemsDecorated(func(s string) string { return strings.ToUpper(s) })
+
+	fmt.Println(itemsOriginal)
+	fmt.Println(itemsUpperCased)
+
+	// Output
+	// [a b]
+	// [A B]
+}
