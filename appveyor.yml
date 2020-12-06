@@ -21,9 +21,8 @@ install:
   - go version
   - go env
 
-stack: go 1.14
+stack: go 1.15
 
-build_cloud: EGOROFF Docker
 image: Ubuntu
 
 test_script:
