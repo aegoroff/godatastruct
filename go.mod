@@ -1,4 +1,4 @@
-module godatastruct
+module github.com/aegoroff/godatastruct
 
 go 1.12
 
