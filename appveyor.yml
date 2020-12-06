@@ -1,6 +1,8 @@
 ﻿# version format
 version: 0.6.0.{build}
 
+image: Ubuntu
+
 build: false
 
 clone_folder: /appveyor/projects/src/godatastruct
@@ -22,8 +24,6 @@ install:
   - go env
 
 stack: go 1.15
-
-image: Ubuntu
 
 test_script:
   - go test -coverprofile=coverage.txt -covermode=atomic ./...
