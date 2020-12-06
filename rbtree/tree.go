@@ -47,6 +47,11 @@ type Iterator interface {
 	Iterate(callback NodeValidator)
 }
 
+// NodeValidator defines function prototype that used by an iteration method to iterate over portions of
+// the tree.  When this function returns false, iteration will stop and the
+// associated iteration method function will immediately return.
+type NodeValidator func(Node) bool
+
 type rbTree struct {
 	root *node
 	tnil *node
@@ -79,11 +84,6 @@ type node struct {
 	left   *node
 	right  *node
 }
-
-// NodeValidator defines function prototype that used by an iteration method to iterate over portions of
-// the tree.  When this function returns false, iteration will stop and the
-// associated iteration method function will immediately return.
-type NodeValidator func(Node) bool
 
 // Comparable defines comparable type interface
 type Comparable interface {

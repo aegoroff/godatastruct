@@ -18,20 +18,19 @@ type descendRange struct {
 	to   Comparable
 }
 
-// NewWalkInorder walks tree inorder (left, node, right)
+// NewWalkInorder creates Iterator that walks tree inorder (left, node, right)
 func NewWalkInorder(t RbTree) Iterator { return &walkInorder{tree: t.(*rbTree)} }
 
-// NewWalkPreorder walks tree preorder (node, left, right)
+// NewWalkPreorder creates Iterator that walks tree preorder (node, left, right)
 func NewWalkPreorder(t RbTree) Iterator { return &walkPreorder{tree: t.(*rbTree)} }
 
-// NewWalkPostorder walks tree postorder (left, right, node)
+// NewWalkPostorder creates Iterator that walks tree postorder (left, right, node)
 func NewWalkPostorder(t RbTree) Iterator { return &walkPostorder{tree: t.(*rbTree)} }
 
-// NewAscend calls the callback for every value in the tree until callback returns false.
+// NewAscend creates Iterator that walks tree in ascending order
 func NewAscend(t RbTree) Iterator { return &ascend{tree: t.(*rbTree)} }
 
-// NewAscendRange calls the callback for every value in the tree within the range
-// [from, to], until callback returns false.
+// NewAscend creates Iterator that walks tree in ascending order within the range [from, to]
 func NewAscendRange(t RbTree, from, to Comparable) Iterator {
 	return &ascendRange{
 		tree: t.(*rbTree),
@@ -40,11 +39,10 @@ func NewAscendRange(t RbTree, from, to Comparable) Iterator {
 	}
 }
 
-// NewDescend calls the callback for every value in the tree until callback returns false.
+// NewDescend creates Iterator that walks tree in descending order
 func NewDescend(t RbTree) Iterator { return &descend{tree: t.(*rbTree)} }
 
-// NewDescendRange calls the callback for every value in the tree within the range
-// [from, to], until callback returns false.
+// NewDescendRange that walks tree in descending order within the range [from, to]
 func NewDescendRange(t RbTree, from, to Comparable) Iterator {
 	return &descendRange{
 		tree: t.(*rbTree),
