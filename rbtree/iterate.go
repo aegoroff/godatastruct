@@ -117,27 +117,27 @@ func (i *walkPostorder) Iterate(callback NodeEvaluator) {
 	if n.isNil() {
 		return
 	}
+
 	var stack []*node
 	p := n
+	stack = append(stack, p)
 
-	var lp *node
-	var peekn *node
+	for len(stack) > 0 {
+		top := len(stack) - 1
+		next := stack[top]
 
-	for len(stack) > 0 || !p.isNil() {
-		if !p.isNil() {
-			stack = append(stack, p)
-			p = p.left
+		if next.right == p || next.left == p || (next.right.isNil() && next.left.isNil()) {
+			stack = stack[:top]
+			if !callback(next) {
+				return
+			}
+			p = next
 		} else {
-			top := len(stack) - 1
-			peekn = stack[top]
-			if !peekn.right.isNil() && lp != nil && !lp.Key().EqualTo(peekn.right.Key()) {
-				p = peekn.right
-			} else {
-				stack = stack[:top]
-				if !callback(peekn) {
-					return
-				}
-				lp = peekn
+			if !next.right.isNil() {
+				stack = append(stack, next.right)
+			}
+			if !next.left.isNil() {
+				stack = append(stack, next.left)
 			}
 		}
 	}
