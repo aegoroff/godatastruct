@@ -24,7 +24,7 @@ func Test_RestrictedSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testin
 
 	// Act
 	NewWalkInorder(tree).Foreach(func(n Node) bool {
-		insertTo(topTree, top, n)
+		insertTo(topTree, top, n.Key())
 		return true
 	})
 
@@ -65,7 +65,7 @@ func TestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *t
 
 	// Act
 	NewWalkInorder(tree).Foreach(func(n Node) bool {
-		insertTo(topTree, top, n)
+		insertTo(topTree, top, n.Key())
 		return true
 	})
 
@@ -108,8 +108,8 @@ func insertTo(tree RbTree, size int64, c Comparable) {
 
 	k := min
 
-	if k.LessThan(c) {
-		tree.DeleteNode(k)
+	if k.Key().LessThan(c) {
+		tree.DeleteNode(k.Key())
 		tree.Insert(c)
 	}
 }

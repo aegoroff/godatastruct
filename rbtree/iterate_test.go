@@ -63,8 +63,8 @@ func Test_Foreach_Normal(t *testing.T) {
 
 			// Act
 			test.it.Foreach(func(n Node) bool {
-				result = append(result, GetInt(n))
-				return test.predicate(n)
+				result = append(result, GetInt(n.Key()))
+				return test.predicate(n.Key())
 			})
 
 			// Assert

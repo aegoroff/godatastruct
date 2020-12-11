@@ -165,7 +165,7 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	found, _ := tree.Search(n)
 
 	// Act
-	tree.DeleteNode(found)
+	tree.DeleteNode(found.Key())
 
 	// Assert
 	n = NewInt(28)
@@ -191,7 +191,7 @@ func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
 	for i := 1; i < nodesCount; i++ {
 		n := NewInt(nodes[i-1])
 		found, _ := tree.Search(n)
-		tree.DeleteNode(found)
+		tree.DeleteNode(found.Key())
 	}
 
 	// Assert
@@ -555,7 +555,7 @@ func Test_Int64Tree(t *testing.T) {
 
 	// Assert
 	ass.True(ok)
-	ass.Equal(int64(4), GetInt64(found))
+	ass.Equal(int64(4), GetInt64(found.Key()))
 	ass.Equal("4", found.String())
 }
 
