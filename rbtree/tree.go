@@ -43,9 +43,9 @@ type RbTree interface {
 
 // Iterator represents tree iteration interface
 type Iterator interface {
-	// Iterate does tree iteration and calls the callback for
+	// Foreach does tree iteration and calls the callback for
 	// every value in the tree until callback returns false.
-	Iterate(callback NodeEvaluator)
+	Foreach(callback NodeEvaluator)
 }
 
 // NodeEvaluator defines function prototype that used by an iteration method to iterate over portions of

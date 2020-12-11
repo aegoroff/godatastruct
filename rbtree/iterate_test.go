@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_Iterate_Normal(t *testing.T) {
+func Test_Foreach_Normal(t *testing.T) {
 	tree := createIntegerTestTree()
 	allTrue := func(c Comparable) bool { return true }
 	allFalse := func(c Comparable) bool { return false }
@@ -62,7 +62,7 @@ func Test_Iterate_Normal(t *testing.T) {
 			result := make([]Int, 0)
 
 			// Act
-			test.it.Iterate(func(n Node) bool {
+			test.it.Foreach(func(n Node) bool {
 				c := n.(*node).key
 				result = append(result, c.(Int))
 				return test.predicate(c)
@@ -82,7 +82,7 @@ func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 	it := NewWalkInorder(tree)
 
 	// Act
-	it.Iterate(func(n Node) bool {
+	it.Foreach(func(n Node) bool {
 		result = append(result, n.Key().String())
 		return true
 	})
@@ -91,7 +91,7 @@ func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 	ass.Equal([]string{"abc", "amd", "cisco", "do", "fake", "intel", "it", "let", "microsoft", "russia", "usa", "xxx", "yyy", "zen"}, result)
 }
 
-func Test_Iterate_EmptyTree(t *testing.T) {
+func Test_Foreach_EmptyTree(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := NewRbTree()
@@ -111,7 +111,7 @@ func Test_Iterate_EmptyTree(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			// Act
-			test.it.Iterate(func(n Node) bool {
+			test.it.Foreach(func(n Node) bool {
 				result = append(result, n.Key().String())
 				return true
 			})

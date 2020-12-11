@@ -23,13 +23,13 @@ func Test_RestrictedSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testin
 	top := int64(5)
 
 	// Act
-	NewWalkInorder(tree).Iterate(func(n Node) bool {
+	NewWalkInorder(tree).Foreach(func(n Node) bool {
 		insertTo(topTree, top, n.Key())
 		return true
 	})
 
 	iterationCount := int64(0)
-	NewDescend(topTree).Iterate(func(n Node) bool {
+	NewDescend(topTree).Foreach(func(n Node) bool {
 		iterationCount++
 		result = append(result, n.Key().String())
 		return true
@@ -64,12 +64,12 @@ func TestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *t
 	top := int64(10)
 
 	// Act
-	NewWalkInorder(tree).Iterate(func(n Node) bool {
+	NewWalkInorder(tree).Foreach(func(n Node) bool {
 		insertTo(topTree, top, n.Key())
 		return true
 	})
 
-	NewDescend(topTree).Iterate(func(n Node) bool {
+	NewDescend(topTree).Foreach(func(n Node) bool {
 		result = append(result, n.Key().String())
 		return true
 	})
