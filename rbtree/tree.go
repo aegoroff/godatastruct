@@ -108,18 +108,18 @@ func (n *node) String() string {
 
 // LessThan define Comparable interface member for *node
 func (n *node) LessThan(y interface{}) bool {
-	n, ok := y.(*node)
+	yn, ok := y.(*node)
 	if ok {
-		return n.key.LessThan(n.key)
+		return n.key.LessThan(yn.key)
 	}
 	return n.key.LessThan(y)
 }
 
 // EqualTo define Comparable interface member for *node
 func (n *node) EqualTo(y interface{}) bool {
-	n, ok := y.(*node)
+	yn, ok := y.(*node)
 	if ok {
-		return n.key.EqualTo(n.key)
+		return n.key.EqualTo(yn.key)
 	}
 	return n.key.EqualTo(y)
 }
@@ -158,6 +158,10 @@ func (x *String) String() string {
 
 // GetInt gets int key value from comparable
 func GetInt(c Comparable) int {
+	n, ok := c.(*node)
+	if ok {
+		return int(n.key.(Int))
+	}
 	return int(c.(Int))
 }
 
