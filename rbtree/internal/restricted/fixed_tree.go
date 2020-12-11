@@ -4,10 +4,10 @@ import "github.com/aegoroff/godatastruct/rbtree"
 
 type fixedTree struct {
 	tree rbtree.RbTree
-	size int
+	size int64
 }
 
-func newFixedTree(sz int) *fixedTree {
+func newFixedTree(sz int64) *fixedTree {
 	return &fixedTree{
 		tree: rbtree.NewRbTree(),
 		size: sz,
@@ -18,8 +18,8 @@ func newFixedTree(sz int) *fixedTree {
 // Only <size> max nodes will be in the tree
 func (t *fixedTree) insert(c rbtree.Comparable) {
 	min := t.tree.Minimum()
-	if t.tree.Len() < int64(t.size) || min.Key().LessThan(c) {
-		if t.tree.Len() == int64(t.size) {
+	if t.tree.Len() < t.size || min.Key().LessThan(c) {
+		if t.tree.Len() == t.size {
 			t.tree.DeleteNode(min.Key())
 		}
 
