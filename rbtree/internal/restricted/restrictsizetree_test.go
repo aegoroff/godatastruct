@@ -1,6 +1,7 @@
-package rbtree
+package restricted
 
 import (
+	"github.com/aegoroff/godatastruct/rbtree"
 	"github.com/stretchr/testify/assert"
 	"math/rand"
 	"testing"
@@ -10,8 +11,6 @@ func Test_RestrictedSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testin
 	// Arrange
 	ass := assert.New(t)
 
-	topTree := NewRbTree()
-
 	var nodes []int
 	var result []string
 	const nodesCount = 200
@@ -19,24 +18,29 @@ func Test_RestrictedSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testin
 	for i := 1; i <= nodesCount; i++ {
 		nodes = append(nodes, i)
 	}
-	tree := createIntTree(nodes)
+	tree := rbtree.NewRbTree()
+	for _, value := range nodes {
+		tree.Insert(rbtree.NewInt(value))
+	}
+
 	top := int64(5)
+	ft := newFixedTree(5)
 
 	// Act
-	NewWalkInorder(tree).Foreach(func(n Node) bool {
-		insertTo(topTree, top, n.Key())
+	rbtree.NewWalkInorder(tree).Foreach(func(n rbtree.Node) bool {
+		ft.insert(n.Key())
 		return true
 	})
 
 	iterationCount := int64(0)
-	NewDescend(topTree).Foreach(func(n Node) bool {
+	rbtree.NewDescend(ft.tree).Foreach(func(n rbtree.Node) bool {
 		iterationCount++
 		result = append(result, n.String())
 		return true
 	})
 
 	// Assert
-	ass.Equal(top, topTree.Len())
+	ass.Equal(top, ft.tree.Len())
 	ass.Equal(top, iterationCount)
 	ass.Equal([]string{"200", "199", "198", "197", "196"}, result)
 }
@@ -44,8 +48,6 @@ func Test_RestrictedSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testin
 func TestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-
-	topTree := newRbTree()
 
 	var nodes []string
 	var result []string
@@ -55,35 +57,35 @@ func TestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *t
 		l := 1 + rand.Intn(50)
 		nodes = append(nodes, randomString(l))
 	}
-	tree := NewRbTree()
+	tree := rbtree.NewRbTree()
 	for _, n := range nodes {
-		c := NewString(n)
+		c := rbtree.NewString(n)
 		tree.Insert(c)
 	}
 
-	top := int64(10)
+	ft := newFixedTree(10)
 
 	// Act
-	NewWalkInorder(tree).Foreach(func(n Node) bool {
-		insertTo(topTree, top, n.Key())
+	rbtree.NewWalkInorder(tree).Foreach(func(n rbtree.Node) bool {
+		ft.insert(n.Key())
 		return true
 	})
 
-	NewDescend(topTree).Foreach(func(n Node) bool {
+	rbtree.NewDescend(ft.tree).Foreach(func(n rbtree.Node) bool {
 		result = append(result, n.String())
 		return true
 	})
 
 	// Assert
-	max := topTree.Maximum()
+	max := ft.tree.Maximum()
 	pred1 := max.Predecessor()
 	pred2 := pred1.Predecessor()
 
-	ass.Equal(top, topTree.Len())
+	ass.Equal(int64(10), ft.tree.Len())
 	ass.Equal(max.String(), result[0])
 	ass.Equal(pred1.String(), result[1])
 	ass.Equal(pred2.String(), result[2])
-	ass.Equal(top, int64(len(result)))
+	ass.Equal(int64(10), int64(len(result)))
 	ass.Equal(int64(nodesCount), tree.Len())
 }
 
@@ -96,20 +98,4 @@ func randomString(n int) string {
 		s[i] = letters[ix]
 	}
 	return string(s)
-}
-
-func insertTo(tree RbTree, size int64, c Comparable) {
-	if tree.Len() < size {
-		tree.Insert(c)
-		return
-	}
-
-	min := tree.Minimum()
-
-	k := min
-
-	if k.Key().LessThan(c) {
-		tree.DeleteNode(k.Key())
-		tree.Insert(c)
-	}
 }
