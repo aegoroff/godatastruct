@@ -92,10 +92,13 @@ type Comparable interface {
 	EqualTo(y Comparable) bool
 }
 
-// Int is the int type key that can be stored as Node key
+// Int is the int type key that can be stored as Node
 type Int int
 
-// String is the string type key that can be stored as Node key
+// Int64 is the int64 type key that can be stored as Node
+type Int64 int64
+
+// String is the string type key that can be stored as Node
 type String string
 
 func (n *node) Size() int64 {
@@ -142,6 +145,20 @@ func (x Int) String() string {
 	return fmt.Sprintf("%d", x)
 }
 
+// LessThan define Comparable interface member for Int64
+func (x Int64) LessThan(y Comparable) bool {
+	return x < y.(Int64)
+}
+
+// EqualTo define Comparable interface member for Int64
+func (x Int64) EqualTo(y Comparable) bool {
+	return x == y
+}
+
+func (x Int64) String() string {
+	return fmt.Sprintf("%d", x)
+}
+
 // LessThan define Comparable interface member for String
 func (x *String) LessThan(y Comparable) bool {
 	return *x < *(y.(*String))
@@ -156,7 +173,7 @@ func (x *String) String() string {
 	return string(*x)
 }
 
-// GetInt gets int key value from comparable
+// GetInt gets int value from Comparable
 func GetInt(c Comparable) int {
 	n, ok := c.(*node)
 	if ok {
@@ -165,9 +182,23 @@ func GetInt(c Comparable) int {
 	return int(c.(Int))
 }
 
+// GetInt64 gets int value from Comparable
+func GetInt64(c Comparable) int64 {
+	n, ok := c.(*node)
+	if ok {
+		return int64(n.key.(Int64))
+	}
+	return int64(c.(Int64))
+}
+
 // NewInt creates new Node that contains int key
 func NewInt(v int) Comparable {
 	return Int(v)
+}
+
+// NewInt64 creates new Node that contains int64 key
+func NewInt64(v int64) Comparable {
+	return Int64(v)
 }
 
 // NewString creates new string Node

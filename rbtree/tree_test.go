@@ -530,6 +530,35 @@ func TestGetInt(t *testing.T) {
 	ass.Equal(3, i)
 }
 
+func TestGetInt64(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	c := NewInt64(3)
+
+	// Act
+	i := GetInt64(c)
+
+	// Assert
+	ass.Equal(int64(3), i)
+}
+
+func Test_Int64Tree(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := NewRbTree()
+	tree.Insert(NewInt64(4))
+	tree.Insert(NewInt64(45))
+	tree.Insert(NewInt64(3))
+
+	// Act
+	found, ok := tree.Search(NewInt64(4))
+
+	// Assert
+	ass.True(ok)
+	ass.Equal(int64(4), GetInt64(found))
+	ass.Equal("4", found.String())
+}
+
 // []int{6, 18, 3, 15, 7, 2, 4, 13, 9, 17, 20}
 func createIntegerTestTree() RbTree {
 	nodes := []int{6, 18, 3, 15, 7, 2, 4, 13, 9, 17, 20}
