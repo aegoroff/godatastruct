@@ -88,8 +88,8 @@ type node struct {
 // Comparable defines comparable type interface
 type Comparable interface {
 	fmt.Stringer
-	LessThan(y interface{}) bool
-	EqualTo(y interface{}) bool
+	LessThan(y Comparable) bool
+	EqualTo(y Comparable) bool
 }
 
 // Int is the int type key that can be stored as Node key
@@ -107,7 +107,7 @@ func (n *node) String() string {
 }
 
 // LessThan define Comparable interface member for *node
-func (n *node) LessThan(y interface{}) bool {
+func (n *node) LessThan(y Comparable) bool {
 	yn, ok := y.(*node)
 	if ok {
 		return n.key.LessThan(yn.key)
@@ -116,7 +116,7 @@ func (n *node) LessThan(y interface{}) bool {
 }
 
 // EqualTo define Comparable interface member for *node
-func (n *node) EqualTo(y interface{}) bool {
+func (n *node) EqualTo(y Comparable) bool {
 	yn, ok := y.(*node)
 	if ok {
 		return n.key.EqualTo(yn.key)
@@ -129,12 +129,12 @@ func (n *node) isNil() bool {
 }
 
 // LessThan define Comparable interface member for Int
-func (x Int) LessThan(y interface{}) bool {
+func (x Int) LessThan(y Comparable) bool {
 	return x < y.(Int)
 }
 
 // EqualTo define Comparable interface member for Int
-func (x Int) EqualTo(y interface{}) bool {
+func (x Int) EqualTo(y Comparable) bool {
 	return x == y
 }
 
@@ -143,12 +143,12 @@ func (x Int) String() string {
 }
 
 // LessThan define Comparable interface member for String
-func (x *String) LessThan(y interface{}) bool {
+func (x *String) LessThan(y Comparable) bool {
 	return *x < *(y.(*String))
 }
 
 // EqualTo define Comparable interface member for String
-func (x *String) EqualTo(y interface{}) bool {
+func (x *String) EqualTo(y Comparable) bool {
 	return *x == *(y.(*String))
 }
 
