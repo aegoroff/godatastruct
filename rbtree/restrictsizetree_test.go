@@ -24,14 +24,14 @@ func Test_RestrictedSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testin
 
 	// Act
 	NewWalkInorder(tree).Foreach(func(n Node) bool {
-		insertTo(topTree, top, n.Key())
+		insertTo(topTree, top, n)
 		return true
 	})
 
 	iterationCount := int64(0)
 	NewDescend(topTree).Foreach(func(n Node) bool {
 		iterationCount++
-		result = append(result, n.Key().String())
+		result = append(result, n.String())
 		return true
 	})
 
@@ -65,12 +65,12 @@ func TestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *t
 
 	// Act
 	NewWalkInorder(tree).Foreach(func(n Node) bool {
-		insertTo(topTree, top, n.Key())
+		insertTo(topTree, top, n)
 		return true
 	})
 
 	NewDescend(topTree).Foreach(func(n Node) bool {
-		result = append(result, n.Key().String())
+		result = append(result, n.String())
 		return true
 	})
 
@@ -80,9 +80,9 @@ func TestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *t
 	pred2 := pred1.Predecessor()
 
 	ass.Equal(top, topTree.Len())
-	ass.Equal(max.Key().String(), result[0])
-	ass.Equal(pred1.Key().String(), result[1])
-	ass.Equal(pred2.Key().String(), result[2])
+	ass.Equal(max.String(), result[0])
+	ass.Equal(pred1.String(), result[1])
+	ass.Equal(pred2.String(), result[2])
 	ass.Equal(top, int64(len(result)))
 	ass.Equal(int64(nodesCount), tree.Len())
 }
@@ -106,7 +106,7 @@ func insertTo(tree RbTree, size int64, c Comparable) {
 
 	min := tree.Minimum()
 
-	k := min.Key()
+	k := min
 
 	if k.LessThan(c) {
 		tree.DeleteNode(k)

@@ -152,7 +152,7 @@ func (i *ascend) Foreach(callback NodeEvaluator) {
 	}
 
 	min := i.tree.root.minimum()
-	min.ascend(max.Key(), callback)
+	min.ascend(max.(*node).key, callback)
 }
 
 // Iterate does tree iteration and calls the callback for
@@ -186,7 +186,7 @@ func (i *descend) Foreach(callback NodeEvaluator) {
 		return
 	}
 	max := i.tree.root.maximum()
-	max.descend(min.Key(), callback)
+	max.descend(min.(*node).key, callback)
 }
 
 // Iterate does tree iteration and calls the callback for

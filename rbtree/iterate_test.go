@@ -83,7 +83,7 @@ func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 
 	// Act
 	it.Foreach(func(n Node) bool {
-		result = append(result, n.Key().String())
+		result = append(result, n.String())
 		return true
 	})
 
@@ -112,7 +112,7 @@ func Test_Foreach_EmptyTree(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			// Act
 			test.it.Foreach(func(n Node) bool {
-				result = append(result, n.Key().String())
+				result = append(result, n.String())
 				return true
 			})
 

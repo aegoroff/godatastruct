@@ -162,15 +162,15 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	tree := createIntTree(nodes)
 
 	n := NewInt(24)
-	found, _ := tree.root.search(n)
+	found, _ := tree.Search(n)
 
 	// Act
-	tree.delete(found)
+	tree.DeleteNode(found)
 
 	// Assert
 	n = NewInt(28)
-	found, _ = tree.root.search(n)
-	ass.Equal(Black, found.color)
+	found, _ = tree.Search(n)
+	ass.Equal(Black, found.(*node).color)
 }
 
 func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
@@ -190,12 +190,11 @@ func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
 	// Act
 	for i := 1; i < nodesCount; i++ {
 		n := NewInt(nodes[i-1])
-		found, _ := tree.root.search(n)
-		tree.delete(found)
+		found, _ := tree.Search(n)
+		tree.DeleteNode(found)
 	}
 
 	// Assert
-	ass.Nil(tree.root.key)
 	ass.Equal(int64(0), tree.Len())
 }
 
@@ -320,7 +319,7 @@ func Test_GraphvizString(t *testing.T) {
 	t.Log(graphviz)
 }
 
-func getTreeAsGraphviz(tree *rbTree) string {
+func getTreeAsGraphviz(tree RbTree) string {
 	b := strings.Builder{}
 	gr := simple.NewUndirectedGraph()
 
@@ -519,7 +518,7 @@ func Test_DeleteNodeNil_NothingDeleted(t *testing.T) {
 	ass.Nil(tree.tnil.parent)
 }
 
-func createIntegerTestTree() *rbTree {
+func createIntegerTestTree() RbTree {
 	nodes := []int{6, 18, 3, 15, 7, 2, 4, 13, 9, 17, 20}
 	return createIntTree(nodes)
 }
@@ -529,8 +528,8 @@ func createTestStringTree() *rbTree {
 	return createStringTree(nodes)
 }
 
-func createIntTree(nodes []int) *rbTree {
-	tree := newRbTree()
+func createIntTree(nodes []int) RbTree {
+	tree := NewRbTree()
 	for _, n := range nodes {
 		tree.Insert(NewInt(n))
 	}

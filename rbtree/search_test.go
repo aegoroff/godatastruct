@@ -26,7 +26,7 @@ func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
 
 		// Assert
 		ass.NotNil(found)
-		ass.Equal(test.expected, GetInt(found.Key()))
+		ass.Equal(test.expected, GetInt(found))
 	}
 }
 
@@ -63,7 +63,7 @@ func Test_SearchIntTree_Success(t *testing.T) {
 	// Assert
 	ass.True(ok)
 	ass.NotNil(found)
-	ass.Equal(13, GetInt(found.Key()))
+	ass.Equal(13, GetInt(found))
 }
 
 func Test_SearchStringTree_Success(t *testing.T) {
@@ -78,7 +78,7 @@ func Test_SearchStringTree_Success(t *testing.T) {
 	// Assert
 	ass.True(ok)
 	ass.NotNil(found)
-	ass.Equal("intel", found.Key().String())
+	ass.Equal("intel", found.String())
 }
 
 func Test_SearchStringTree_Fail(t *testing.T) {
@@ -133,13 +133,13 @@ func Test_Successor_ReturnSuccessor(t *testing.T) {
 	}
 	for _, test := range tests {
 		v := NewInt(test.node)
-		r, _ := tree.root.search(v)
+		r, _ := tree.Search(v)
 
 		// Act
 		s := r.Successor()
 
 		// Assert
-		ass.Equal(test.expected, GetInt(s.Key()))
+		ass.Equal(test.expected, GetInt(s))
 	}
 }
 
@@ -148,7 +148,7 @@ func Test_SuccessorOfMax_ReturnNil(t *testing.T) {
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
 	v := NewInt(20)
-	r, _ := tree.root.search(v)
+	r, _ := tree.Search(v)
 
 	// Act
 	s := r.Successor()
@@ -185,13 +185,13 @@ func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 	}
 	for _, test := range tests {
 		v := NewInt(test.node)
-		r, _ := tree.root.search(v)
+		r, _ := tree.Search(v)
 
 		// Act
 		s := r.Predecessor()
 
 		// Assert
-		ass.Equal(test.expected, GetInt(s.Key()))
+		ass.Equal(test.expected, GetInt(s))
 	}
 }
 
@@ -200,7 +200,7 @@ func Test_PredecessorOfMin_ReturnNil(t *testing.T) {
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
 	v := NewInt(2)
-	r, _ := tree.root.search(v)
+	r, _ := tree.Search(v)
 
 	// Act
 	p := r.Predecessor()
@@ -230,7 +230,7 @@ func Test_Minimum_ValueAndSizeAsExpected(t *testing.T) {
 	r := tree.Minimum()
 
 	// Assert
-	ass.Equal(2, GetInt(r.Key()))
+	ass.Equal(2, GetInt(r))
 	ass.Equal(int64(1), r.Size())
 }
 
@@ -255,7 +255,7 @@ func Test_Maximum_ValueAsExpected(t *testing.T) {
 	r := tree.Maximum()
 
 	// Assert
-	ass.Equal(20, GetInt(r.Key()))
+	ass.Equal(20, GetInt(r))
 }
 
 func Test_MaximumEmptyTree(t *testing.T) {

@@ -32,7 +32,7 @@ func (tree *rbTree) insert(z *node) {
 	for x != tree.tnil {
 		y = x
 		y.size++
-		if z.key.LessThan(x.key) {
+		if z.LessThan(x) {
 			x = x.left
 		} else {
 			x = x.right
@@ -40,7 +40,7 @@ func (tree *rbTree) insert(z *node) {
 	}
 
 	z.parent = y
-	if z.key.LessThan(y.key) {
+	if z.LessThan(y) {
 		y.left = z
 	} else {
 		y.right = z

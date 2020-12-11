@@ -60,11 +60,10 @@ type rbTree struct {
 
 // Node represent red-black tree node interface
 type Node interface {
+	Comparable
+
 	// Subtree size including node itself
 	Size() int64
-
-	// Key gets node's key
-	Key() Comparable
 
 	// Successor gets node's successor
 	Successor() Node
@@ -107,8 +106,22 @@ func (n *node) String() string {
 	return n.key.String()
 }
 
-func (n *node) Key() Comparable {
-	return n.key
+// LessThan define Comparable interface member for *node
+func (n *node) LessThan(y interface{}) bool {
+	n, ok := y.(*node)
+	if ok {
+		return n.key.LessThan(n.key)
+	}
+	return n.key.LessThan(y)
+}
+
+// EqualTo define Comparable interface member for *node
+func (n *node) EqualTo(y interface{}) bool {
+	n, ok := y.(*node)
+	if ok {
+		return n.key.EqualTo(n.key)
+	}
+	return n.key.EqualTo(y)
 }
 
 func (n *node) isNil() bool {
@@ -148,13 +161,12 @@ func GetInt(c Comparable) int {
 	return int(c.(Int))
 }
 
-// NewInt creates new Comparable that contains int key
+// NewInt creates new Node that contains int key
 func NewInt(v int) Comparable {
-	r := Int(v)
-	return r
+	return Int(v)
 }
 
-// NewString creates new string Comparable
+// NewString creates new string Node
 func NewString(v string) Comparable {
 	s := String(v)
 	return &s
