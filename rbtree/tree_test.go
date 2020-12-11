@@ -528,6 +528,7 @@ func TestGetInt(t *testing.T) {
 
 	// Assert
 	ass.Equal(3, i)
+	ass.Equal("3", c.String())
 }
 
 func TestGetInt64(t *testing.T) {
