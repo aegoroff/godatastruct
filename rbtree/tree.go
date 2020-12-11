@@ -62,6 +62,9 @@ type rbTree struct {
 type Node interface {
 	Comparable
 
+	// Key gets node's key
+	Key() Comparable
+
 	// Subtree size including node itself
 	Size() int64
 
@@ -101,6 +104,11 @@ type Int64 int64
 // String is the string type key that can be stored as Node
 type String string
 
+// Key gets node's key
+func (n *node) Key() Comparable {
+	return n.key
+}
+
 func (n *node) Size() int64 {
 	return n.size
 }
@@ -111,18 +119,18 @@ func (n *node) String() string {
 
 // LessThan define Comparable interface member for *node
 func (n *node) LessThan(y Comparable) bool {
-	yn, ok := y.(*node)
+	yn, ok := y.(Node)
 	if ok {
-		return n.key.LessThan(yn.key)
+		return n.key.LessThan(yn.Key())
 	}
 	return n.key.LessThan(y)
 }
 
 // EqualTo define Comparable interface member for *node
 func (n *node) EqualTo(y Comparable) bool {
-	yn, ok := y.(*node)
+	yn, ok := y.(Node)
 	if ok {
-		return n.key.EqualTo(yn.key)
+		return n.key.EqualTo(yn.Key())
 	}
 	return n.key.EqualTo(y)
 }
@@ -175,18 +183,18 @@ func (x *String) String() string {
 
 // GetInt gets int value from Comparable
 func GetInt(c Comparable) int {
-	n, ok := c.(*node)
+	n, ok := c.(Node)
 	if ok {
-		return int(n.key.(Int))
+		return int(n.Key().(Int))
 	}
 	return int(c.(Int))
 }
 
 // GetInt64 gets int value from Comparable
 func GetInt64(c Comparable) int64 {
-	n, ok := c.(*node)
+	n, ok := c.(Node)
 	if ok {
-		return int64(n.key.(Int64))
+		return int64(n.Key().(Int64))
 	}
 	return int64(c.(Int64))
 }
