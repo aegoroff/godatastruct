@@ -518,6 +518,18 @@ func Test_DeleteNodeNil_NothingDeleted(t *testing.T) {
 	ass.Nil(tree.tnil.parent)
 }
 
+func TestGetInt(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	c := NewInt(3)
+
+	// Act
+	i := GetInt(c)
+
+	// Assert
+	ass.Equal(3, i)
+}
+
 // []int{6, 18, 3, 15, 7, 2, 4, 13, 9, 17, 20}
 func createIntegerTestTree() RbTree {
 	nodes := []int{6, 18, 3, 15, 7, 2, 4, 13, 9, 17, 20}
