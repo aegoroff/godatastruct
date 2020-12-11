@@ -173,17 +173,17 @@ func GetInt64(c Comparable) int64 {
 	return int64(c.(Int64))
 }
 
-// NewInt creates new Node that contains int key
+// NewInt creates new int Comparable implementation
 func NewInt(v int) Comparable {
 	return Int(v)
 }
 
-// NewInt64 creates new Node that contains int64 key
+// NewInt64 creates new int64 Comparable implementation
 func NewInt64(v int64) Comparable {
 	return Int64(v)
 }
 
-// NewString creates new string Node
+// NewString creates new string Comparable implementation
 func NewString(v string) Comparable {
 	s := String(v)
 	return &s
