@@ -7,44 +7,42 @@ import (
 
 func Test_Foreach_Normal(t *testing.T) {
 	tree := createIntegerTestTree()
-	allTrue := func(c Comparable) bool { return true }
 	var tests = []struct {
-		name      string
-		it        Enumerable
-		predicate func(Comparable) bool
-		expected  []int
+		name     string
+		it       Enumerable
+		expected []int
 	}{
-		{"ascend normal", NewAscend(tree), allTrue, []int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}},
+		{"ascend normal", NewAscend(tree), []int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}},
 
-		{"ascend range 6 to 15", NewAscendRange(tree, NewInt(6), NewInt(15)), allTrue, []int{6, 7, 9, 13, 15}},
-		{"ascend range 6 to 6", NewAscendRange(tree, NewInt(6), NewInt(6)), allTrue, []int{6}},
-		{"ascend range 15 to 15", NewAscendRange(tree, NewInt(15), NewInt(15)), allTrue, []int{15}},
-		{"ascend range 20 to 20", NewAscendRange(tree, NewInt(20), NewInt(20)), allTrue, []int{20}},
-		{"ascend range 2 to 2", NewAscendRange(tree, NewInt(2), NewInt(2)), allTrue, []int{2}},
-		{"ascend range 15 to 6", NewAscendRange(tree, NewInt(15), NewInt(6)), allTrue, []int{}},
-		{"ascend range 8 to 15", NewAscendRange(tree, NewInt(8), NewInt(15)), allTrue, []int{}},
+		{"ascend range 6 to 15", NewAscendRange(tree, NewInt(6), NewInt(15)), []int{6, 7, 9, 13, 15}},
+		{"ascend range 6 to 6", NewAscendRange(tree, NewInt(6), NewInt(6)), []int{6}},
+		{"ascend range 15 to 15", NewAscendRange(tree, NewInt(15), NewInt(15)), []int{15}},
+		{"ascend range 20 to 20", NewAscendRange(tree, NewInt(20), NewInt(20)), []int{20}},
+		{"ascend range 2 to 2", NewAscendRange(tree, NewInt(2), NewInt(2)), []int{2}},
+		{"ascend range 15 to 6", NewAscendRange(tree, NewInt(15), NewInt(6)), []int{}},
+		{"ascend range 8 to 15", NewAscendRange(tree, NewInt(8), NewInt(15)), []int{}},
 
-		{"ascend range nil to val", NewAscendRange(tree, nil, NewInt(6)), allTrue, []int{}},
-		{"ascend range val to nil", NewAscendRange(tree, NewInt(6), nil), allTrue, []int{}},
-		{"ascend range nil to nil", NewAscendRange(tree, nil, nil), allTrue, []int{}},
+		{"ascend range nil to val", NewAscendRange(tree, nil, NewInt(6)), []int{}},
+		{"ascend range val to nil", NewAscendRange(tree, NewInt(6), nil), []int{}},
+		{"ascend range nil to nil", NewAscendRange(tree, nil, nil), []int{}},
 
-		{"descend normal", NewDescend(tree), allTrue, []int{20, 18, 17, 15, 13, 9, 7, 6, 4, 3, 2}},
+		{"descend normal", NewDescend(tree), []int{20, 18, 17, 15, 13, 9, 7, 6, 4, 3, 2}},
 
-		{"descend range 15 to 6", NewDescendRange(tree, NewInt(15), NewInt(6)), allTrue, []int{15, 13, 9, 7, 6}},
-		{"descend range 6 to 6", NewDescendRange(tree, NewInt(6), NewInt(6)), allTrue, []int{6}},
-		{"descend range 15 to 15", NewDescendRange(tree, NewInt(15), NewInt(15)), allTrue, []int{15}},
-		{"descend range 20 to 20", NewDescendRange(tree, NewInt(20), NewInt(20)), allTrue, []int{20}},
-		{"descend range 2 to 2", NewDescendRange(tree, NewInt(2), NewInt(2)), allTrue, []int{2}},
-		{"descend range 6 to 15", NewDescendRange(tree, NewInt(6), NewInt(15)), allTrue, []int{}},
-		{"descend range 14 to 6", NewDescendRange(tree, NewInt(14), NewInt(6)), allTrue, []int{}},
+		{"descend range 15 to 6", NewDescendRange(tree, NewInt(15), NewInt(6)), []int{15, 13, 9, 7, 6}},
+		{"descend range 6 to 6", NewDescendRange(tree, NewInt(6), NewInt(6)), []int{6}},
+		{"descend range 15 to 15", NewDescendRange(tree, NewInt(15), NewInt(15)), []int{15}},
+		{"descend range 20 to 20", NewDescendRange(tree, NewInt(20), NewInt(20)), []int{20}},
+		{"descend range 2 to 2", NewDescendRange(tree, NewInt(2), NewInt(2)), []int{2}},
+		{"descend range 6 to 15", NewDescendRange(tree, NewInt(6), NewInt(15)), []int{}},
+		{"descend range 14 to 6", NewDescendRange(tree, NewInt(14), NewInt(6)), []int{}},
 
-		{"descend range nil to val", NewDescendRange(tree, nil, NewInt(6)), allTrue, []int{}},
-		{"descend range val to nil", NewDescendRange(tree, NewInt(6), nil), allTrue, []int{}},
-		{"descend range nil to nil", NewDescendRange(tree, nil, nil), allTrue, []int{}},
+		{"descend range nil to val", NewDescendRange(tree, nil, NewInt(6)), []int{}},
+		{"descend range val to nil", NewDescendRange(tree, NewInt(6), nil), []int{}},
+		{"descend range nil to nil", NewDescendRange(tree, nil, nil), []int{}},
 
-		{"inorder normal", NewWalkInorder(tree), allTrue, []int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}},
-		{"preorder normal", NewWalkPreorder(tree), allTrue, []int{6, 3, 2, 4, 15, 9, 7, 13, 18, 17, 20}},
-		{"postorder normal", NewWalkPostorder(tree), allTrue, []int{2, 4, 3, 7, 13, 9, 17, 20, 18, 15, 6}},
+		{"inorder normal", NewWalkInorder(tree), []int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}},
+		{"preorder normal", NewWalkPreorder(tree), []int{6, 3, 2, 4, 15, 9, 7, 13, 18, 17, 20}},
+		{"postorder normal", NewWalkPostorder(tree), []int{2, 4, 3, 7, 13, 9, 17, 20, 18, 15, 6}},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
