@@ -32,12 +32,14 @@ type walkPostorder struct {
 }
 
 type ascend struct {
-	iterator
-	next *node
-	to   Comparable
+	ordered
 }
 
 type descend struct {
+	ordered
+}
+
+type ordered struct {
 	iterator
 	next *node
 	to   Comparable
@@ -122,14 +124,6 @@ func NewAscendRange(t RbTree, from, to Comparable) Enumerable {
 	return e
 }
 
-func newAscend(t RbTree) *ascend {
-	tree := t.(*rbTree)
-	it := iterator{tree: tree}
-	e := &ascend{iterator: it}
-	e.it = e
-	return e
-}
-
 // NewDescend creates Enumerable that walks tree in descending order
 func NewDescend(t RbTree) Enumerable {
 	e := newDescend(t)
@@ -154,12 +148,24 @@ func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
 	return e
 }
 
-func newDescend(t RbTree) *descend {
-	tree := t.(*rbTree)
-	it := iterator{tree: tree}
-	e := &descend{iterator: it}
+func newAscend(t RbTree) *ascend {
+	ordered := newOrdered(t)
+	e := &ascend{ordered: ordered}
 	e.it = e
 	return e
+}
+
+func newDescend(t RbTree) *descend {
+	ordered := newOrdered(t)
+	e := &descend{ordered: ordered}
+	e.it = e
+	return e
+}
+
+func newOrdered(t RbTree) ordered {
+	tree := t.(*rbTree)
+	it := iterator{tree: tree}
+	return ordered{iterator: it}
 }
 
 func (i *walkInorder) Next() bool {
