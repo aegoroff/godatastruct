@@ -45,13 +45,30 @@ type RbTree interface {
 type Enumerable interface {
 	// Foreach enumerates tree and calls the callback for
 	// every value in the tree until callback returns false.
-	Foreach(callback NodeEvaluator)
+	Foreach(callback NodeAction)
 }
 
-// NodeEvaluator defines function prototype that used by an iteration method to iterate over portions of
-// the tree.  When this function returns false, iteration will stop and the
-// associated iteration method function will immediately return.
-type NodeEvaluator func(Node) bool
+// Iterator is an node iterator.
+type Iterator interface {
+	// Node gets current Node
+	Current() Node
+
+	// Next advances the iterator and returns whether
+	// the next call to the item method will return a
+	// non-nil item.
+	//
+	// Next should be called prior to any call to the
+	// iterator's item retrieval method after the
+	// iterator has been obtained or reset.
+	//
+	// The order of iteration is implementation
+	// dependent.
+	Next() bool
+}
+
+// NodeAction defines function prototype that used by an iteration method to iterate over portions of
+// the tree.
+type NodeAction func(Node)
 
 type rbTree struct {
 	root *node

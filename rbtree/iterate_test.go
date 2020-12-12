@@ -8,7 +8,6 @@ import (
 func Test_Foreach_Normal(t *testing.T) {
 	tree := createIntegerTestTree()
 	allTrue := func(c Comparable) bool { return true }
-	allFalse := func(c Comparable) bool { return false }
 	var tests = []struct {
 		name      string
 		it        Enumerable
@@ -16,8 +15,6 @@ func Test_Foreach_Normal(t *testing.T) {
 		expected  []int
 	}{
 		{"ascend normal", NewAscend(tree), allTrue, []int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}},
-		{"ascend with breaking immediately", NewAscend(tree), allFalse, []int{2}},
-		{"ascend with break complex condition", NewAscend(tree), func(c Comparable) bool { return c.LessThan(NewInt(15)) }, []int{2, 3, 4, 6, 7, 9, 13, 15}},
 
 		{"ascend range 6 to 15", NewAscendRange(tree, NewInt(6), NewInt(15)), allTrue, []int{6, 7, 9, 13, 15}},
 		{"ascend range 6 to 6", NewAscendRange(tree, NewInt(6), NewInt(6)), allTrue, []int{6}},
@@ -32,8 +29,6 @@ func Test_Foreach_Normal(t *testing.T) {
 		{"ascend range nil to nil", NewAscendRange(tree, nil, nil), allTrue, []int{}},
 
 		{"descend normal", NewDescend(tree), allTrue, []int{20, 18, 17, 15, 13, 9, 7, 6, 4, 3, 2}},
-		{"descend with breaking immediately", NewDescend(tree), allFalse, []int{20}},
-		{"descend complex condition", NewDescend(tree), func(c Comparable) bool { return !c.LessThan(NewInt(15)) }, []int{20, 18, 17, 15, 13}},
 
 		{"descend range 15 to 6", NewDescendRange(tree, NewInt(15), NewInt(6)), allTrue, []int{15, 13, 9, 7, 6}},
 		{"descend range 6 to 6", NewDescendRange(tree, NewInt(6), NewInt(6)), allTrue, []int{6}},
@@ -48,12 +43,8 @@ func Test_Foreach_Normal(t *testing.T) {
 		{"descend range nil to nil", NewDescendRange(tree, nil, nil), allTrue, []int{}},
 
 		{"inorder normal", NewWalkInorder(tree), allTrue, []int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}},
-		{"inorder with breaking", NewWalkInorder(tree), func(c Comparable) bool { return GetInt(c) <= 9 }, []int{2, 3, 4, 6, 7, 9, 13}},
 		{"preorder normal", NewWalkPreorder(tree), allTrue, []int{6, 3, 2, 4, 15, 9, 7, 13, 18, 17, 20}},
-		{"preorder with breaking", NewWalkPreorder(tree), func(c Comparable) bool { return GetInt(c) <= 9 }, []int{6, 3, 2, 4, 15}},
 		{"postorder normal", NewWalkPostorder(tree), allTrue, []int{2, 4, 3, 7, 13, 9, 17, 20, 18, 15, 6}},
-		{"postorder with breaking", NewWalkPostorder(tree), func(c Comparable) bool { return GetInt(c) <= 6 }, []int{2, 4, 3, 7}},
-		{"postorder with breaking immediately", NewWalkPostorder(tree), allFalse, []int{2}},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -62,9 +53,8 @@ func Test_Foreach_Normal(t *testing.T) {
 			result := make([]int, 0)
 
 			// Act
-			test.it.Foreach(func(n Node) bool {
+			test.it.Foreach(func(n Node) {
 				result = append(result, GetInt(n.Key()))
-				return test.predicate(n.Key())
 			})
 
 			// Assert
@@ -81,9 +71,8 @@ func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 	it := NewWalkInorder(tree)
 
 	// Act
-	it.Foreach(func(n Node) bool {
+	it.Foreach(func(n Node) {
 		result = append(result, n.String())
-		return true
 	})
 
 	// Assert
@@ -110,9 +99,8 @@ func Test_Foreach_EmptyTree(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			// Act
-			test.it.Foreach(func(n Node) bool {
+			test.it.Foreach(func(n Node) {
 				result = append(result, n.String())
-				return true
 			})
 
 			// Assert

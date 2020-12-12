@@ -27,16 +27,14 @@ func Test_RestrictedSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testin
 	ft := newFixedTree(top)
 
 	// Act
-	rbtree.NewWalkInorder(tree).Foreach(func(n rbtree.Node) bool {
+	rbtree.NewWalkInorder(tree).Foreach(func(n rbtree.Node) {
 		ft.insert(n.Key())
-		return true
 	})
 
 	iterationCount := int64(0)
-	rbtree.NewDescend(ft.tree).Foreach(func(n rbtree.Node) bool {
+	rbtree.NewDescend(ft.tree).Foreach(func(n rbtree.Node) {
 		iterationCount++
 		result = append(result, n.String())
-		return true
 	})
 
 	// Assert
@@ -67,14 +65,12 @@ func TestRestrictedSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *t
 	ft := newFixedTree(ftSize)
 
 	// Act
-	rbtree.NewWalkInorder(tree).Foreach(func(n rbtree.Node) bool {
+	rbtree.NewWalkInorder(tree).Foreach(func(n rbtree.Node) {
 		ft.insert(n.Key())
-		return true
 	})
 
-	rbtree.NewDescend(ft.tree).Foreach(func(n rbtree.Node) bool {
+	rbtree.NewDescend(ft.tree).Foreach(func(n rbtree.Node) {
 		result = append(result, n.String())
-		return true
 	})
 
 	// Assert

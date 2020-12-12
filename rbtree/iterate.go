@@ -2,7 +2,12 @@ package rbtree
 
 // This file contains all RB tree iteration methods implementations
 
-type walkInorder struct{ tree *rbTree }
+type walkInorder struct {
+	tree *rbTree
+	curr *node
+	next *node
+}
+
 type walkPreorder struct{ tree *rbTree }
 type walkPostorder struct{ tree *rbTree }
 type ascend struct{ tree *rbTree }
@@ -19,7 +24,21 @@ type descendRange struct {
 }
 
 // NewWalkInorder creates Enumerable that walks tree inorder (left, node, right)
-func NewWalkInorder(t RbTree) Enumerable { return &walkInorder{tree: t.(*rbTree)} }
+func NewWalkInorder(t RbTree) Enumerable {
+	tree := t.(*rbTree)
+	next := tree.root
+
+	e := &walkInorder{
+		tree: tree,
+		next: next,
+	}
+
+	if !next.isNil() {
+		e.nextAsDeepestLeft()
+	}
+
+	return e
+}
 
 // NewWalkPreorder creates Enumerable that walks tree preorder (node, left, right)
 func NewWalkPreorder(t RbTree) Enumerable { return &walkPreorder{tree: t.(*rbTree)} }
@@ -53,37 +72,55 @@ func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
 
 // Foreach does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
-func (i *walkInorder) Foreach(callback NodeEvaluator) {
-	n := i.tree.root
-	if n.isNil() {
-		return
+func (i *walkInorder) Foreach(callback NodeAction) {
+	for i.Next() {
+		callback(i.Current())
+	}
+}
+
+func (i *walkInorder) Current() Node {
+	return i.curr
+}
+
+func (i *walkInorder) Next() bool {
+	p := i.next
+
+	if !p.isNil() {
+		if !i.next.right.isNil() {
+			i.next = i.next.right
+			i.nextAsDeepestLeft()
+			i.curr = p
+			return true
+		}
+
+		for true {
+			if i.next.parent.isNil() {
+				i.next = nil
+				i.curr = p
+				return true
+			}
+
+			if i.next.parent.left == i.next {
+				i.next = i.next.parent
+				i.curr = p
+				return true
+			}
+			i.next = i.next.parent
+		}
 	}
 
-	var stack []*node
-	p := n
-	stack = append(stack, p)
-	for len(stack) > 0 {
-		if !p.isNil() {
-			p = p.left
-		} else {
-			top := len(stack) - 1
-			p = stack[top]
-			if !callback(p) {
-				return
-			}
-			stack = stack[:top]
-			p = p.right
-		}
+	return false
+}
 
-		if !p.isNil() {
-			stack = append(stack, p)
-		}
+func (i *walkInorder) nextAsDeepestLeft() {
+	for !i.next.left.isNil() {
+		i.next = i.next.left
 	}
 }
 
 // Foreach does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
-func (i *walkPreorder) Foreach(callback NodeEvaluator) {
+func (i *walkPreorder) Foreach(callback NodeAction) {
 	n := i.tree.root
 	if n.isNil() {
 		return
@@ -95,9 +132,7 @@ func (i *walkPreorder) Foreach(callback NodeEvaluator) {
 	for len(stack) > 0 {
 		top := len(stack) - 1
 		p = stack[top]
-		if !callback(p) {
-			return
-		}
+		callback(p)
 		stack = stack[:top]
 
 		if !p.right.isNil() {
@@ -112,7 +147,7 @@ func (i *walkPreorder) Foreach(callback NodeEvaluator) {
 
 // Foreach does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
-func (i *walkPostorder) Foreach(callback NodeEvaluator) {
+func (i *walkPostorder) Foreach(callback NodeAction) {
 	n := i.tree.root
 	if n.isNil() {
 		return
@@ -128,9 +163,7 @@ func (i *walkPostorder) Foreach(callback NodeEvaluator) {
 
 		if next.right == p || next.left == p || (next.right.isNil() && next.left.isNil()) {
 			stack = stack[:top]
-			if !callback(next) {
-				return
-			}
+			callback(next)
 			p = next
 		} else {
 			if !next.right.isNil() {
@@ -145,7 +178,7 @@ func (i *walkPostorder) Foreach(callback NodeEvaluator) {
 
 // Foreach does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
-func (i *ascend) Foreach(callback NodeEvaluator) {
+func (i *ascend) Foreach(callback NodeAction) {
 	max := i.tree.Maximum()
 	if max == nil {
 		return
@@ -157,7 +190,7 @@ func (i *ascend) Foreach(callback NodeEvaluator) {
 
 // Foreach does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
-func (i *ascendRange) Foreach(callback NodeEvaluator) {
+func (i *ascendRange) Foreach(callback NodeAction) {
 	if i.tree.root.isNil() || i.to == nil {
 		return
 	}
@@ -167,20 +200,17 @@ func (i *ascendRange) Foreach(callback NodeEvaluator) {
 	}
 }
 
-func (n *node) ascend(to Comparable, callback NodeEvaluator) {
+func (n *node) ascend(to Comparable, callback NodeAction) {
 	curr := n
-	ok := true
-	for ok && !curr.isNil() && (curr.key.LessThan(to) || curr.key.EqualTo(to)) {
-		ok = callback(curr)
-		if ok {
-			curr = curr.successor()
-		}
+	for !curr.isNil() && (curr.key.LessThan(to) || curr.key.EqualTo(to)) {
+		callback(curr)
+		curr = curr.successor()
 	}
 }
 
 // Foreach does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
-func (i *descend) Foreach(callback NodeEvaluator) {
+func (i *descend) Foreach(callback NodeAction) {
 	min := i.tree.Minimum()
 	if min == nil {
 		return
@@ -191,7 +221,7 @@ func (i *descend) Foreach(callback NodeEvaluator) {
 
 // Foreach does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
-func (i *descendRange) Foreach(callback NodeEvaluator) {
+func (i *descendRange) Foreach(callback NodeAction) {
 	if i.tree.root == nil || i.to == nil {
 		return
 	}
@@ -201,13 +231,10 @@ func (i *descendRange) Foreach(callback NodeEvaluator) {
 	}
 }
 
-func (n *node) descend(to Comparable, callback NodeEvaluator) {
+func (n *node) descend(to Comparable, callback NodeAction) {
 	curr := n
-	ok := true
-	for ok && !curr.isNil() && !curr.key.LessThan(to) {
-		ok = callback(curr)
-		if ok {
-			curr = curr.predecessor()
-		}
+	for !curr.isNil() && !curr.key.LessThan(to) {
+		callback(curr)
+		curr = curr.predecessor()
 	}
 }
