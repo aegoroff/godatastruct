@@ -256,4 +256,6 @@ func (e *enumerable) Foreach(callback NodeAction) {
 	}
 }
 
+func (e *enumerable) Iterator() Iterator { return e.it }
+
 func (i *iterator) Current() Node { return i.curr }

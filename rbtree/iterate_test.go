@@ -63,6 +63,41 @@ func Test_Foreach_Normal(t *testing.T) {
 	}
 }
 
+func Test_IteratorsWithInterruption_Normal(t *testing.T) {
+	tree := createIntegerTestTree()
+	var tests = []struct {
+		name     string
+		enum     Enumerable
+		expected []int
+	}{
+		{"ascend", NewAscend(tree), []int{2, 3, 4, 6}},
+		{"descend", NewDescend(tree), []int{}},
+		{"inorder", NewWalkInorder(tree), []int{2, 3, 4, 6}},
+		{"preorder", NewWalkPreorder(tree), []int{6, 3, 2, 4}},
+		{"postorder", NewWalkPostorder(tree), []int{2, 4, 3}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+			result := make([]int, 0)
+			it := test.enum.Iterator()
+
+			// Act
+			for it.Next() {
+				curr := GetInt(it.Current().Key())
+				if curr > 6 {
+					break
+				}
+				result = append(result, curr)
+			}
+
+			// Assert
+			ass.Equal(test.expected, result)
+		})
+	}
+}
+
 func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)

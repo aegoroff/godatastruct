@@ -43,6 +43,9 @@ type RbTree interface {
 
 // Enumerable represents tree enumeration interface
 type Enumerable interface {
+	// Iterator gets underlying Iterator
+	Iterator() Iterator
+
 	// Foreach enumerates tree and calls the callback for
 	// every value in the tree until callback returns false.
 	Foreach(callback NodeAction)
