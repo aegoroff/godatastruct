@@ -20,7 +20,13 @@ type walkPreorder struct {
 	curr  *node
 }
 
-type walkPostorder struct{ tree *rbTree }
+type walkPostorder struct {
+	enumerable
+	tree  *rbTree
+	stack []*node
+	curr  *node
+	p     *node
+}
 
 type ascend struct {
 	enumerable
@@ -73,7 +79,22 @@ func NewWalkPreorder(t RbTree) Enumerable {
 }
 
 // NewWalkPostorder creates Enumerable that walks tree postorder (left, right, node)
-func NewWalkPostorder(t RbTree) Enumerable { return &walkPostorder{tree: t.(*rbTree)} }
+func NewWalkPostorder(t RbTree) Enumerable {
+	tree := t.(*rbTree)
+
+	e := &walkPostorder{
+		tree:  tree,
+		stack: make([]*node, 0),
+	}
+
+	if !tree.root.isNil() {
+		e.stack = append(e.stack, tree.root)
+		e.p = tree.root
+	}
+
+	e.it = e
+	return e
+}
 
 // NewAscend creates Enumerable that walks tree in ascending order
 func NewAscend(t RbTree) Enumerable {
@@ -196,35 +217,29 @@ func (i *walkPreorder) Next() bool {
 	return false
 }
 
-// Foreach does tree iteration and calls the callback for
-// every value in the tree until callback returns false.
-func (i *walkPostorder) Foreach(callback NodeAction) {
-	n := i.tree.root
-	if n.isNil() {
-		return
-	}
+func (i *walkPostorder) Current() Node { return i.curr }
 
-	var stack []*node
-	p := n
-	stack = append(stack, p)
+func (i *walkPostorder) Next() bool {
+	for len(i.stack) > 0 {
+		top := len(i.stack) - 1
+		next := i.stack[top]
 
-	for len(stack) > 0 {
-		top := len(stack) - 1
-		next := stack[top]
-
-		if next.right == p || next.left == p || (next.right.isNil() && next.left.isNil()) {
-			stack = stack[:top]
-			callback(next)
-			p = next
+		if next.right == i.p || next.left == i.p || (next.right.isNil() && next.left.isNil()) {
+			i.stack = i.stack[:top]
+			i.curr = next
+			i.p = next
+			return true
 		} else {
 			if !next.right.isNil() {
-				stack = append(stack, next.right)
+				i.stack = append(i.stack, next.right)
 			}
 			if !next.left.isNil() {
-				stack = append(stack, next.left)
+				i.stack = append(i.stack, next.left)
 			}
 		}
 	}
+
+	return false
 }
 
 func (i *ascend) Current() Node { return i.curr }
