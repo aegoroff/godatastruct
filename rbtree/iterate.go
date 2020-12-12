@@ -2,7 +2,12 @@ package rbtree
 
 // This file contains all RB tree iteration methods implementations
 
+type enumerable struct {
+	it Iterator
+}
+
 type walkInorder struct {
+	enumerable
 	tree *rbTree
 	curr *node
 	next *node
@@ -10,16 +15,20 @@ type walkInorder struct {
 
 type walkPreorder struct{ tree *rbTree }
 type walkPostorder struct{ tree *rbTree }
-type ascend struct{ tree *rbTree }
-type ascendRange struct {
+
+type ascend struct {
+	enumerable
 	tree *rbTree
-	from Comparable
+	curr *node
+	next *node
 	to   Comparable
 }
-type descend struct{ tree *rbTree }
-type descendRange struct {
+
+type descend struct {
+	enumerable
 	tree *rbTree
-	from Comparable
+	curr *node
+	next *node
 	to   Comparable
 }
 
@@ -37,6 +46,7 @@ func NewWalkInorder(t RbTree) Enumerable {
 		e.nextAsDeepestLeft()
 	}
 
+	e.it = e
 	return e
 }
 
@@ -47,40 +57,66 @@ func NewWalkPreorder(t RbTree) Enumerable { return &walkPreorder{tree: t.(*rbTre
 func NewWalkPostorder(t RbTree) Enumerable { return &walkPostorder{tree: t.(*rbTree)} }
 
 // NewAscend creates Enumerable that walks tree in ascending order
-func NewAscend(t RbTree) Enumerable { return &ascend{tree: t.(*rbTree)} }
+func NewAscend(t RbTree) Enumerable {
+	tree := t.(*rbTree)
+	e := &ascend{
+		tree: tree,
+	}
+
+	if tree.root != nil {
+		e.next = tree.root.minimum()
+		e.to = t.Maximum().Key()
+	}
+	e.it = e
+	return e
+}
 
 // NewAscendRange creates Enumerable that walks tree in ascending order within the range [from, to]
 func NewAscendRange(t RbTree, from, to Comparable) Enumerable {
-	return &ascendRange{
-		tree: t.(*rbTree),
-		from: from,
-		to:   to,
+	tree := t.(*rbTree)
+	e := &ascend{
+		tree: tree,
 	}
+
+	if tree.root != nil {
+		e.next, _ = tree.root.search(from)
+		e.to = to
+	}
+	e.it = e
+	return e
 }
 
 // NewDescend creates Enumerable that walks tree in descending order
-func NewDescend(t RbTree) Enumerable { return &descend{tree: t.(*rbTree)} }
+func NewDescend(t RbTree) Enumerable {
+	tree := t.(*rbTree)
+	e := &descend{
+		tree: tree,
+	}
+
+	if tree.root != nil {
+		e.next = tree.root.maximum()
+		e.to = t.Minimum().Key()
+	}
+	e.it = e
+	return e
+}
 
 // NewDescendRange that walks tree in descending order within the range [from, to]
 func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
-	return &descendRange{
-		tree: t.(*rbTree),
-		from: from,
-		to:   to,
+	tree := t.(*rbTree)
+	e := &descend{
+		tree: tree,
 	}
+
+	if tree.root != nil {
+		e.next, _ = tree.root.search(from)
+		e.to = to
+	}
+	e.it = e
+	return e
 }
 
-// Foreach does tree iteration and calls the callback for
-// every value in the tree until callback returns false.
-func (i *walkInorder) Foreach(callback NodeAction) {
-	for i.Next() {
-		callback(i.Current())
-	}
-}
-
-func (i *walkInorder) Current() Node {
-	return i.curr
-}
+func (i *walkInorder) Current() Node { return i.curr }
 
 func (i *walkInorder) Next() bool {
 	p := i.next
@@ -176,65 +212,32 @@ func (i *walkPostorder) Foreach(callback NodeAction) {
 	}
 }
 
-// Foreach does tree iteration and calls the callback for
-// every value in the tree until callback returns false.
-func (i *ascend) Foreach(callback NodeAction) {
-	max := i.tree.Maximum()
-	if max == nil {
-		return
-	}
+func (i *ascend) Current() Node { return i.curr }
 
-	min := i.tree.root.minimum()
-	min.ascend(max.Key(), callback)
+func (i *ascend) Next() bool {
+	result := !i.next.isNil() && i.to != nil && (i.next.key.LessThan(i.to) || i.next.key.EqualTo(i.to))
+	if result {
+		i.curr = i.next
+		i.next = i.curr.successor()
+	}
+	return result
+}
+
+func (i *descend) Current() Node { return i.curr }
+
+func (i *descend) Next() bool {
+	result := !i.next.isNil() && i.to != nil && !i.next.key.LessThan(i.to)
+	if result {
+		i.curr = i.next
+		i.next = i.curr.predecessor()
+	}
+	return result
 }
 
 // Foreach does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
-func (i *ascendRange) Foreach(callback NodeAction) {
-	if i.tree.root.isNil() || i.to == nil {
-		return
-	}
-	curr, ok := i.tree.root.search(i.from)
-	if ok {
-		curr.ascend(i.to, callback)
-	}
-}
-
-func (n *node) ascend(to Comparable, callback NodeAction) {
-	curr := n
-	for !curr.isNil() && (curr.key.LessThan(to) || curr.key.EqualTo(to)) {
-		callback(curr)
-		curr = curr.successor()
-	}
-}
-
-// Foreach does tree iteration and calls the callback for
-// every value in the tree until callback returns false.
-func (i *descend) Foreach(callback NodeAction) {
-	min := i.tree.Minimum()
-	if min == nil {
-		return
-	}
-	max := i.tree.root.maximum()
-	max.descend(min.Key(), callback)
-}
-
-// Foreach does tree iteration and calls the callback for
-// every value in the tree until callback returns false.
-func (i *descendRange) Foreach(callback NodeAction) {
-	if i.tree.root == nil || i.to == nil {
-		return
-	}
-	curr, ok := i.tree.root.search(i.from)
-	if ok {
-		curr.descend(i.to, callback)
-	}
-}
-
-func (n *node) descend(to Comparable, callback NodeAction) {
-	curr := n
-	for !curr.isNil() && !curr.key.LessThan(to) {
-		callback(curr)
-		curr = curr.predecessor()
+func (e *enumerable) Foreach(callback NodeAction) {
+	for e.it.Next() {
+		callback(e.it.Current())
 	}
 }
