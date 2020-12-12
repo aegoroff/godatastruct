@@ -49,7 +49,7 @@ func NewWalkInorder(t RbTree) Enumerable {
 	}
 
 	if !next.isNil() {
-		e.nextAsDeepestLeft()
+		e.setNextToDeepestLeft()
 	}
 
 	e.it = e
@@ -65,7 +65,7 @@ func NewWalkPreorder(t RbTree) Enumerable {
 		stack: make([]*node, 0),
 	}
 
-	if tree.root != nil {
+	if !tree.root.isNil() {
 		e.stack = append(e.stack, tree.root)
 	}
 	e.it = e
@@ -82,7 +82,7 @@ func NewAscend(t RbTree) Enumerable {
 		tree: tree,
 	}
 
-	if tree.root != nil {
+	if !tree.root.isNil() {
 		e.next = tree.root.minimum()
 		e.to = t.Maximum().Key()
 	}
@@ -97,7 +97,7 @@ func NewAscendRange(t RbTree, from, to Comparable) Enumerable {
 		tree: tree,
 	}
 
-	if tree.root != nil {
+	if !tree.root.isNil() && to != nil {
 		e.next, _ = tree.root.search(from)
 		e.to = to
 	}
@@ -112,7 +112,7 @@ func NewDescend(t RbTree) Enumerable {
 		tree: tree,
 	}
 
-	if tree.root != nil {
+	if !tree.root.isNil() {
 		e.next = tree.root.maximum()
 		e.to = t.Minimum().Key()
 	}
@@ -127,7 +127,7 @@ func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
 		tree: tree,
 	}
 
-	if tree.root != nil {
+	if !tree.root.isNil() && to != nil {
 		e.next, _ = tree.root.search(from)
 		e.to = to
 	}
@@ -143,7 +143,7 @@ func (i *walkInorder) Next() bool {
 	if !p.isNil() {
 		if !i.next.right.isNil() {
 			i.next = i.next.right
-			i.nextAsDeepestLeft()
+			i.setNextToDeepestLeft()
 			i.curr = p
 			return true
 		}
@@ -167,7 +167,7 @@ func (i *walkInorder) Next() bool {
 	return false
 }
 
-func (i *walkInorder) nextAsDeepestLeft() {
+func (i *walkInorder) setNextToDeepestLeft() {
 	for !i.next.left.isNil() {
 		i.next = i.next.left
 	}
@@ -230,7 +230,7 @@ func (i *walkPostorder) Foreach(callback NodeAction) {
 func (i *ascend) Current() Node { return i.curr }
 
 func (i *ascend) Next() bool {
-	result := !i.next.isNil() && i.to != nil && (i.next.key.LessThan(i.to) || i.next.key.EqualTo(i.to))
+	result := !i.next.isNil() && (i.next.key.LessThan(i.to) || i.next.key.EqualTo(i.to))
 	if result {
 		i.curr = i.next
 		i.next = i.curr.successor()
@@ -241,7 +241,7 @@ func (i *ascend) Next() bool {
 func (i *descend) Current() Node { return i.curr }
 
 func (i *descend) Next() bool {
-	result := !i.next.isNil() && i.to != nil && !i.next.key.LessThan(i.to)
+	result := !i.next.isNil() && !i.next.key.LessThan(i.to)
 	if result {
 		i.curr = i.next
 		i.next = i.curr.predecessor()
