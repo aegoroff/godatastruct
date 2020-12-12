@@ -13,7 +13,13 @@ type walkInorder struct {
 	next *node
 }
 
-type walkPreorder struct{ tree *rbTree }
+type walkPreorder struct {
+	enumerable
+	tree  *rbTree
+	stack []*node
+	curr  *node
+}
+
 type walkPostorder struct{ tree *rbTree }
 
 type ascend struct {
@@ -51,7 +57,20 @@ func NewWalkInorder(t RbTree) Enumerable {
 }
 
 // NewWalkPreorder creates Enumerable that walks tree preorder (node, left, right)
-func NewWalkPreorder(t RbTree) Enumerable { return &walkPreorder{tree: t.(*rbTree)} }
+func NewWalkPreorder(t RbTree) Enumerable {
+	tree := t.(*rbTree)
+
+	e := &walkPreorder{
+		tree:  tree,
+		stack: make([]*node, 0),
+	}
+
+	if tree.root != nil {
+		e.stack = append(e.stack, tree.root)
+	}
+	e.it = e
+	return e
+}
 
 // NewWalkPostorder creates Enumerable that walks tree postorder (left, right, node)
 func NewWalkPostorder(t RbTree) Enumerable { return &walkPostorder{tree: t.(*rbTree)} }
@@ -154,31 +173,27 @@ func (i *walkInorder) nextAsDeepestLeft() {
 	}
 }
 
-// Foreach does tree iteration and calls the callback for
-// every value in the tree until callback returns false.
-func (i *walkPreorder) Foreach(callback NodeAction) {
-	n := i.tree.root
-	if n.isNil() {
-		return
-	}
+func (i *walkPreorder) Current() Node { return i.curr }
 
-	var stack []*node
-	p := n
-	stack = append(stack, p)
-	for len(stack) > 0 {
-		top := len(stack) - 1
-		p = stack[top]
-		callback(p)
-		stack = stack[:top]
+func (i *walkPreorder) Next() bool {
+	if len(i.stack) > 0 {
+		top := len(i.stack) - 1
+		p := i.stack[top]
+		i.curr = p
+		i.stack = i.stack[:top]
 
 		if !p.right.isNil() {
-			stack = append(stack, p.right)
+			i.stack = append(i.stack, p.right)
 		}
 
 		if !p.left.isNil() {
-			stack = append(stack, p.left)
+			i.stack = append(i.stack, p.left)
 		}
+
+		return true
 	}
+
+	return false
 }
 
 // Foreach does tree iteration and calls the callback for
