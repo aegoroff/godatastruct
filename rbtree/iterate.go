@@ -18,20 +18,20 @@ type descendRange struct {
 	to   Comparable
 }
 
-// NewWalkInorder creates Iterator that walks tree inorder (left, node, right)
-func NewWalkInorder(t RbTree) Iterator { return &walkInorder{tree: t.(*rbTree)} }
+// NewWalkInorder creates Enumerable that walks tree inorder (left, node, right)
+func NewWalkInorder(t RbTree) Enumerable { return &walkInorder{tree: t.(*rbTree)} }
 
-// NewWalkPreorder creates Iterator that walks tree preorder (node, left, right)
-func NewWalkPreorder(t RbTree) Iterator { return &walkPreorder{tree: t.(*rbTree)} }
+// NewWalkPreorder creates Enumerable that walks tree preorder (node, left, right)
+func NewWalkPreorder(t RbTree) Enumerable { return &walkPreorder{tree: t.(*rbTree)} }
 
-// NewWalkPostorder creates Iterator that walks tree postorder (left, right, node)
-func NewWalkPostorder(t RbTree) Iterator { return &walkPostorder{tree: t.(*rbTree)} }
+// NewWalkPostorder creates Enumerable that walks tree postorder (left, right, node)
+func NewWalkPostorder(t RbTree) Enumerable { return &walkPostorder{tree: t.(*rbTree)} }
 
-// NewAscend creates Iterator that walks tree in ascending order
-func NewAscend(t RbTree) Iterator { return &ascend{tree: t.(*rbTree)} }
+// NewAscend creates Enumerable that walks tree in ascending order
+func NewAscend(t RbTree) Enumerable { return &ascend{tree: t.(*rbTree)} }
 
-// NewAscendRange creates Iterator that walks tree in ascending order within the range [from, to]
-func NewAscendRange(t RbTree, from, to Comparable) Iterator {
+// NewAscendRange creates Enumerable that walks tree in ascending order within the range [from, to]
+func NewAscendRange(t RbTree, from, to Comparable) Enumerable {
 	return &ascendRange{
 		tree: t.(*rbTree),
 		from: from,
@@ -39,11 +39,11 @@ func NewAscendRange(t RbTree, from, to Comparable) Iterator {
 	}
 }
 
-// NewDescend creates Iterator that walks tree in descending order
-func NewDescend(t RbTree) Iterator { return &descend{tree: t.(*rbTree)} }
+// NewDescend creates Enumerable that walks tree in descending order
+func NewDescend(t RbTree) Enumerable { return &descend{tree: t.(*rbTree)} }
 
 // NewDescendRange that walks tree in descending order within the range [from, to]
-func NewDescendRange(t RbTree, from, to Comparable) Iterator {
+func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
 	return &descendRange{
 		tree: t.(*rbTree),
 		from: from,

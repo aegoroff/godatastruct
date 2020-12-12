@@ -11,7 +11,7 @@ func Test_Foreach_Normal(t *testing.T) {
 	allFalse := func(c Comparable) bool { return false }
 	var tests = []struct {
 		name      string
-		it        Iterator
+		it        Enumerable
 		predicate func(Comparable) bool
 		expected  []int
 	}{
@@ -98,7 +98,7 @@ func Test_Foreach_EmptyTree(t *testing.T) {
 
 	var tests = []struct {
 		name string
-		it   Iterator
+		it   Enumerable
 	}{
 		{"inorder", NewWalkInorder(tree)},
 		{"preorder", NewWalkPreorder(tree)},

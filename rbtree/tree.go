@@ -41,9 +41,9 @@ type RbTree interface {
 	OrderStatisticSelect(i int64) (Node, bool)
 }
 
-// Iterator represents tree iteration interface
-type Iterator interface {
-	// Foreach does tree iteration and calls the callback for
+// Enumerable represents tree enumeration interface
+type Enumerable interface {
+	// Foreach does tree enumeration and calls the callback for
 	// every value in the tree until callback returns false.
 	Foreach(callback NodeEvaluator)
 }
