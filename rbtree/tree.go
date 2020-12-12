@@ -68,10 +68,10 @@ type Node interface {
 	// Subtree size including node itself
 	Size() int64
 
-	// Successor gets node's successor
+	// Successor gets Node's successor
 	Successor() Node
 
-	// Predecessor gets node's predecessor
+	// Predecessor gets Node's predecessor
 	Predecessor() Node
 }
 

@@ -51,7 +51,7 @@ func NewDescendRange(t RbTree, from, to Comparable) Iterator {
 	}
 }
 
-// Iterate does tree iteration and calls the callback for
+// Foreach does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
 func (i *walkInorder) Foreach(callback NodeEvaluator) {
 	n := i.tree.root
@@ -81,7 +81,7 @@ func (i *walkInorder) Foreach(callback NodeEvaluator) {
 	}
 }
 
-// Iterate does tree iteration and calls the callback for
+// Foreach does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
 func (i *walkPreorder) Foreach(callback NodeEvaluator) {
 	n := i.tree.root
@@ -110,7 +110,7 @@ func (i *walkPreorder) Foreach(callback NodeEvaluator) {
 	}
 }
 
-// Iterate does tree iteration and calls the callback for
+// Foreach does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
 func (i *walkPostorder) Foreach(callback NodeEvaluator) {
 	n := i.tree.root
@@ -143,7 +143,7 @@ func (i *walkPostorder) Foreach(callback NodeEvaluator) {
 	}
 }
 
-// Iterate does tree iteration and calls the callback for
+// Foreach does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
 func (i *ascend) Foreach(callback NodeEvaluator) {
 	max := i.tree.Maximum()
@@ -155,7 +155,7 @@ func (i *ascend) Foreach(callback NodeEvaluator) {
 	min.ascend(max.Key(), callback)
 }
 
-// Iterate does tree iteration and calls the callback for
+// Foreach does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
 func (i *ascendRange) Foreach(callback NodeEvaluator) {
 	if i.tree.root.isNil() || i.to == nil {
@@ -178,7 +178,7 @@ func (n *node) ascend(to Comparable, callback NodeEvaluator) {
 	}
 }
 
-// Iterate does tree iteration and calls the callback for
+// Foreach does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
 func (i *descend) Foreach(callback NodeEvaluator) {
 	min := i.tree.Minimum()
@@ -189,7 +189,7 @@ func (i *descend) Foreach(callback NodeEvaluator) {
 	max.descend(min.Key(), callback)
 }
 
-// Iterate does tree iteration and calls the callback for
+// Foreach does tree iteration and calls the callback for
 // every value in the tree until callback returns false.
 func (i *descendRange) Foreach(callback NodeEvaluator) {
 	if i.tree.root == nil || i.to == nil {
