@@ -6,26 +6,25 @@ type enumerable struct {
 	it Iterator
 }
 
-type walkInorder struct {
+type walk struct {
 	enumerable
-	tree *rbTree
-	curr *node
-	next *node
+	tree  *rbTree
+	stack []*node
+	curr  *node
+}
+
+type walkInorder struct {
+	walk
+	p *node
 }
 
 type walkPreorder struct {
-	enumerable
-	tree  *rbTree
-	stack []*node
-	curr  *node
+	walk
 }
 
 type walkPostorder struct {
-	enumerable
-	tree  *rbTree
-	stack []*node
-	curr  *node
-	p     *node
+	walk
+	p *node
 }
 
 type ascend struct {
@@ -46,16 +45,12 @@ type descend struct {
 
 // NewWalkInorder creates Enumerable that walks tree inorder (left, node, right)
 func NewWalkInorder(t RbTree) Enumerable {
-	tree := t.(*rbTree)
-	next := tree.root
-
 	e := &walkInorder{
-		tree: tree,
-		next: next,
+		walk: newWalk(t),
 	}
 
-	if !next.isNil() {
-		e.setNextToDeepestLeft()
+	if len(e.stack) > 0 {
+		e.p = e.stack[0]
 	}
 
 	e.it = e
@@ -64,36 +59,41 @@ func NewWalkInorder(t RbTree) Enumerable {
 
 // NewWalkPreorder creates Enumerable that walks tree preorder (node, left, right)
 func NewWalkPreorder(t RbTree) Enumerable {
-	tree := t.(*rbTree)
-
 	e := &walkPreorder{
-		tree:  tree,
-		stack: make([]*node, 0),
+		walk: newWalk(t),
 	}
 
-	if !tree.root.isNil() {
-		e.stack = append(e.stack, tree.root)
-	}
 	e.it = e
 	return e
 }
 
 // NewWalkPostorder creates Enumerable that walks tree postorder (left, right, node)
 func NewWalkPostorder(t RbTree) Enumerable {
+	e := &walkPostorder{
+		walk: newWalk(t),
+	}
+
+	if len(e.stack) > 0 {
+		e.p = e.stack[0]
+	}
+
+	e.it = e
+	return e
+}
+
+func newWalk(t RbTree) walk {
 	tree := t.(*rbTree)
 
-	e := &walkPostorder{
+	w := walk{
 		tree:  tree,
 		stack: make([]*node, 0),
 	}
 
 	if !tree.root.isNil() {
-		e.stack = append(e.stack, tree.root)
-		e.p = tree.root
+		w.stack = append(w.stack, tree.root)
 	}
 
-	e.it = e
-	return e
+	return w
 }
 
 // NewAscend creates Enumerable that walks tree in ascending order
@@ -159,39 +159,27 @@ func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
 func (i *walkInorder) Current() Node { return i.curr }
 
 func (i *walkInorder) Next() bool {
-	p := i.next
+	for len(i.stack) > 0 {
+		if !i.p.isNil() {
+			i.p = i.p.left
+			if !i.p.isNil() {
+				i.stack = append(i.stack, i.p)
+			}
+		} else {
+			top := len(i.stack) - 1
+			i.p = i.stack[top]
+			i.curr = i.p
+			i.stack = i.stack[:top]
+			i.p = i.p.right
 
-	if !p.isNil() {
-		if !i.next.right.isNil() {
-			i.next = i.next.right
-			i.setNextToDeepestLeft()
-			i.curr = p
+			if !i.p.isNil() {
+				i.stack = append(i.stack, i.p)
+			}
 			return true
-		}
-
-		for true {
-			if i.next.parent.isNil() {
-				i.next = nil
-				i.curr = p
-				return true
-			}
-
-			if i.next.parent.left == i.next {
-				i.next = i.next.parent
-				i.curr = p
-				return true
-			}
-			i.next = i.next.parent
 		}
 	}
 
 	return false
-}
-
-func (i *walkInorder) setNextToDeepestLeft() {
-	for !i.next.left.isNil() {
-		i.next = i.next.left
-	}
 }
 
 func (i *walkPreorder) Current() Node { return i.curr }
