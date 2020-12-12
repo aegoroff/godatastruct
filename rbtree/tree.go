@@ -95,13 +95,13 @@ type Comparable interface {
 	EqualTo(y Comparable) bool
 }
 
-// Int is the int type key that can be stored as Node
+// Int is the int type key that can be stored as Node's key
 type Int int
 
-// Int64 is the int64 type key that can be stored as Node
+// Int64 is the int64 type key that can be stored as Node's key
 type Int64 int64
 
-// String is the string type key that can be stored as Node
+// String is the string type key that can be stored as Node's key
 type String string
 
 // Key gets node's key
@@ -168,7 +168,7 @@ func GetInt(c Comparable) int {
 	return int(c.(Int))
 }
 
-// GetInt64 gets int value from Comparable
+// GetInt64 gets int64 value from Comparable
 func GetInt64(c Comparable) int64 {
 	return int64(c.(Int64))
 }
