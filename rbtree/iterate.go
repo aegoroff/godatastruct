@@ -178,13 +178,13 @@ func (i *walkPostorder) Next() bool {
 			i.curr = next
 			i.p = next
 			return true
-		} else {
-			if !next.right.isNil() {
-				i.stack = append(i.stack, next.right)
-			}
-			if !next.left.isNil() {
-				i.stack = append(i.stack, next.left)
-			}
+		}
+
+		if !next.right.isNil() {
+			i.stack = append(i.stack, next.right)
+		}
+		if !next.left.isNil() {
+			i.stack = append(i.stack, next.left)
 		}
 	}
 
