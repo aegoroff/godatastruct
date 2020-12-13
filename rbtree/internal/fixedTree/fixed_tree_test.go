@@ -1,4 +1,4 @@
-package restricted
+package fixedTree
 
 import (
 	"github.com/aegoroff/godatastruct/rbtree"
