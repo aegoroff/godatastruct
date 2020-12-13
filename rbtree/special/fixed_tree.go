@@ -15,6 +15,19 @@ func (t *maxTree) Len() int64 {
 	return t.tree.Len()
 }
 
+// Insert inserts node into tree which size is limited
+// Only <size> max nodes will be in the tree
+func (t *maxTree) Insert(c rbtree.Comparable) {
+	min := t.tree.Minimum()
+	if t.tree.Len() < t.size || min.Key().LessThan(c) {
+		if t.Len() == t.size {
+			t.DeleteNode(min.Key())
+		}
+
+		t.tree.Insert(c)
+	}
+}
+
 func (t *maxTree) DeleteNode(c rbtree.Comparable) bool {
 	return t.tree.DeleteNode(c)
 }
@@ -49,6 +62,19 @@ type minTree struct {
 
 func (t *minTree) Len() int64 {
 	return t.tree.Len()
+}
+
+// Insert inserts node into tree which size is limited
+// Only <size> min nodes will be in the tree
+func (t *minTree) Insert(c rbtree.Comparable) {
+	max := t.tree.Maximum()
+	if t.tree.Len() < t.size || !max.Key().LessThan(c) {
+		if t.tree.Len() == t.size {
+			t.tree.DeleteNode(max.Key())
+		}
+
+		t.tree.Insert(c)
+	}
 }
 
 func (t *minTree) DeleteNode(c rbtree.Comparable) bool {
@@ -88,31 +114,5 @@ func NewMinTree(sz int64) rbtree.RbTree {
 	return &minTree{
 		tree: rbtree.NewRbTree(),
 		size: sz,
-	}
-}
-
-// Insert inserts node into tree which size is limited
-// Only <size> max nodes will be in the tree
-func (t *maxTree) Insert(c rbtree.Comparable) {
-	min := t.tree.Minimum()
-	if t.tree.Len() < t.size || min.Key().LessThan(c) {
-		if t.Len() == t.size {
-			t.DeleteNode(min.Key())
-		}
-
-		t.tree.Insert(c)
-	}
-}
-
-// Insert inserts node into tree which size is limited
-// Only <size> min nodes will be in the tree
-func (t *minTree) Insert(c rbtree.Comparable) {
-	max := t.tree.Maximum()
-	if t.tree.Len() < t.size || !max.Key().LessThan(c) {
-		if t.tree.Len() == t.size {
-			t.tree.DeleteNode(max.Key())
-		}
-
-		t.tree.Insert(c)
 	}
 }
