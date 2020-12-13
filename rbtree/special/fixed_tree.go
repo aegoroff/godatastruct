@@ -27,7 +27,7 @@ func NewMaxTree(sz int64) *MaxTree {
 	}
 }
 
-// MinTree creates new fixed size tree that stores <sz> min values
+// NewMinTree creates new fixed size tree that stores <sz> min values
 func NewMinTree(sz int64) *MinTree {
 	return &MinTree{
 		Tree: rbtree.NewRbTree(),
