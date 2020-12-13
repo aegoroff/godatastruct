@@ -165,6 +165,144 @@ func TestMinSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.
 	ass.Equal(int64(nodesCount), tree.Len())
 }
 
+func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	minTree := NewMinTree(3)
+	maxTree := NewMaxTree(3)
+
+	for i := 1; i <= 10; i++ {
+		minTree.Insert(rbtree.NewInt(i))
+		maxTree.Insert(rbtree.NewInt(i))
+	}
+
+	var tests = []struct {
+		name     string
+		tree     rbtree.RbTree
+		order    int64
+		expected int
+	}{
+		{"Min tree 1", minTree, 1, 1},
+		{"Min tree 3", minTree, 3, 3},
+		{"Max tree 1", maxTree, 1, 8},
+		{"Max tree 3", maxTree, 3, 10},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			// Act
+			found, _ := test.tree.OrderStatisticSelect(test.order)
+
+			// Assert
+			ass.NotNil(found)
+			ass.Equal(test.expected, rbtree.GetInt(found.Key()))
+		})
+	}
+}
+
+func Test_SearchIntTree_Success(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	minTree := NewMinTree(3)
+	maxTree := NewMaxTree(3)
+
+	for i := 1; i <= 10; i++ {
+		minTree.Insert(rbtree.NewInt(i))
+		maxTree.Insert(rbtree.NewInt(i))
+	}
+
+	var tests = []struct {
+		name     string
+		tree     rbtree.RbTree
+		expected int
+	}{
+		{"Min tree", minTree, 1},
+		{"Max tree", maxTree, 8},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			v := rbtree.NewInt(test.expected)
+
+			// Act
+			found, ok := test.tree.Search(v)
+
+			// Assert
+			ass.True(ok)
+			ass.NotNil(found)
+			ass.Equal(test.expected, rbtree.GetInt(found.Key()))
+		})
+	}
+}
+
+func Test_DeleteNode_Success(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	minTree := NewMinTree(3)
+	maxTree := NewMaxTree(3)
+
+	for i := 1; i <= 10; i++ {
+		minTree.Insert(rbtree.NewInt(i))
+		maxTree.Insert(rbtree.NewInt(i))
+	}
+
+	var tests = []struct {
+		name     string
+		tree     rbtree.RbTree
+		expected int
+	}{
+		{"Min tree", minTree, 1},
+		{"Max tree", maxTree, 8},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			v := rbtree.NewInt(test.expected)
+
+			// Act
+			ok := test.tree.DeleteNode(v)
+
+			// Assert
+			ass.True(ok)
+			found, ok := test.tree.Search(v)
+			ass.False(ok)
+			ass.Nil(found)
+		})
+	}
+}
+
+func Test_DeleteAllNodesNodes_Success(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	minTree := NewMinTree(3)
+	maxTree := NewMaxTree(3)
+
+	for i := 1; i <= 10; i++ {
+		minTree.Insert(rbtree.NewInt(i))
+		maxTree.Insert(rbtree.NewInt(i))
+	}
+
+	var tests = []struct {
+		name     string
+		tree     rbtree.RbTree
+		expected int
+	}{
+		{"Min tree", minTree, 1},
+		{"Max tree", maxTree, 8},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			v := rbtree.NewInt(test.expected)
+
+			// Act
+			ok := test.tree.DeleteAllNodes(v)
+
+			// Assert
+			ass.True(ok)
+			found, ok := test.tree.Search(v)
+			ass.False(ok)
+			ass.Nil(found)
+		})
+	}
+}
+
 func randomString(n int) string {
 	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
