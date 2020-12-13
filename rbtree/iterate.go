@@ -2,9 +2,7 @@ package rbtree
 
 // This file contains all RB tree iteration methods implementations
 
-type enumerable struct {
-	it Iterator
-}
+type enumerable struct{ it Iterator }
 
 type iterator struct {
 	enumerable
@@ -17,13 +15,11 @@ type walk struct {
 	stack []*node
 }
 
+type walkPreorder struct{ walk }
+
 type walkInorder struct {
 	walk
 	p *node
-}
-
-type walkPreorder struct {
-	walk
 }
 
 type walkPostorder struct {
@@ -31,13 +27,9 @@ type walkPostorder struct {
 	p *node
 }
 
-type ascend struct {
-	ordered
-}
+type ascend struct{ ordered }
 
-type descend struct {
-	ordered
-}
+type descend struct{ ordered }
 
 type ordered struct {
 	iterator
@@ -81,23 +73,6 @@ func NewWalkPostorder(t RbTree) Enumerable {
 
 	e.it = e
 	return e
-}
-
-func newWalk(t RbTree) walk {
-	tree := t.(*rbTree)
-
-	it := iterator{tree: tree}
-
-	w := walk{
-		iterator: it,
-		stack:    make([]*node, 0),
-	}
-
-	if !tree.root.isNil() {
-		w.stack = append(w.stack, tree.root)
-	}
-
-	return w
 }
 
 // NewAscend creates Enumerable that walks tree in ascending order
@@ -146,26 +121,6 @@ func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
 	}
 
 	return e
-}
-
-func newAscend(t RbTree) *ascend {
-	ordered := newOrdered(t)
-	e := &ascend{ordered: ordered}
-	e.it = e
-	return e
-}
-
-func newDescend(t RbTree) *descend {
-	ordered := newOrdered(t)
-	e := &descend{ordered: ordered}
-	e.it = e
-	return e
-}
-
-func newOrdered(t RbTree) ordered {
-	tree := t.(*rbTree)
-	it := iterator{tree: tree}
-	return ordered{iterator: it}
 }
 
 func (i *walkInorder) Next() bool {
@@ -265,3 +220,40 @@ func (e *enumerable) Foreach(callback NodeAction) {
 func (e *enumerable) Iterator() Iterator { return e.it }
 
 func (i *iterator) Current() Node { return i.curr }
+
+func newWalk(t RbTree) walk {
+	tree := t.(*rbTree)
+
+	it := iterator{tree: tree}
+
+	w := walk{
+		iterator: it,
+		stack:    make([]*node, 0),
+	}
+
+	if !tree.root.isNil() {
+		w.stack = append(w.stack, tree.root)
+	}
+
+	return w
+}
+
+func newAscend(t RbTree) *ascend {
+	ordered := newOrdered(t)
+	e := &ascend{ordered: ordered}
+	e.it = e
+	return e
+}
+
+func newDescend(t RbTree) *descend {
+	ordered := newOrdered(t)
+	e := &descend{ordered: ordered}
+	e.it = e
+	return e
+}
+
+func newOrdered(t RbTree) ordered {
+	tree := t.(*rbTree)
+	it := iterator{tree: tree}
+	return ordered{iterator: it}
+}
