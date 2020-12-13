@@ -32,13 +32,13 @@ func Test_MaxSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	})
 
 	iterationCount := int64(0)
-	rbtree.NewDescend(ft.Tree).Foreach(func(n rbtree.Node) {
+	rbtree.NewDescend(ft).Foreach(func(n rbtree.Node) {
 		iterationCount++
 		result = append(result, n.String())
 	})
 
 	// Assert
-	ass.Equal(top, ft.Tree.Len())
+	ass.Equal(top, ft.Len())
 	ass.Equal(top, iterationCount)
 	ass.Equal([]string{"200", "199", "198", "197", "196"}, result)
 }
@@ -68,13 +68,13 @@ func Test_MinSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	})
 
 	iterationCount := int64(0)
-	rbtree.NewDescend(ft.Tree).Foreach(func(n rbtree.Node) {
+	rbtree.NewDescend(ft).Foreach(func(n rbtree.Node) {
 		iterationCount++
 		result = append(result, n.String())
 	})
 
 	// Assert
-	ass.Equal(top, ft.Tree.Len())
+	ass.Equal(top, ft.Len())
 	ass.Equal(top, iterationCount)
 	ass.Equal([]string{"5", "4", "3", "2", "1"}, result)
 }
@@ -105,16 +105,16 @@ func TestMaxSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.
 		ft.Insert(n.Key())
 	})
 
-	rbtree.NewDescend(ft.Tree).Foreach(func(n rbtree.Node) {
+	rbtree.NewDescend(ft).Foreach(func(n rbtree.Node) {
 		result = append(result, n.String())
 	})
 
 	// Assert
-	max := ft.Tree.Maximum()
+	max := ft.Maximum()
 	pred1 := max.Predecessor()
 	pred2 := pred1.Predecessor()
 
-	ass.Equal(ftSize, ft.Tree.Len())
+	ass.Equal(ftSize, ft.Len())
 	ass.Equal(max.String(), result[0])
 	ass.Equal(pred1.String(), result[1])
 	ass.Equal(pred2.String(), result[2])
@@ -148,16 +148,16 @@ func TestMinSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.
 		ft.Insert(n.Key())
 	})
 
-	rbtree.NewAscend(ft.Tree).Foreach(func(n rbtree.Node) {
+	rbtree.NewAscend(ft).Foreach(func(n rbtree.Node) {
 		result = append(result, n.String())
 	})
 
 	// Assert
-	min := ft.Tree.Minimum()
+	min := ft.Minimum()
 	succ1 := min.Successor()
 	succ2 := succ1.Successor()
 
-	ass.Equal(ftSize, ft.Tree.Len())
+	ass.Equal(ftSize, ft.Len())
 	ass.Equal(min.String(), result[0])
 	ass.Equal(succ1.String(), result[1])
 	ass.Equal(succ2.String(), result[2])

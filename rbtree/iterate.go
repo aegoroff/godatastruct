@@ -6,8 +6,8 @@ type enumerable struct{ it Iterator }
 
 type iterator struct {
 	enumerable
-	tree *rbTree
-	curr *node
+	tree RbTree
+	curr Node
 }
 
 type walk struct {
@@ -79,8 +79,8 @@ func NewWalkPostorder(t RbTree) Enumerable {
 func NewAscend(t RbTree) Enumerable {
 	e := newAscend(t)
 
-	if !e.tree.root.isNil() {
-		e.next = e.tree.root.minimum()
+	if e.tree.Len() > 0 {
+		e.next = e.tree.Minimum().(*node)
 		e.to = t.Maximum().Key()
 	}
 
@@ -91,8 +91,9 @@ func NewAscend(t RbTree) Enumerable {
 func NewAscendRange(t RbTree, from, to Comparable) Enumerable {
 	e := newAscend(t)
 
-	if !e.tree.root.isNil() && to != nil {
-		e.next, _ = e.tree.root.search(from)
+	if e.tree.Len() > 0 && to != nil {
+		n, _ := e.tree.Search(from)
+		e.next, _ = n.(*node)
 		e.to = to
 	}
 
@@ -103,8 +104,8 @@ func NewAscendRange(t RbTree, from, to Comparable) Enumerable {
 func NewDescend(t RbTree) Enumerable {
 	e := newDescend(t)
 
-	if !e.tree.root.isNil() {
-		e.next = e.tree.root.maximum()
+	if e.tree.Len() > 0 {
+		e.next = e.tree.Maximum().(*node)
 		e.to = t.Minimum().Key()
 	}
 
@@ -115,8 +116,9 @@ func NewDescend(t RbTree) Enumerable {
 func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
 	e := newDescend(t)
 
-	if !e.tree.root.isNil() && to != nil {
-		e.next, _ = e.tree.root.search(from)
+	if e.tree.Len() > 0 && to != nil {
+		n, _ := e.tree.Search(from)
+		e.next, _ = n.(*node)
 		e.to = to
 	}
 
@@ -192,19 +194,19 @@ func (i *walkPostorder) Next() bool {
 }
 
 func (i *ascend) Next() bool {
-	result := !i.next.isNil() && (i.next.key.LessThan(i.to) || i.next.key.EqualTo(i.to))
+	result := i.next != nil && (i.next.key.LessThan(i.to) || i.next.key.EqualTo(i.to))
 	if result {
 		i.curr = i.next
-		i.next = i.curr.successor()
+		i.next = i.curr.Successor().(*node)
 	}
 	return result
 }
 
 func (i *descend) Next() bool {
-	result := !i.next.isNil() && !i.next.key.LessThan(i.to)
+	result := i.next != nil && !i.next.key.LessThan(i.to)
 	if result {
 		i.curr = i.next
-		i.next = i.curr.predecessor()
+		i.next = i.curr.Predecessor().(*node)
 	}
 	return result
 }
@@ -224,7 +226,7 @@ func (i *iterator) Current() Node { return i.curr }
 func newWalk(t RbTree) walk {
 	tree := t.(*rbTree)
 
-	it := iterator{tree: tree}
+	it := iterator{tree: t}
 
 	w := walk{
 		iterator: it,
@@ -253,7 +255,6 @@ func newDescend(t RbTree) *descend {
 }
 
 func newOrdered(t RbTree) ordered {
-	tree := t.(*rbTree)
-	it := iterator{tree: tree}
+	it := iterator{tree: t}
 	return ordered{iterator: it}
 }

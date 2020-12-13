@@ -3,60 +3,116 @@ package special
 
 import "github.com/aegoroff/godatastruct/rbtree"
 
-// MaxTree represents Red-black search binary tree
+// maxTree represents Red-black search binary tree
 // that stores only limited size of max possible values
-type MaxTree struct {
-	// Tree contains underlying Red-black search binary tree
-	Tree rbtree.RbTree
+type maxTree struct {
+	// tree contains underlying Red-black search binary tree
+	tree rbtree.RbTree
 	size int64
 }
 
-// MinTree represents Red-black search binary tree
+func (t *maxTree) Len() int64 {
+	return t.tree.Len()
+}
+
+func (t *maxTree) DeleteNode(c rbtree.Comparable) bool {
+	return t.tree.DeleteNode(c)
+}
+
+func (t *maxTree) DeleteAllNodes(c rbtree.Comparable) bool {
+	return t.tree.DeleteAllNodes(c)
+}
+
+func (t *maxTree) Search(value rbtree.Comparable) (rbtree.Node, bool) {
+	return t.tree.Search(value)
+}
+
+func (t *maxTree) Minimum() rbtree.Node {
+	return t.tree.Minimum()
+}
+
+func (t *maxTree) Maximum() rbtree.Node {
+	return t.tree.Maximum()
+}
+
+func (t *maxTree) OrderStatisticSelect(i int64) (rbtree.Node, bool) {
+	return t.tree.OrderStatisticSelect(i)
+}
+
+// minTree represents Red-black search binary tree
 // that stores only limited size of min possible values
-type MinTree struct {
-	// Tree contains underlying Red-black search binary tree
-	Tree rbtree.RbTree
+type minTree struct {
+	// tree contains underlying Red-black search binary tree
+	tree rbtree.RbTree
 	size int64
+}
+
+func (t *minTree) Len() int64 {
+	return t.tree.Len()
+}
+
+func (t *minTree) DeleteNode(c rbtree.Comparable) bool {
+	return t.tree.DeleteNode(c)
+}
+
+func (t *minTree) DeleteAllNodes(c rbtree.Comparable) bool {
+	return t.tree.DeleteAllNodes(c)
+}
+
+func (t *minTree) Search(value rbtree.Comparable) (rbtree.Node, bool) {
+	return t.tree.Search(value)
+}
+
+func (t *minTree) Minimum() rbtree.Node {
+	return t.tree.Minimum()
+}
+
+func (t *minTree) Maximum() rbtree.Node {
+	return t.tree.Maximum()
+}
+
+func (t *minTree) OrderStatisticSelect(i int64) (rbtree.Node, bool) {
+	return t.tree.OrderStatisticSelect(i)
 }
 
 // NewMaxTree creates new fixed size tree that stores <sz> max values
-func NewMaxTree(sz int64) *MaxTree {
-	return &MaxTree{
-		Tree: rbtree.NewRbTree(),
+func NewMaxTree(sz int64) rbtree.RbTree {
+	return &maxTree{
+		tree: rbtree.NewRbTree(),
 		size: sz,
 	}
 }
 
 // NewMinTree creates new fixed size tree that stores <sz> min values
-func NewMinTree(sz int64) *MinTree {
-	return &MinTree{
-		Tree: rbtree.NewRbTree(),
+func NewMinTree(sz int64) rbtree.RbTree {
+	return &minTree{
+		tree: rbtree.NewRbTree(),
 		size: sz,
 	}
 }
 
 // Insert inserts node into tree which size is limited
 // Only <size> max nodes will be in the tree
-func (t *MaxTree) Insert(c rbtree.Comparable) {
-	min := t.Tree.Minimum()
-	if t.Tree.Len() < t.size || min.Key().LessThan(c) {
-		if t.Tree.Len() == t.size {
-			t.Tree.DeleteNode(min.Key())
+func (t *maxTree) Insert(c rbtree.Comparable) {
+	min := t.tree.Minimum()
+	if t.tree.Len() < t.size || min.Key().LessThan(c) {
+		if t.Len() == t.size {
+			t.DeleteNode(min.Key())
 		}
 
-		t.Tree.Insert(c)
+		t.tree.Insert(c)
 	}
 }
 
 // Insert inserts node into tree which size is limited
 // Only <size> min nodes will be in the tree
-func (t *MinTree) Insert(c rbtree.Comparable) {
-	max := t.Tree.Maximum()
-	if t.Tree.Len() < t.size || !max.Key().LessThan(c) {
-		if t.Tree.Len() == t.size {
-			t.Tree.DeleteNode(max.Key())
+func (t *minTree) Insert(c rbtree.Comparable) {
+	max := t.tree.Maximum()
+	if t.tree.Len() < t.size || !max.Key().LessThan(c) {
+		if t.tree.Len() == t.size {
+			t.tree.DeleteNode(max.Key())
 		}
 
-		t.Tree.Insert(c)
+		t.tree.Insert(c)
 	}
 }
