@@ -6,20 +6,20 @@ import (
 )
 
 func ExampleNewMaxTree() {
-	maxTree := NewMaxTree(3)
+	tree := NewMaxTree(3)
 	for i := 1; i <= 10; i++ {
-		maxTree.Insert(rbtree.NewInt(i))
+		tree.Insert(rbtree.NewInt(i))
 	}
 
-	size := maxTree.Len()
+	size := tree.Len()
 	fmt.Println(size)
 
-	found, ok := maxTree.Search(rbtree.NewInt(8))
+	found, ok := tree.Search(rbtree.NewInt(8))
 
 	fmt.Println(found)
 	fmt.Println(ok)
 
-	found, ok = maxTree.Search(rbtree.NewInt(1))
+	found, ok = tree.Search(rbtree.NewInt(1))
 
 	fmt.Println(found)
 	fmt.Println(ok)
@@ -33,20 +33,20 @@ func ExampleNewMaxTree() {
 }
 
 func ExampleNewMinTree() {
-	maxTree := NewMinTree(3)
+	tree := NewMinTree(3)
 	for i := 1; i <= 10; i++ {
-		maxTree.Insert(rbtree.NewInt(i))
+		tree.Insert(rbtree.NewInt(i))
 	}
 
-	size := maxTree.Len()
+	size := tree.Len()
 	fmt.Println(size)
 
-	found, ok := maxTree.Search(rbtree.NewInt(8))
+	found, ok := tree.Search(rbtree.NewInt(8))
 
 	fmt.Println(found)
 	fmt.Println(ok)
 
-	found, ok = maxTree.Search(rbtree.NewInt(1))
+	found, ok = tree.Search(rbtree.NewInt(1))
 
 	fmt.Println(found)
 	fmt.Println(ok)

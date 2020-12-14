@@ -61,7 +61,11 @@ func (t *concurrencySafeTree) OrderStatisticSelect(i int64) (rbtree.Node, bool) 
 
 // NewConcurrencySafeTree creates new concurrency safe tree that can be used in concurrency scenarios
 func NewConcurrencySafeTree() rbtree.RbTree {
-	return &concurrencySafeTree{
-		tree: rbtree.NewRbTree(),
-	}
+	return WrapTreeToConcurrencySafeTree(rbtree.NewRbTree())
+}
+
+// WrapTreeToConcurrencySafeTree creates new concurrency safe tree wrapper over existing rbtree.RbTree
+// to use it safely in concurrency scenarios
+func WrapTreeToConcurrencySafeTree(t rbtree.RbTree) rbtree.RbTree {
+	return &concurrencySafeTree{tree: t}
 }

@@ -29,6 +29,35 @@ func Test_ConcurrencySafeTree_InsertTest(t *testing.T) {
 	ass.Equal(int64(nodesCount), tree.Len())
 }
 
+func Test_WrapTreeToConcurrencySafeTree_InsertTest(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	result := make([]int, 0)
+	var wg sync.WaitGroup
+
+	const nodesCount = 200
+	top := int64(4)
+	mt := NewMaxTree(top)
+	tree := WrapTreeToConcurrencySafeTree(mt)
+
+	// Act
+	for i := 1; i <= nodesCount; i++ {
+		wg.Add(1)
+		go func(ix int) {
+			defer wg.Done()
+			tree.Insert(rbtree.NewInt(ix))
+		}(i)
+	}
+	wg.Wait()
+
+	// Assert
+	ass.Equal(top, tree.Len())
+	rbtree.NewDescend(tree).Foreach(func(n rbtree.Node) {
+		result = append(result, rbtree.GetInt(n.Key()))
+	})
+	ass.Equal([]int{200, 199, 198, 197}, result)
+}
+
 func Test_ConcurrencySafeTree_DeleteNodeTest(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
