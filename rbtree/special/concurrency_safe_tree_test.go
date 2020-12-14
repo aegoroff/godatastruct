@@ -249,7 +249,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndOrderStatisticSelectTest(
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			_, ok := tree.OrderStatisticSelect(int64(nodesCount / 2))
+			_, ok := tree.OrderStatisticSelect(1)
 			readResultsChan <- ok
 		}(i)
 	}
@@ -260,5 +260,39 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndOrderStatisticSelectTest(
 	ass.Equal(int64(nodesCount/2), tree.Len())
 	for ok := range readResultsChan {
 		ass.True(ok)
+	}
+}
+
+func Test_ConcurrencySafeTree_Foreach(t *testing.T) {
+	tree := NewConcurrencySafeTree()
+	tree.Insert(rbtree.NewInt(6))
+	tree.Insert(rbtree.NewInt(18))
+	tree.Insert(rbtree.NewInt(3))
+
+	var tests = []struct {
+		name     string
+		it       rbtree.Enumerable
+		expected []int
+	}{
+		{"ascend normal", rbtree.NewAscend(tree), []int{3, 6, 18}},
+		{"descend normal", rbtree.NewDescend(tree), []int{18, 6, 3}},
+		{"inorder normal", rbtree.NewWalkInorder(tree), []int{3, 6, 18}},
+		{"preorder normal", rbtree.NewWalkPreorder(tree), []int{6, 3, 18}},
+		{"postorder normal", rbtree.NewWalkPostorder(tree), []int{3, 18, 6}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+			result := make([]int, 0)
+
+			// Act
+			test.it.Foreach(func(n rbtree.Node) {
+				result = append(result, rbtree.GetInt(n.Key()))
+			})
+
+			// Assert
+			ass.Equal(test.expected, result)
+		})
 	}
 }

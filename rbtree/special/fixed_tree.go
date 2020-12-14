@@ -11,6 +11,10 @@ type maxTree struct {
 	size int64
 }
 
+func (t *maxTree) Root() rbtree.Node {
+	return t.tree.Root()
+}
+
 func (t *maxTree) Len() int64 {
 	return t.tree.Len()
 }
@@ -58,6 +62,10 @@ type minTree struct {
 	// tree contains underlying Red-black search binary tree
 	tree rbtree.RbTree
 	size int64
+}
+
+func (t *minTree) Root() rbtree.Node {
+	return t.tree.Root()
 }
 
 func (t *minTree) Len() int64 {

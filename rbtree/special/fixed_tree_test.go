@@ -303,6 +303,49 @@ func Test_DeleteAllNodesNodes_Success(t *testing.T) {
 	}
 }
 
+func Test_FexedTree_Foreach(t *testing.T) {
+	minTree := NewMinTree(3)
+	maxTree := NewMaxTree(3)
+
+	for i := 1; i <= 10; i++ {
+		minTree.Insert(rbtree.NewInt(i))
+		maxTree.Insert(rbtree.NewInt(i))
+	}
+
+	var tests = []struct {
+		name     string
+		it       rbtree.Enumerable
+		expected []int
+	}{
+		{"ascend normal min", rbtree.NewAscend(minTree), []int{1, 2, 3}},
+		{"descend normal min", rbtree.NewDescend(minTree), []int{3, 2, 1}},
+		{"inorder normal min", rbtree.NewWalkInorder(minTree), []int{1, 2, 3}},
+		{"preorder normal min", rbtree.NewWalkPreorder(minTree), []int{2, 1, 3}},
+		{"postorder normal min", rbtree.NewWalkPostorder(minTree), []int{1, 3, 2}},
+
+		{"ascend normal max", rbtree.NewAscend(maxTree), []int{8, 9, 10}},
+		{"descend normal max", rbtree.NewDescend(maxTree), []int{10, 9, 8}},
+		{"inorder normal max", rbtree.NewWalkInorder(maxTree), []int{8, 9, 10}},
+		{"preorder normal max", rbtree.NewWalkPreorder(maxTree), []int{9, 8, 10}},
+		{"postorder normal max", rbtree.NewWalkPostorder(maxTree), []int{8, 10, 9}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+			result := make([]int, 0)
+
+			// Act
+			test.it.Foreach(func(n rbtree.Node) {
+				result = append(result, rbtree.GetInt(n.Key()))
+			})
+
+			// Assert
+			ass.Equal(test.expected, result)
+		})
+	}
+}
+
 func randomString(n int) string {
 	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 

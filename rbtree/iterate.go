@@ -224,8 +224,6 @@ func (e *enumerable) Iterator() Iterator { return e.it }
 func (i *iterator) Current() Node { return i.curr }
 
 func newWalk(t RbTree) walk {
-	tree := t.(*rbTree)
-
 	it := iterator{tree: t}
 
 	w := walk{
@@ -233,8 +231,8 @@ func newWalk(t RbTree) walk {
 		stack:    make([]*node, 0),
 	}
 
-	if !tree.root.isNil() {
-		w.stack = append(w.stack, tree.root)
+	if t.Len() > 0 {
+		w.stack = append(w.stack, t.Root().(*node))
 	}
 
 	return w

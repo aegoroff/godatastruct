@@ -4,7 +4,7 @@ package rbtree
 
 // Search searches value specified within search tree
 func (tree *rbTree) Search(value Comparable) (Node, bool) {
-	if tree.root == nil {
+	if tree.root.isNil() {
 		return nil, false
 	}
 	n, ok := tree.root.search(value)
@@ -38,7 +38,7 @@ func (n *node) search(value Comparable) (*node, bool) {
 
 // Minimum gets tree's min element
 func (tree *rbTree) Minimum() Node {
-	if tree.root == nil {
+	if tree.root.isNil() {
 		return nil
 	}
 	return tree.root.minimum()
@@ -54,7 +54,7 @@ func (n *node) minimum() *node {
 
 // Maximum gets tree's max element
 func (tree *rbTree) Maximum() Node {
-	if tree.root == nil {
+	if tree.root.isNil() {
 		return nil
 	}
 	return tree.root.maximum()
@@ -125,7 +125,7 @@ func (n *node) predecessor() *node {
 // OrderStatisticSelect gets i element from subtree
 // IMPORTANT: numeration starts from 1 not from 0
 func (tree *rbTree) OrderStatisticSelect(i int64) (Node, bool) {
-	if tree.root == nil {
+	if tree.root.isNil() {
 		return nil, false
 	}
 

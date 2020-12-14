@@ -39,6 +39,9 @@ type RbTree interface {
 	// OrderStatisticSelect gets i element from subtree
 	// IMPORTANT: numeration starts from 1 not from 0
 	OrderStatisticSelect(i int64) (Node, bool)
+
+	// Root gets tree root node
+	Root() Node
 }
 
 // Enumerable represents tree enumeration interface
@@ -62,7 +65,7 @@ type Iterator interface {
 	//
 	// Next should be called prior to any call to the
 	// iterator's item retrieval method after the
-	// iterator has been obtained or reset.
+	// iterator has been obtained
 	//
 	// The order of iteration is implementation
 	// dependent.
@@ -226,4 +229,8 @@ func (tree *rbTree) Len() int64 {
 	}
 
 	return tree.root.size
+}
+
+func (tree *rbTree) Root() Node {
+	return tree.root
 }

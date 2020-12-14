@@ -11,6 +11,12 @@ type concurrencySafeTree struct {
 	mu   sync.RWMutex
 }
 
+func (t *concurrencySafeTree) Root() rbtree.Node {
+	t.mu.RLock()
+	defer t.mu.RUnlock()
+	return t.tree.Root()
+}
+
 func (t *concurrencySafeTree) Len() int64 {
 	t.mu.RLock()
 	defer t.mu.RUnlock()
