@@ -59,11 +59,11 @@ func ExampleWrapTreeToConcurrencySafeTree() {
 		}(i)
 
 		wg.Add(1)
-		go func(ix int) {
+		go func() {
 			defer wg.Done()
 			_, ok := safeTree.Search(rbtree.NewInt(nodesCount))
 			fmt.Println(ok)
-		}(i)
+		}()
 	}
 	wg.Wait()
 
