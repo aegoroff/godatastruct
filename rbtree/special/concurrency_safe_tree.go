@@ -62,7 +62,8 @@ func (t *concurrencySafeTree) Maximum() rbtree.Node {
 func (t *concurrencySafeTree) OrderStatisticSelect(i int64) (rbtree.Node, bool) {
 	t.mu.RLock()
 	defer t.mu.RUnlock()
-	return t.tree.OrderStatisticSelect(i)
+	n, ok := t.tree.OrderStatisticSelect(i)
+	return n, ok
 }
 
 // NewConcurrencySafeTree creates new concurrency safe tree that can be used in concurrency scenarios
