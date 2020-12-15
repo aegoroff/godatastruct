@@ -72,10 +72,7 @@ func (n *node) Successor() Node {
 	if n.isNil() {
 		return nil
 	}
-	return n.successor()
-}
 
-func (n *node) successor() *node {
 	x := n
 	if x.right.isNotNil() {
 		return x.right.minimum()
@@ -99,10 +96,7 @@ func (n *node) Predecessor() Node {
 	if n.isNil() {
 		return nil
 	}
-	return n.predecessor()
-}
 
-func (n *node) predecessor() *node {
 	x := n
 	if x.left.isNotNil() {
 		return x.left.maximum()

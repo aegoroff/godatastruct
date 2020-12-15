@@ -33,7 +33,7 @@ type descend struct{ ordered }
 
 type ordered struct {
 	iterator
-	next *node
+	next Node
 	to   Comparable
 }
 
@@ -196,19 +196,19 @@ func (i *walkPostorder) Next() bool {
 }
 
 func (i *ascend) Next() bool {
-	result := i.next.isNotNil() && (i.next.key.LessThan(i.to) || i.next.key.EqualTo(i.to))
+	result := i.next != nil && (i.next.Key().LessThan(i.to) || i.next.Key().EqualTo(i.to))
 	if result {
 		i.curr = i.next
-		i.next = i.curr.Successor().(*node)
+		i.next = i.curr.Successor()
 	}
 	return result
 }
 
 func (i *descend) Next() bool {
-	result := i.next.isNotNil() && !i.next.key.LessThan(i.to)
+	result := i.next != nil && !i.next.Key().LessThan(i.to)
 	if result {
 		i.curr = i.next
-		i.next = i.curr.Predecessor().(*node)
+		i.next = i.curr.Predecessor()
 	}
 	return result
 }
