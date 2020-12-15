@@ -70,8 +70,8 @@ func (n *node) maximum() *node {
 
 // Successor gets Node's successor
 func (n *node) Successor() Node {
-	if n == nil {
-		return n
+	if n.isNil() {
+		return nil
 	}
 	return n.successor()
 }
@@ -97,8 +97,8 @@ func (n *node) successor() *node {
 
 // Predecessor gets Node's predecessor
 func (n *node) Predecessor() Node {
-	if n == nil {
-		return n
+	if n.isNil() {
+		return nil
 	}
 	return n.predecessor()
 }
