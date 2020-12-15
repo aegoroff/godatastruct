@@ -129,9 +129,9 @@ func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
 
 func (i *walkInorder) Next() bool {
 	for len(i.stack) > 0 {
-		if !i.p.isNil() {
+		if i.p.isNotNil() {
 			i.p = i.p.left
-			if !i.p.isNil() {
+			if i.p.isNotNil() {
 				i.stack = append(i.stack, i.p)
 			}
 		} else {
@@ -141,7 +141,7 @@ func (i *walkInorder) Next() bool {
 			i.stack = i.stack[:top]
 			i.p = i.p.right
 
-			if !i.p.isNil() {
+			if i.p.isNotNil() {
 				i.stack = append(i.stack, i.p)
 			}
 			return true
@@ -158,11 +158,11 @@ func (i *walkPreorder) Next() bool {
 		i.curr = p
 		i.stack = i.stack[:top]
 
-		if !p.right.isNil() {
+		if p.right.isNotNil() {
 			i.stack = append(i.stack, p.right)
 		}
 
-		if !p.left.isNil() {
+		if p.left.isNotNil() {
 			i.stack = append(i.stack, p.left)
 		}
 
@@ -184,10 +184,10 @@ func (i *walkPostorder) Next() bool {
 			return true
 		}
 
-		if !next.right.isNil() {
+		if next.right.isNotNil() {
 			i.stack = append(i.stack, next.right)
 		}
-		if !next.left.isNil() {
+		if next.left.isNotNil() {
 			i.stack = append(i.stack, next.left)
 		}
 	}
@@ -196,7 +196,7 @@ func (i *walkPostorder) Next() bool {
 }
 
 func (i *ascend) Next() bool {
-	result := !i.next.isNil() && (i.next.key.LessThan(i.to) || i.next.key.EqualTo(i.to))
+	result := i.next.isNotNil() && (i.next.key.LessThan(i.to) || i.next.key.EqualTo(i.to))
 	if result {
 		i.curr = i.next
 		i.next = i.curr.Successor().(*node)
@@ -205,7 +205,7 @@ func (i *ascend) Next() bool {
 }
 
 func (i *descend) Next() bool {
-	result := !i.next.isNil() && !i.next.key.LessThan(i.to)
+	result := i.next.isNotNil() && !i.next.key.LessThan(i.to)
 	if result {
 		i.curr = i.next
 		i.next = i.curr.Predecessor().(*node)

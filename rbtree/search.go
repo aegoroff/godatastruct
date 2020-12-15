@@ -20,20 +20,19 @@ func (n *node) search(value Comparable) (*node, bool) {
 	}
 	var x *node
 	x = n
-	for !x.isNil() && !value.EqualTo(x.key) {
+	for x.isNotNil() && !value.EqualTo(x.key) {
 		if value.LessThan(x.key) {
 			x = x.left
 		} else {
 			x = x.right
 		}
 	}
-	ok := !x.isNil()
 
-	if !ok {
-		return nil, ok
+	if x.isNil() {
+		return nil, false
 	}
 
-	return x, ok
+	return x, true
 }
 
 // Minimum gets tree's min element
@@ -46,7 +45,7 @@ func (tree *rbTree) Minimum() Node {
 
 func (n *node) minimum() *node {
 	x := n
-	for !x.isNil() && !x.left.isNil() {
+	for x.isNotNil() && x.left.isNotNil() {
 		x = x.left
 	}
 	return x
@@ -62,7 +61,7 @@ func (tree *rbTree) Maximum() Node {
 
 func (n *node) maximum() *node {
 	x := n
-	for !x.isNil() && !x.right.isNil() {
+	for x.isNotNil() && x.right.isNotNil() {
 		x = x.right
 	}
 	return x
@@ -78,12 +77,12 @@ func (n *node) Successor() Node {
 
 func (n *node) successor() *node {
 	x := n
-	if !x.right.isNil() {
+	if x.right.isNotNil() {
 		return x.right.minimum()
 	}
 
 	y := x.parent
-	for !y.isNil() && x == y.right {
+	for y.isNotNil() && x == y.right {
 		x = y
 		y = y.parent
 	}
@@ -105,12 +104,12 @@ func (n *node) Predecessor() Node {
 
 func (n *node) predecessor() *node {
 	x := n
-	if !x.left.isNil() {
+	if x.left.isNotNil() {
 		return x.left.maximum()
 	}
 
 	y := x.parent
-	for !y.isNil() && x == y.left {
+	for y.isNotNil() && x == y.left {
 		x = y
 		y = y.parent
 	}
