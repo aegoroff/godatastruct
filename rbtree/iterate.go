@@ -79,8 +79,9 @@ func NewWalkPostorder(t RbTree) Enumerable {
 func NewAscend(t RbTree) Enumerable {
 	e := newAscend(t)
 
-	if e.tree.Len() > 0 {
-		e.next = e.tree.Minimum().(*node)
+	min := e.tree.Minimum()
+	if min != nil {
+		e.next = min.(*node)
 		e.to = t.Maximum().Key()
 	}
 
@@ -91,9 +92,9 @@ func NewAscend(t RbTree) Enumerable {
 func NewAscendRange(t RbTree, from, to Comparable) Enumerable {
 	e := newAscend(t)
 
-	if e.tree.Len() > 0 && to != nil {
-		n, _ := e.tree.Search(from)
-		e.next, _ = n.(*node)
+	n, ok := e.tree.Search(from)
+	if ok && to != nil {
+		e.next = n.(*node)
 		e.to = to
 	}
 
@@ -104,8 +105,9 @@ func NewAscendRange(t RbTree, from, to Comparable) Enumerable {
 func NewDescend(t RbTree) Enumerable {
 	e := newDescend(t)
 
-	if e.tree.Len() > 0 {
-		e.next = e.tree.Maximum().(*node)
+	max := e.tree.Maximum()
+	if max != nil {
+		e.next = max.(*node)
 		e.to = t.Minimum().Key()
 	}
 
@@ -116,9 +118,9 @@ func NewDescend(t RbTree) Enumerable {
 func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
 	e := newDescend(t)
 
-	if e.tree.Len() > 0 && to != nil {
-		n, _ := e.tree.Search(from)
-		e.next, _ = n.(*node)
+	n, ok := e.tree.Search(from)
+	if ok && to != nil {
+		e.next = n.(*node)
 		e.to = to
 	}
 
