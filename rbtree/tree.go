@@ -228,7 +228,7 @@ func newRbTree() *rbTree {
 
 // Len returns the number of nodes in the tree.
 func (tree *rbTree) Len() int64 {
-	if tree.root == nil || tree.root == tree.tnil {
+	if tree.root.isNil() {
 		return 0
 	}
 
