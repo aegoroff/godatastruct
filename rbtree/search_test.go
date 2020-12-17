@@ -78,7 +78,7 @@ func Test_SearchStringTree_Success(t *testing.T) {
 	// Assert
 	ass.True(ok)
 	ass.NotNil(found)
-	ass.Equal("intel", found.String())
+	ass.Equal("intel", found.Key().(*String).String())
 }
 
 func Test_SearchStringTree_Fail(t *testing.T) {

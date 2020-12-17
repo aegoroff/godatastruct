@@ -12,7 +12,7 @@ func Test_MaxSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	ass := assert.New(t)
 
 	var nodes []int
-	var result []string
+	var result []int
 	const nodesCount = 200
 
 	for i := 1; i <= nodesCount; i++ {
@@ -34,13 +34,13 @@ func Test_MaxSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	iterationCount := int64(0)
 	rbtree.NewDescend(ft).Foreach(func(n rbtree.Node) {
 		iterationCount++
-		result = append(result, n.String())
+		result = append(result, rbtree.GetInt(n.Key()))
 	})
 
 	// Assert
 	ass.Equal(top, ft.Len())
 	ass.Equal(top, iterationCount)
-	ass.Equal([]string{"200", "199", "198", "197", "196"}, result)
+	ass.Equal([]int{200, 199, 198, 197, 196}, result)
 }
 
 func Test_MinSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
@@ -48,7 +48,7 @@ func Test_MinSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	ass := assert.New(t)
 
 	var nodes []int
-	var result []string
+	var result []int
 	const nodesCount = 200
 
 	for i := 1; i <= nodesCount; i++ {
@@ -70,13 +70,13 @@ func Test_MinSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	iterationCount := int64(0)
 	rbtree.NewDescend(ft).Foreach(func(n rbtree.Node) {
 		iterationCount++
-		result = append(result, n.String())
+		result = append(result, rbtree.GetInt(n.Key()))
 	})
 
 	// Assert
 	ass.Equal(top, ft.Len())
 	ass.Equal(top, iterationCount)
-	ass.Equal([]string{"5", "4", "3", "2", "1"}, result)
+	ass.Equal([]int{5, 4, 3, 2, 1}, result)
 }
 
 func TestMaxSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
@@ -106,7 +106,7 @@ func TestMaxSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.
 	})
 
 	rbtree.NewDescend(ft).Foreach(func(n rbtree.Node) {
-		result = append(result, n.String())
+		result = append(result, n.Key().(*rbtree.String).String())
 	})
 
 	// Assert
@@ -115,9 +115,9 @@ func TestMaxSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.
 	pred2 := pred1.Predecessor()
 
 	ass.Equal(ftSize, ft.Len())
-	ass.Equal(max.String(), result[0])
-	ass.Equal(pred1.String(), result[1])
-	ass.Equal(pred2.String(), result[2])
+	ass.Equal(max.Key().(*rbtree.String).String(), result[0])
+	ass.Equal(pred1.Key().(*rbtree.String).String(), result[1])
+	ass.Equal(pred2.Key().(*rbtree.String).String(), result[2])
 	ass.Equal(ftSize, int64(len(result)))
 	ass.Equal(int64(nodesCount), tree.Len())
 }
@@ -149,7 +149,7 @@ func TestMinSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.
 	})
 
 	rbtree.NewAscend(ft).Foreach(func(n rbtree.Node) {
-		result = append(result, n.String())
+		result = append(result, n.Key().(*rbtree.String).String())
 	})
 
 	// Assert
@@ -158,9 +158,9 @@ func TestMinSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.
 	succ2 := succ1.Successor()
 
 	ass.Equal(ftSize, ft.Len())
-	ass.Equal(min.String(), result[0])
-	ass.Equal(succ1.String(), result[1])
-	ass.Equal(succ2.String(), result[2])
+	ass.Equal(min.Key().(*rbtree.String).String(), result[0])
+	ass.Equal(succ1.Key().(*rbtree.String).String(), result[1])
+	ass.Equal(succ2.Key().(*rbtree.String).String(), result[2])
 	ass.Equal(ftSize, int64(len(result)))
 	ass.Equal(int64(nodesCount), tree.Len())
 }

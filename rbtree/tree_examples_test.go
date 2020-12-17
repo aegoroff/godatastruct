@@ -1,6 +1,8 @@
 package rbtree
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func ExampleNewRbTree() {
 	tree := NewRbTree()
@@ -11,7 +13,7 @@ func ExampleNewRbTree() {
 	fmt.Println(size)
 
 	n, ok := tree.Search(node)
-	fmt.Println(n)
+	fmt.Println(n.Key())
 	fmt.Println(ok)
 
 	n, ok = tree.Search(NewString("b"))
@@ -34,7 +36,7 @@ func ExampleRbTree_OrderStatisticSelect() {
 	tree.Insert(NewInt(3))
 
 	found, ok := tree.OrderStatisticSelect(2)
-	fmt.Println(found)
+	fmt.Println(found.Key())
 	fmt.Println(ok)
 
 	// Output

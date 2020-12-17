@@ -97,11 +97,11 @@ func Test_RightRotate_StructureAsExpected(t *testing.T) {
 	rightRotate(tree, y)
 
 	// Assert
-	ass.Equal("root", x.parent.String())
-	ass.Equal("a", x.left.String())
-	ass.Equal("y", x.right.String())
-	ass.Equal("b", y.left.String())
-	ass.Equal("g", y.right.String())
+	ass.Equal("root", x.parent.key.(*String).String())
+	ass.Equal("a", x.left.key.(*String).String())
+	ass.Equal("y", x.right.key.(*String).String())
+	ass.Equal("b", y.left.key.(*String).String())
+	ass.Equal("g", y.right.key.(*String).String())
 }
 
 func Test_LeftRotate_StructureAsExpected(t *testing.T) {
@@ -133,11 +133,11 @@ func Test_LeftRotate_StructureAsExpected(t *testing.T) {
 	leftRotate(tree, x)
 
 	// Assert
-	ass.Equal("root", y.parent.String())
-	ass.Equal("x", y.left.String())
-	ass.Equal("g", y.right.String())
-	ass.Equal("a", x.left.String())
-	ass.Equal("b", x.right.String())
+	ass.Equal("root", y.parent.key.(*String).String())
+	ass.Equal("x", y.left.key.(*String).String())
+	ass.Equal("g", y.right.key.(*String).String())
+	ass.Equal("a", x.left.key.(*String).String())
+	ass.Equal("b", x.right.key.(*String).String())
 }
 
 func Test_GraphvizInt(t *testing.T) {
@@ -367,7 +367,7 @@ func Test_Delete_NodeDeleted(t *testing.T) {
 
 	found, ok = tree.root.search(NewString("microsoft"))
 	ass.True(ok)
-	ass.Equal("microsoft", found.String())
+	ass.Equal("microsoft", found.key.(*String).String())
 }
 
 func Test_DeleteNil_NothingDeleted(t *testing.T) {
@@ -381,7 +381,7 @@ func Test_DeleteNil_NothingDeleted(t *testing.T) {
 	// Assert
 	found, ok := tree.root.search(NewString("microsoft"))
 	ass.True(ok)
-	ass.Equal("microsoft", found.String())
+	ass.Equal("microsoft", found.key.(*String).String())
 }
 
 func Test_DeleteEmptyTree_NoError(t *testing.T) {
@@ -526,7 +526,6 @@ func TestGetInt(t *testing.T) {
 
 	// Assert
 	ass.Equal(3, i)
-	ass.Equal("3", c.String())
 }
 
 func TestGetInt64(t *testing.T) {
@@ -555,7 +554,6 @@ func Test_Int64Tree(t *testing.T) {
 	// Assert
 	ass.True(ok)
 	ass.Equal(int64(4), GetInt64(found.Key()))
-	ass.Equal("4", found.String())
 }
 
 // []int{6, 18, 3, 15, 7, 2, 4, 13, 9, 17, 20}
