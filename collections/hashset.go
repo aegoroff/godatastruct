@@ -2,13 +2,13 @@
 package collections
 
 // StringHashSet defines strings hash set
-type StringHashSet map[string]interface{}
+type StringHashSet map[string]struct{}
 
 // IntHashSet defines integers hash set
-type IntHashSet map[int]interface{}
+type IntHashSet map[int]struct{}
 
 // Int64HashSet defines large integers hash set
-type Int64HashSet map[int64]interface{}
+type Int64HashSet map[int64]struct{}
 
 // Count gets the number of items in the set
 func (s *StringHashSet) Count() int {
@@ -41,7 +41,7 @@ func (s *StringHashSet) Contains(key string) bool {
 
 // Add adds new item into the set
 func (s *StringHashSet) Add(key string) {
-	(*s)[key] = nil
+	(*s)[key] = struct{}{}
 }
 
 // Count gets the number of items in the set
@@ -66,7 +66,7 @@ func (s *IntHashSet) Contains(key int) bool {
 
 // Add adds new item into the set
 func (s *IntHashSet) Add(key int) {
-	(*s)[key] = nil
+	(*s)[key] = struct{}{}
 }
 
 // Count gets the number of items in the set
@@ -91,5 +91,5 @@ func (s *Int64HashSet) Contains(key int64) bool {
 
 // Add adds new item into the set
 func (s *Int64HashSet) Add(key int64) {
-	(*s)[key] = nil
+	(*s)[key] = struct{}{}
 }
