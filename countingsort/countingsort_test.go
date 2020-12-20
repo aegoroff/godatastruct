@@ -1,6 +1,7 @@
 package countingsort
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"math/rand"
 	"sort"
@@ -19,6 +20,15 @@ func TestInts(t *testing.T) {
 	ass.Equal([]int{0, 0, 1, 2, 2, 3, 3, 3, 4, 5}, items)
 }
 
+func ExampleInts() {
+	items := []int{2, 5, 3, 0, 0}
+
+	Ints(items, 5)
+	fmt.Println(items)
+	// Output:
+	// [0 0 2 3 5]
+}
+
 func TestInts64(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
@@ -29,6 +39,15 @@ func TestInts64(t *testing.T) {
 
 	// Assert
 	ass.Equal([]int64{0, 0, 1, 2, 2, 3, 3, 3, 4, 5}, items)
+}
+
+func ExampleInts64() {
+	items := []int64{2, 5, 3, 0, 0}
+
+	Ints64(items, 5)
+	fmt.Println(items)
+	// Output:
+	// [0 0 2 3 5]
 }
 
 func BenchmarkInts(b *testing.B) {

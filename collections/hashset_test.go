@@ -378,7 +378,7 @@ func ExampleStringHashSet_Contains() {
 	set.Add("1")
 	fmt.Println(set.Contains("1"))
 	fmt.Println(set.Contains("2"))
-	// Output
+	// Output:
 	// true
 	// false
 }
@@ -393,8 +393,7 @@ func ExampleStringHashSet_ItemsDecorated() {
 
 	fmt.Println(itemsOriginal)
 	fmt.Println(itemsUpperCased)
-
-	// Output
+	// Output:
 	// [a b]
 	// [A B]
 }

@@ -19,8 +19,7 @@ func ExampleNewRbTree() {
 	n, ok = tree.Search(NewString("b"))
 	fmt.Println(n)
 	fmt.Println(ok)
-
-	// Output
+	// Output:
 	// 1
 	// a
 	// true
@@ -38,8 +37,7 @@ func ExampleRbTree_OrderStatisticSelect() {
 	found, ok := tree.OrderStatisticSelect(2)
 	fmt.Println(found.Key())
 	fmt.Println(ok)
-
-	// Output
+	// Output:
 	// 6
 	// true
 }
@@ -55,8 +53,7 @@ func ExampleNode_Size() {
 
 	size := root.Size()
 	fmt.Println(size)
-
-	// Output
+	// Output:
 	// 3
 }
 
@@ -71,8 +68,7 @@ func ExampleNode_Successor() {
 
 	n := root.Successor()
 	fmt.Println(n.Key())
-
-	// Output
+	// Output:
 	// 18
 }
 
@@ -87,7 +83,6 @@ func ExampleNode_Predecessor() {
 
 	n := root.Predecessor()
 	fmt.Println(n.Key())
-
-	// Output
+	// Output:
 	// 3
 }

@@ -16,8 +16,7 @@ func ExampleNewWalkInorder() {
 	it.Foreach(func(n *Node) {
 		fmt.Println(n.Key())
 	})
-
-	// Output
+	// Output:
 	// 3
 	// 6
 	// 18
@@ -35,8 +34,7 @@ func ExampleNewWalkPreorder() {
 	it.Foreach(func(n *Node) {
 		fmt.Println(n.Key())
 	})
-
-	// Output
+	// Output:
 	// 6
 	// 3
 	// 18
@@ -54,8 +52,7 @@ func ExampleNewWalkPostorder() {
 	it.Foreach(func(n *Node) {
 		fmt.Println(n.Key())
 	})
-
-	// Output
+	// Output:
 	// 3
 	// 18
 	// 6
@@ -73,8 +70,7 @@ func ExampleNewAscend() {
 	it.Foreach(func(n *Node) {
 		fmt.Println(n.Key())
 	})
-
-	// Output
+	// Output:
 	// 3
 	// 6
 	// 18
@@ -92,8 +88,7 @@ func ExampleNewDescend() {
 	it.Foreach(func(n *Node) {
 		fmt.Println(n.Key())
 	})
-
-	// Output
+	// Output:
 	// 18
 	// 6
 	// 3
@@ -111,8 +106,7 @@ func ExampleNewAscendRange() {
 	it.Foreach(func(n *Node) {
 		fmt.Println(n.Key())
 	})
-
-	// Output
+	// Output:
 	// 3
 	// 6
 }
@@ -129,8 +123,7 @@ func ExampleNewDescendRange() {
 	it.Foreach(func(n *Node) {
 		fmt.Println(n.Key())
 	})
-
-	// Output
+	// Output:
 	// 6
 	// 3
 }

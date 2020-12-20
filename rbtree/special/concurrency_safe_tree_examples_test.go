@@ -30,8 +30,7 @@ func ExampleNewConcurrencySafeTree() {
 		}(i)
 	}
 	wg.Wait()
-
-	// Output
+	// Output:
 	// true
 	// true
 	// true
@@ -66,8 +65,7 @@ func ExampleWrapTreeToConcurrencySafeTree() {
 		}()
 	}
 	wg.Wait()
-
-	// Output
+	// Output:
 	// true
 	// true
 }

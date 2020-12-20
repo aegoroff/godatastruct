@@ -23,8 +23,7 @@ func ExampleNewMaxTree() {
 
 	fmt.Println(found)
 	fmt.Println(ok)
-
-	// Output
+	// Output:
 	// 3
 	// 8
 	// true
@@ -50,8 +49,7 @@ func ExampleNewMinTree() {
 
 	fmt.Println(found.Key())
 	fmt.Println(ok)
-
-	// Output
+	// Output:
 	// 3
 	// <nil>
 	// false
