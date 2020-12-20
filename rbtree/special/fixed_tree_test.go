@@ -27,12 +27,12 @@ func Test_MaxSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	ft := NewMaxTree(top)
 
 	// Act
-	rbtree.NewWalkInorder(tree).Foreach(func(n rbtree.Node) {
+	rbtree.NewWalkInorder(tree).Foreach(func(n *rbtree.Node) {
 		ft.Insert(n.Key())
 	})
 
 	iterationCount := int64(0)
-	rbtree.NewDescend(ft).Foreach(func(n rbtree.Node) {
+	rbtree.NewDescend(ft).Foreach(func(n *rbtree.Node) {
 		iterationCount++
 		result = append(result, rbtree.GetInt(n.Key()))
 	})
@@ -63,12 +63,12 @@ func Test_MinSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	ft := NewMinTree(top)
 
 	// Act
-	rbtree.NewWalkPreorder(tree).Foreach(func(n rbtree.Node) {
+	rbtree.NewWalkPreorder(tree).Foreach(func(n *rbtree.Node) {
 		ft.Insert(n.Key())
 	})
 
 	iterationCount := int64(0)
-	rbtree.NewDescend(ft).Foreach(func(n rbtree.Node) {
+	rbtree.NewDescend(ft).Foreach(func(n *rbtree.Node) {
 		iterationCount++
 		result = append(result, rbtree.GetInt(n.Key()))
 	})
@@ -101,11 +101,11 @@ func TestMaxSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.
 	ft := NewMaxTree(ftSize)
 
 	// Act
-	rbtree.NewWalkInorder(tree).Foreach(func(n rbtree.Node) {
+	rbtree.NewWalkInorder(tree).Foreach(func(n *rbtree.Node) {
 		ft.Insert(n.Key())
 	})
 
-	rbtree.NewDescend(ft).Foreach(func(n rbtree.Node) {
+	rbtree.NewDescend(ft).Foreach(func(n *rbtree.Node) {
 		result = append(result, n.Key().(*rbtree.String).String())
 	})
 
@@ -144,11 +144,11 @@ func TestMinSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.
 	ft := NewMinTree(ftSize)
 
 	// Act
-	rbtree.NewWalkInorder(tree).Foreach(func(n rbtree.Node) {
+	rbtree.NewWalkInorder(tree).Foreach(func(n *rbtree.Node) {
 		ft.Insert(n.Key())
 	})
 
-	rbtree.NewAscend(ft).Foreach(func(n rbtree.Node) {
+	rbtree.NewAscend(ft).Foreach(func(n *rbtree.Node) {
 		result = append(result, n.Key().(*rbtree.String).String())
 	})
 
@@ -336,7 +336,7 @@ func Test_FexedTree_Foreach(t *testing.T) {
 			result := make([]int, 0)
 
 			// Act
-			test.it.Foreach(func(n rbtree.Node) {
+			test.it.Foreach(func(n *rbtree.Node) {
 				result = append(result, rbtree.GetInt(n.Key()))
 			})
 

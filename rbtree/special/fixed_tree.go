@@ -11,7 +11,7 @@ type maxTree struct {
 	size int64
 }
 
-func (t *maxTree) Root() rbtree.Node {
+func (t *maxTree) Root() *rbtree.Node {
 	return t.tree.Root()
 }
 
@@ -40,19 +40,19 @@ func (t *maxTree) DeleteAllNodes(c rbtree.Comparable) bool {
 	return t.tree.DeleteAllNodes(c)
 }
 
-func (t *maxTree) Search(value rbtree.Comparable) (rbtree.Node, bool) {
+func (t *maxTree) Search(value rbtree.Comparable) (*rbtree.Node, bool) {
 	return t.tree.Search(value)
 }
 
-func (t *maxTree) Minimum() rbtree.Node {
+func (t *maxTree) Minimum() *rbtree.Node {
 	return t.tree.Minimum()
 }
 
-func (t *maxTree) Maximum() rbtree.Node {
+func (t *maxTree) Maximum() *rbtree.Node {
 	return t.tree.Maximum()
 }
 
-func (t *maxTree) OrderStatisticSelect(i int64) (rbtree.Node, bool) {
+func (t *maxTree) OrderStatisticSelect(i int64) (*rbtree.Node, bool) {
 	return t.tree.OrderStatisticSelect(i)
 }
 
@@ -64,7 +64,7 @@ type minTree struct {
 	size int64
 }
 
-func (t *minTree) Root() rbtree.Node {
+func (t *minTree) Root() *rbtree.Node {
 	return t.tree.Root()
 }
 
@@ -93,19 +93,19 @@ func (t *minTree) DeleteAllNodes(c rbtree.Comparable) bool {
 	return t.tree.DeleteAllNodes(c)
 }
 
-func (t *minTree) Search(value rbtree.Comparable) (rbtree.Node, bool) {
+func (t *minTree) Search(value rbtree.Comparable) (*rbtree.Node, bool) {
 	return t.tree.Search(value)
 }
 
-func (t *minTree) Minimum() rbtree.Node {
+func (t *minTree) Minimum() *rbtree.Node {
 	return t.tree.Minimum()
 }
 
-func (t *minTree) Maximum() rbtree.Node {
+func (t *minTree) Maximum() *rbtree.Node {
 	return t.tree.Maximum()
 }
 
-func (t *minTree) OrderStatisticSelect(i int64) (rbtree.Node, bool) {
+func (t *minTree) OrderStatisticSelect(i int64) (*rbtree.Node, bool) {
 	return t.tree.OrderStatisticSelect(i)
 }
 

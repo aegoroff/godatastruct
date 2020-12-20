@@ -52,7 +52,7 @@ func Test_WrapTreeToConcurrencySafeTree_InsertTest(t *testing.T) {
 
 	// Assert
 	ass.Equal(top, tree.Len())
-	rbtree.NewDescend(tree).Foreach(func(n rbtree.Node) {
+	rbtree.NewDescend(tree).Foreach(func(n *rbtree.Node) {
 		result = append(result, rbtree.GetInt(n.Key()))
 	})
 	ass.Equal([]int{200, 199, 198, 197}, result)
@@ -155,7 +155,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndMinimumTest(t *testing.T)
 
 	const nodesCount = 200
 	tree := NewConcurrencySafeTree()
-	readResultsChan := make(chan rbtree.Node, nodesCount/2)
+	readResultsChan := make(chan *rbtree.Node, nodesCount/2)
 
 	for i := 1; i <= nodesCount; i++ {
 		tree.Insert(rbtree.NewInt(i))
@@ -193,7 +193,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndMaximumTest(t *testing.T)
 
 	const nodesCount = 200
 	tree := NewConcurrencySafeTree()
-	readResultsChan := make(chan rbtree.Node, nodesCount/2)
+	readResultsChan := make(chan *rbtree.Node, nodesCount/2)
 
 	for i := 1; i <= nodesCount; i++ {
 		tree.Insert(rbtree.NewInt(i))
@@ -287,7 +287,7 @@ func Test_ConcurrencySafeTree_Foreach(t *testing.T) {
 			result := make([]int, 0)
 
 			// Act
-			test.it.Foreach(func(n rbtree.Node) {
+			test.it.Foreach(func(n *rbtree.Node) {
 				result = append(result, rbtree.GetInt(n.Key()))
 			})
 

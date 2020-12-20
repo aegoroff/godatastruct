@@ -7,24 +7,24 @@ type enumerable struct{ it Iterator }
 type iterator struct {
 	enumerable
 	tree RbTree
-	curr Node
+	curr *Node
 }
 
 type walk struct {
 	iterator
-	stack []*node
+	stack []*Node
 }
 
 type walkPreorder struct{ walk }
 
 type walkInorder struct {
 	walk
-	p *node
+	p *Node
 }
 
 type walkPostorder struct {
 	walk
-	p *node
+	p *Node
 }
 
 type ascend struct{ ordered }
@@ -33,7 +33,7 @@ type descend struct{ ordered }
 
 type ordered struct {
 	iterator
-	next Node
+	next *Node
 	to   Comparable
 }
 
@@ -223,18 +223,18 @@ func (e *enumerable) Foreach(callback NodeAction) {
 
 func (e *enumerable) Iterator() Iterator { return e.it }
 
-func (i *iterator) Current() Node { return i.curr }
+func (i *iterator) Current() *Node { return i.curr }
 
 func newWalk(t RbTree) walk {
 	it := iterator{tree: t}
 
 	w := walk{
 		iterator: it,
-		stack:    make([]*node, 0),
+		stack:    make([]*Node, 0),
 	}
 
 	if t.Len() > 0 {
-		w.stack = append(w.stack, t.Root().(*node))
+		w.stack = append(w.stack, t.Root())
 	}
 
 	return w

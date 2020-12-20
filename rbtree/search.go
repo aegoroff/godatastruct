@@ -3,7 +3,7 @@ package rbtree
 // This file contains all RB tree search methods implementations
 
 // Search searches value specified within search tree
-func (tree *rbTree) Search(value Comparable) (Node, bool) {
+func (tree *rbTree) Search(value Comparable) (*Node, bool) {
 	if tree.root.isNil() {
 		return nil, false
 	}
@@ -14,11 +14,11 @@ func (tree *rbTree) Search(value Comparable) (Node, bool) {
 	return n, ok
 }
 
-func (n *node) search(value Comparable) (*node, bool) {
+func (n *Node) search(value Comparable) (*Node, bool) {
 	if value == nil {
 		return nil, false
 	}
-	var x *node
+	var x *Node
 	x = n
 	for x.isNotNil() && !value.EqualTo(x.key) {
 		if value.LessThan(x.key) {
@@ -36,14 +36,14 @@ func (n *node) search(value Comparable) (*node, bool) {
 }
 
 // Minimum gets tree's min element
-func (tree *rbTree) Minimum() Node {
+func (tree *rbTree) Minimum() *Node {
 	if tree.root.isNil() {
 		return nil
 	}
 	return tree.root.minimum()
 }
 
-func (n *node) minimum() *node {
+func (n *Node) minimum() *Node {
 	x := n
 	for x.isNotNil() && x.left.isNotNil() {
 		x = x.left
@@ -52,14 +52,14 @@ func (n *node) minimum() *node {
 }
 
 // Maximum gets tree's max element
-func (tree *rbTree) Maximum() Node {
+func (tree *rbTree) Maximum() *Node {
 	if tree.root.isNil() {
 		return nil
 	}
 	return tree.root.maximum()
 }
 
-func (n *node) maximum() *node {
+func (n *Node) maximum() *Node {
 	x := n
 	for x.isNotNil() && x.right.isNotNil() {
 		x = x.right
@@ -68,7 +68,7 @@ func (n *node) maximum() *node {
 }
 
 // Successor gets Node's successor
-func (n *node) Successor() Node {
+func (n *Node) Successor() *Node {
 	if n.isNil() {
 		return nil
 	}
@@ -92,7 +92,7 @@ func (n *node) Successor() Node {
 }
 
 // Predecessor gets Node's predecessor
-func (n *node) Predecessor() Node {
+func (n *Node) Predecessor() *Node {
 	if n.isNil() {
 		return nil
 	}
@@ -117,7 +117,7 @@ func (n *node) Predecessor() Node {
 
 // OrderStatisticSelect gets i element from subtree
 // IMPORTANT: numeration starts from 1 not from 0
-func (tree *rbTree) OrderStatisticSelect(i int64) (Node, bool) {
+func (tree *rbTree) OrderStatisticSelect(i int64) (*Node, bool) {
 	if tree.root.isNil() {
 		return nil, false
 	}
@@ -125,7 +125,7 @@ func (tree *rbTree) OrderStatisticSelect(i int64) (Node, bool) {
 	return tree.root.orderStatisticSelect(i)
 }
 
-func (n *node) orderStatisticSelect(i int64) (*node, bool) {
+func (n *Node) orderStatisticSelect(i int64) (*Node, bool) {
 	if n.left == nil {
 		return nil, false
 	}

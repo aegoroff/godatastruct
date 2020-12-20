@@ -11,7 +11,7 @@ type concurrencySafeTree struct {
 	mu   sync.RWMutex
 }
 
-func (t *concurrencySafeTree) Root() rbtree.Node {
+func (t *concurrencySafeTree) Root() *rbtree.Node {
 	t.mu.RLock()
 	defer t.mu.RUnlock()
 	return t.tree.Root()
@@ -41,25 +41,25 @@ func (t *concurrencySafeTree) DeleteAllNodes(c rbtree.Comparable) bool {
 	return t.tree.DeleteAllNodes(c)
 }
 
-func (t *concurrencySafeTree) Search(value rbtree.Comparable) (rbtree.Node, bool) {
+func (t *concurrencySafeTree) Search(value rbtree.Comparable) (*rbtree.Node, bool) {
 	t.mu.RLock()
 	defer t.mu.RUnlock()
 	return t.tree.Search(value)
 }
 
-func (t *concurrencySafeTree) Minimum() rbtree.Node {
+func (t *concurrencySafeTree) Minimum() *rbtree.Node {
 	t.mu.RLock()
 	defer t.mu.RUnlock()
 	return t.tree.Minimum()
 }
 
-func (t *concurrencySafeTree) Maximum() rbtree.Node {
+func (t *concurrencySafeTree) Maximum() *rbtree.Node {
 	t.mu.RLock()
 	defer t.mu.RUnlock()
 	return t.tree.Maximum()
 }
 
-func (t *concurrencySafeTree) OrderStatisticSelect(i int64) (rbtree.Node, bool) {
+func (t *concurrencySafeTree) OrderStatisticSelect(i int64) (*rbtree.Node, bool) {
 	t.mu.RLock()
 	defer t.mu.RUnlock()
 	n, ok := t.tree.OrderStatisticSelect(i)

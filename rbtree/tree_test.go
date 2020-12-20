@@ -12,7 +12,7 @@ import (
 )
 
 type GraphNode struct {
-	node   *node
+	node   *Node
 	NodeID int64
 }
 
@@ -170,7 +170,7 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	// Assert
 	n = NewInt(28)
 	found, _ = tree.Search(n)
-	ass.Equal(Black, found.(*node).color)
+	ass.Equal(Black, found.color)
 }
 
 func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
@@ -327,8 +327,8 @@ func getTreeAsGraphviz(tree RbTree) string {
 
 	it := NewWalkPreorder(tree)
 
-	it.Foreach(func(n Node) {
-		nod := n.(*node)
+	it.Foreach(func(n *Node) {
+		nod := n
 		gn := &GraphNode{node: nod, NodeID: id}
 		gr.AddNode(gn)
 		id++

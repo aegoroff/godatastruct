@@ -11,12 +11,11 @@ func (tree *rbTree) Insert(z Comparable) {
 	tree.insert(n)
 }
 
-func newNode(z Comparable) *node {
-	n := node{key: z}
-	return &n
+func newNode(z Comparable) *Node {
+	return &Node{key: z}
 }
 
-func (tree *rbTree) insert(z *node) {
+func (tree *rbTree) insert(z *Node) {
 	if tree.root == nil || tree.root == tree.tnil {
 		tree.root = z
 		tree.root.color = Black
@@ -51,7 +50,7 @@ func (tree *rbTree) insert(z *node) {
 	rbInsertFixup(tree, z)
 }
 
-func rbInsertFixup(tree *rbTree, z *node) {
+func rbInsertFixup(tree *rbTree, z *Node) {
 	for z.parent.color == Red {
 		if z.parent == z.parent.parent.left {
 			y := z.parent.parent.right
@@ -95,21 +94,6 @@ func rbInsertFixup(tree *rbTree, z *node) {
 // DeleteNode searches and deletes first found node with key value specified from Red-black tree
 // It returns true if node was successfully deleted otherwise false
 func (tree *rbTree) DeleteNode(c Comparable) bool {
-	return tree.deleteNode(c)
-}
-
-// DeleteAllNodes searches and deletes all found nodes with key value specified from Red-black tree
-// It returns true if nodes was successfully deleted otherwise false
-func (tree *rbTree) DeleteAllNodes(c Comparable) bool {
-	ok := tree.deleteNode(c)
-	res := ok
-	for ok {
-		ok = tree.deleteNode(c)
-	}
-	return res
-}
-
-func (tree *rbTree) deleteNode(c Comparable) bool {
 	found, ok := tree.root.search(c)
 	if ok {
 		tree.delete(found)
@@ -117,7 +101,18 @@ func (tree *rbTree) deleteNode(c Comparable) bool {
 	return ok
 }
 
-func (tree *rbTree) delete(z *node) {
+// DeleteAllNodes searches and deletes all found nodes with key value specified from Red-black tree
+// It returns true if nodes was successfully deleted otherwise false
+func (tree *rbTree) DeleteAllNodes(c Comparable) bool {
+	ok := tree.DeleteNode(c)
+	res := ok
+	for ok {
+		ok = tree.DeleteNode(c)
+	}
+	return res
+}
+
+func (tree *rbTree) delete(z *Node) {
 	if z == nil || z.parent == nil {
 		return
 	}
@@ -130,7 +125,7 @@ func (tree *rbTree) delete(z *node) {
 		p = p.parent
 	}
 
-	var x *node
+	var x *Node
 	yOriginalColor := y.color
 	if z.left == tree.tnil {
 		x = z.right
@@ -159,7 +154,7 @@ func (tree *rbTree) delete(z *node) {
 	}
 }
 
-func rbDeleteFixup(tree *rbTree, x *node) {
+func rbDeleteFixup(tree *rbTree, x *Node) {
 	for x != tree.root && x.color == Black {
 		if x == x.parent.left {
 			w := x.parent.right
@@ -218,7 +213,7 @@ func rbDeleteFixup(tree *rbTree, x *node) {
 	x.color = Black
 }
 
-func rbTransplant(tree *rbTree, u *node, v *node) {
+func rbTransplant(tree *rbTree, u *Node, v *Node) {
 	if u.parent == tree.tnil {
 		tree.root = v
 		tree.root.size = u.size - 1
@@ -230,7 +225,7 @@ func rbTransplant(tree *rbTree, u *node, v *node) {
 	v.parent = u.parent
 }
 
-func leftRotate(tree *rbTree, x *node) {
+func leftRotate(tree *rbTree, x *Node) {
 	y := x.right
 	x.right = y.left
 	if y.left != tree.tnil {
@@ -252,7 +247,7 @@ func leftRotate(tree *rbTree, x *node) {
 	x.size = x.left.size + x.right.size + 1
 }
 
-func rightRotate(tree *rbTree, x *node) {
+func rightRotate(tree *rbTree, x *Node) {
 	y := x.left
 	x.left = y.right
 	if y.right != tree.tnil {

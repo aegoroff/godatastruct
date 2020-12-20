@@ -10,21 +10,21 @@ const (
 )
 
 type rbTree struct {
-	root *node
-	tnil *node
+	root *Node
+	tnil *Node
 }
 
-// node represent red-black tree node implementation
-type node struct {
+// Node represent red-black tree node
+type Node struct {
 	key Comparable
 
 	// Subtree size including node itself
 	size int64
 
 	color  int
-	parent *node
-	left   *node
-	right  *node
+	parent *Node
+	left   *Node
+	right  *Node
 }
 
 // Int is the int type key that can be stored as Node's key
@@ -36,20 +36,21 @@ type Int64 int64
 // String is the string type key that can be stored as Node's key
 type String string
 
-// Key gets node's key
-func (n *node) Key() Comparable {
+// Key gets Node's key
+func (n *Node) Key() Comparable {
 	return n.key
 }
 
-func (n *node) Size() int64 {
+// Size gets subtree size including node itself
+func (n *Node) Size() int64 {
 	return n.size
 }
 
-func (n *node) isNil() bool {
+func (n *Node) isNil() bool {
 	return n == nil || n.key == nil
 }
 
-func (n *node) isNotNil() bool {
+func (n *Node) isNotNil() bool {
 	return n != nil && n.key != nil
 }
 
@@ -119,7 +120,7 @@ func NewRbTree() RbTree {
 }
 
 func newRbTree() *rbTree {
-	tnil := node{color: Black}
+	tnil := Node{color: Black}
 	return &rbTree{tnil: &tnil}
 }
 
@@ -132,6 +133,6 @@ func (tree *rbTree) Len() int64 {
 	return tree.root.size
 }
 
-func (tree *rbTree) Root() Node {
+func (tree *rbTree) Root() *Node {
 	return tree.root
 }

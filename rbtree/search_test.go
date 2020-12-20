@@ -160,7 +160,7 @@ func Test_SuccessorOfMax_ReturnNil(t *testing.T) {
 func Test_SuccessorOfNil_ReturnNil(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var r *node
+	var r *Node
 
 	// Act
 	s := r.Successor()
@@ -212,7 +212,7 @@ func Test_PredecessorOfMin_ReturnNil(t *testing.T) {
 func Test_PredecessorOfNull_ReturnNil(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var r *node
+	var r *Node
 
 	// Act
 	p := r.Predecessor()

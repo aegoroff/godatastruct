@@ -43,3 +43,51 @@ func ExampleRbTree_OrderStatisticSelect() {
 	// 6
 	// true
 }
+
+func ExampleNode_Size() {
+	tree := NewRbTree()
+
+	tree.Insert(NewInt(6))
+	tree.Insert(NewInt(18))
+	tree.Insert(NewInt(3))
+
+	root := tree.Root()
+
+	size := root.Size()
+	fmt.Println(size)
+
+	// Output
+	// 3
+}
+
+func ExampleNode_Successor() {
+	tree := NewRbTree()
+
+	tree.Insert(NewInt(6))
+	tree.Insert(NewInt(18))
+	tree.Insert(NewInt(3))
+
+	root := tree.Root()
+
+	n := root.Successor()
+	fmt.Println(n.Key())
+
+	// Output
+	// 18
+}
+
+func ExampleNode_Predecessor() {
+	tree := NewRbTree()
+
+	tree.Insert(NewInt(6))
+	tree.Insert(NewInt(18))
+	tree.Insert(NewInt(3))
+
+	root := tree.Root()
+
+	n := root.Predecessor()
+	fmt.Println(n.Key())
+
+	// Output
+	// 3
+}
