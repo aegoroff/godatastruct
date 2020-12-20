@@ -82,7 +82,7 @@ func NewAscend(t RbTree) Enumerable {
 	min := e.tree.Minimum()
 	if min != nil {
 		e.next = min
-		e.to = t.Maximum().Key()
+		e.to = t.Maximum().key
 	}
 
 	return e
@@ -108,7 +108,7 @@ func NewDescend(t RbTree) Enumerable {
 	max := e.tree.Maximum()
 	if max != nil {
 		e.next = max
-		e.to = t.Minimum().Key()
+		e.to = t.Minimum().key
 	}
 
 	return e
@@ -196,7 +196,7 @@ func (i *walkPostorder) Next() bool {
 }
 
 func (i *ascend) Next() bool {
-	result := i.next != nil && (i.next.Key().LessThan(i.to) || i.next.Key().EqualTo(i.to))
+	result := i.next.isNotNil() && (i.next.key.LessThan(i.to) || i.next.key.EqualTo(i.to))
 	if result {
 		i.curr = i.next
 		i.next = i.curr.Successor()
@@ -205,7 +205,7 @@ func (i *ascend) Next() bool {
 }
 
 func (i *descend) Next() bool {
-	result := i.next != nil && !i.next.Key().LessThan(i.to)
+	result := i.next.isNotNil() && !i.next.key.LessThan(i.to)
 	if result {
 		i.curr = i.next
 		i.next = i.curr.Predecessor()
