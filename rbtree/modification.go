@@ -16,7 +16,7 @@ func newNode(z Comparable) *Node {
 }
 
 func (tree *rbTree) insert(z *Node) {
-	if tree.root == nil || tree.root == tree.tnil {
+	if tree.root.isNil() {
 		tree.root = z
 		tree.root.color = Black
 		tree.root.parent = tree.tnil
