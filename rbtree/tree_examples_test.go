@@ -13,7 +13,7 @@ func ExampleNewRbTree() {
 	fmt.Println(size)
 
 	n, ok := tree.Search(node)
-	fmt.Println(n.Key())
+	fmt.Println(n)
 	fmt.Println(ok)
 
 	n, ok = tree.Search(NewString("b"))

@@ -228,6 +228,40 @@ func Test_SearchIntTree_Success(t *testing.T) {
 			// Assert
 			ass.True(ok)
 			ass.NotNil(found)
+			ass.Equal(test.expected, rbtree.GetInt(found))
+		})
+	}
+}
+
+func Test_SearchNodeIntTree_Success(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	minTree := NewMinTree(3)
+	maxTree := NewMaxTree(3)
+
+	for i := 1; i <= 10; i++ {
+		minTree.Insert(rbtree.NewInt(i))
+		maxTree.Insert(rbtree.NewInt(i))
+	}
+
+	var tests = []struct {
+		name     string
+		tree     rbtree.RbTree
+		expected int
+	}{
+		{"Min tree", minTree, 1},
+		{"Max tree", maxTree, 8},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			v := rbtree.NewInt(test.expected)
+
+			// Act
+			found, ok := test.tree.SearchNode(v)
+
+			// Assert
+			ass.True(ok)
+			ass.NotNil(found)
 			ass.Equal(test.expected, rbtree.GetInt(found.Key()))
 		})
 	}

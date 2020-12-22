@@ -92,7 +92,7 @@ func NewAscend(t RbTree) Enumerable {
 func NewAscendRange(t RbTree, from, to Comparable) Enumerable {
 	e := newAscend(t)
 
-	n, ok := e.tree.Search(from)
+	n, ok := e.tree.SearchNode(from)
 	if ok && to != nil {
 		e.next = n
 		e.to = to
@@ -118,7 +118,7 @@ func NewDescend(t RbTree) Enumerable {
 func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
 	e := newDescend(t)
 
-	n, ok := e.tree.Search(from)
+	n, ok := e.tree.SearchNode(from)
 	if ok && to != nil {
 		e.next = n
 		e.to = to

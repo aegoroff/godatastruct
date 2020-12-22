@@ -41,10 +41,16 @@ func (t *concurrencySafeTree) DeleteAllNodes(c rbtree.Comparable) bool {
 	return t.tree.DeleteAllNodes(c)
 }
 
-func (t *concurrencySafeTree) Search(value rbtree.Comparable) (*rbtree.Node, bool) {
+func (t *concurrencySafeTree) Search(value rbtree.Comparable) (rbtree.Comparable, bool) {
 	t.mu.RLock()
 	defer t.mu.RUnlock()
 	return t.tree.Search(value)
+}
+
+func (t *concurrencySafeTree) SearchNode(value rbtree.Comparable) (*rbtree.Node, bool) {
+	t.mu.RLock()
+	defer t.mu.RUnlock()
+	return t.tree.SearchNode(value)
 }
 
 func (t *concurrencySafeTree) Minimum() *rbtree.Node {

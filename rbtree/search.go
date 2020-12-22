@@ -3,7 +3,16 @@ package rbtree
 // This file contains all RB tree search methods implementations
 
 // Search searches value specified within search tree
-func (tree *rbTree) Search(value Comparable) (*Node, bool) {
+func (tree *rbTree) Search(value Comparable) (Comparable, bool) {
+	n, ok := tree.SearchNode(value)
+	if !ok {
+		return nil, ok
+	}
+	return n.key, ok
+}
+
+// SearchNode searches *Node which key is equals value specified
+func (tree *rbTree) SearchNode(value Comparable) (*Node, bool) {
 	if tree.root.isNil() {
 		return nil, false
 	}

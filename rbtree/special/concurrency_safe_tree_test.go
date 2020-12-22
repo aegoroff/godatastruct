@@ -148,6 +148,44 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndSearchTest(t *testing.T) 
 	}
 }
 
+func Test_ConcurrencySafeTree_ConcurrentModificationAndSearchNodeTest(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var wg sync.WaitGroup
+
+	const nodesCount = 200
+	tree := NewConcurrencySafeTree()
+	readResultsChan := make(chan bool, nodesCount/2)
+
+	for i := 1; i <= nodesCount; i++ {
+		tree.Insert(rbtree.NewInt(i))
+	}
+
+	// Act
+	for i := 1; i <= nodesCount/2; i++ {
+		wg.Add(1)
+		go func(ix int) {
+			defer wg.Done()
+			tree.DeleteAllNodes(rbtree.NewInt(ix))
+		}(i)
+
+		wg.Add(1)
+		go func(ix int) {
+			defer wg.Done()
+			_, ok := tree.SearchNode(rbtree.NewInt(nodesCount/2 + ix))
+			readResultsChan <- ok
+		}(i)
+	}
+	wg.Wait()
+	close(readResultsChan)
+
+	// Assert
+	ass.Equal(int64(nodesCount/2), tree.Len())
+	for ok := range readResultsChan {
+		ass.True(ok)
+	}
+}
+
 func Test_ConcurrencySafeTree_ConcurrentModificationAndMinimumTest(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)

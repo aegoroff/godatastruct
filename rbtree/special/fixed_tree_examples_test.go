@@ -16,7 +16,7 @@ func ExampleNewMaxTree() {
 
 	found, ok := tree.Search(rbtree.NewInt(8))
 
-	fmt.Println(found.Key())
+	fmt.Println(found)
 	fmt.Println(ok)
 
 	found, ok = tree.Search(rbtree.NewInt(1))
@@ -47,7 +47,7 @@ func ExampleNewMinTree() {
 
 	found, ok = tree.Search(rbtree.NewInt(1))
 
-	fmt.Println(found.Key())
+	fmt.Println(found)
 	fmt.Println(ok)
 	// Output:
 	// 3

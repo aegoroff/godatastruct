@@ -17,7 +17,10 @@ type RbTree interface {
 	DeleteAllNodes(c Comparable) bool
 
 	// Search searches value specified within search tree
-	Search(value Comparable) (*Node, bool)
+	Search(value Comparable) (Comparable, bool)
+
+	// SearchNode searches *Node which key is equals value specified
+	SearchNode(value Comparable) (*Node, bool)
 
 	// Minimum gets tree's min element
 	Minimum() *Node

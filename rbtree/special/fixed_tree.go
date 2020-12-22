@@ -40,8 +40,12 @@ func (t *maxTree) DeleteAllNodes(c rbtree.Comparable) bool {
 	return t.tree.DeleteAllNodes(c)
 }
 
-func (t *maxTree) Search(value rbtree.Comparable) (*rbtree.Node, bool) {
+func (t *maxTree) Search(value rbtree.Comparable) (rbtree.Comparable, bool) {
 	return t.tree.Search(value)
+}
+
+func (t *maxTree) SearchNode(value rbtree.Comparable) (*rbtree.Node, bool) {
+	return t.tree.SearchNode(value)
 }
 
 func (t *maxTree) Minimum() *rbtree.Node {
@@ -93,8 +97,12 @@ func (t *minTree) DeleteAllNodes(c rbtree.Comparable) bool {
 	return t.tree.DeleteAllNodes(c)
 }
 
-func (t *minTree) Search(value rbtree.Comparable) (*rbtree.Node, bool) {
+func (t *minTree) Search(value rbtree.Comparable) (rbtree.Comparable, bool) {
 	return t.tree.Search(value)
+}
+
+func (t *minTree) SearchNode(value rbtree.Comparable) (*rbtree.Node, bool) {
+	return t.tree.SearchNode(value)
 }
 
 func (t *minTree) Minimum() *rbtree.Node {
