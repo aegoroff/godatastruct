@@ -77,15 +77,7 @@ func NewWalkPostorder(t RbTree) Enumerable {
 
 // NewAscend creates Enumerable that walks tree in ascending order
 func NewAscend(t RbTree) Enumerable {
-	e := newAscend(t)
-
-	min := e.tree.Minimum()
-	if min != nil {
-		e.next = min
-		e.to = t.Maximum().key
-	}
-
-	return e
+	return NewWalkInorder(t)
 }
 
 // NewAscendRange creates Enumerable that walks tree in ascending order within the range [from, to]
