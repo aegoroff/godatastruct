@@ -44,6 +44,19 @@ func (s *StringHashSet) Add(key string) {
 	(*s)[key] = struct{}{}
 }
 
+// AddRange adds several new items into the set
+func (s *StringHashSet) AddRange(keys ...string) {
+	for _, key := range keys {
+		s.Add(key)
+	}
+}
+
+// Remove removes item from the set
+// If there is no such element, Remove is a no-op.
+func (s *StringHashSet) Remove(key string) {
+	delete(*s, key)
+}
+
 // Count gets the number of items in the set
 func (s *IntHashSet) Count() int {
 	return len(*s)
@@ -69,6 +82,19 @@ func (s *IntHashSet) Add(key int) {
 	(*s)[key] = struct{}{}
 }
 
+// AddRange adds several new items into the set
+func (s *IntHashSet) AddRange(keys ...int) {
+	for _, key := range keys {
+		s.Add(key)
+	}
+}
+
+// Remove removes item from the set
+// If there is no such element, Remove is a no-op.
+func (s *IntHashSet) Remove(key int) {
+	delete(*s, key)
+}
+
 // Count gets the number of items in the set
 func (s *Int64HashSet) Count() int {
 	return len(*s)
@@ -92,4 +118,17 @@ func (s *Int64HashSet) Contains(key int64) bool {
 // Add adds new item into the set
 func (s *Int64HashSet) Add(key int64) {
 	(*s)[key] = struct{}{}
+}
+
+// AddRange adds several new items into the set
+func (s *Int64HashSet) AddRange(keys ...int64) {
+	for _, key := range keys {
+		s.Add(key)
+	}
+}
+
+// Remove removes item from the set
+// If there is no such element, Remove is a no-op.
+func (s *Int64HashSet) Remove(key int64) {
+	delete(*s, key)
 }

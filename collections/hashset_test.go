@@ -21,16 +21,66 @@ func TestIntHashSet_EmptySet_NoKey(t *testing.T) {
 	ass.False(ok)
 }
 
-func TestIntHashSet_AddItem_ItemAdded(t *testing.T) {
+func TestIntHashSet_Add_ItemAdded(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var set = make(IntHashSet)
+	k := 1
+
+	// Act
+	set.Add(k)
+
+	// Assert
+	_, ok := set[k]
+	ass.True(ok)
+}
+
+func TestIntHashSet_AddRange_ItemsAdded(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var set = make(IntHashSet)
+	k1 := 1
+	k2 := 2
+
+	// Act
+	set.AddRange(k1, k2)
+
+	// Assert
+	_, ok := set[k1]
+	ass.True(ok)
+	_, ok = set[k2]
+	ass.True(ok)
+}
+
+func TestIntHashSet_Remove_ItemRemoved(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	var set = make(IntHashSet)
 
+	k := 1
+	set.Add(k)
+
 	// Act
-	set.Add(1)
+	set.Remove(k)
 
 	// Assert
-	_, ok := set[1]
+	_, ok := set[k]
+	ass.False(ok)
+}
+
+func TestIntHashSet_RemoveUnexist_NothingHappend(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var set = make(IntHashSet)
+
+	k := 1
+	set.Add(k)
+
+	// Act
+	set.Remove(2)
+
+	// Assert
+	_, ok := set[k]
 	ass.True(ok)
 }
 
@@ -133,7 +183,7 @@ func TestInt64HashSet_EmptySet_NoKey(t *testing.T) {
 	ass.False(ok)
 }
 
-func TestInt64HashSet_AddItem_ItemAdded(t *testing.T) {
+func TestInt64HashSet_Add_ItemAdded(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	var set = make(Int64HashSet)
@@ -143,6 +193,55 @@ func TestInt64HashSet_AddItem_ItemAdded(t *testing.T) {
 
 	// Assert
 	_, ok := set[1]
+	ass.True(ok)
+}
+
+func TestInt64HashSet_AddRange_ItemsAdded(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var set = make(Int64HashSet)
+	k1 := int64(1)
+	k2 := int64(2)
+
+	// Act
+	set.AddRange(k1, k2)
+
+	// Assert
+	_, ok := set[k1]
+	ass.True(ok)
+	_, ok = set[k2]
+	ass.True(ok)
+}
+
+func TestInt64HashSet_Remove_ItemRemoved(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var set = make(Int64HashSet)
+
+	k := int64(1)
+	set.Add(k)
+
+	// Act
+	set.Remove(k)
+
+	// Assert
+	_, ok := set[k]
+	ass.False(ok)
+}
+
+func TestInt64HashSet_RemoveUnexist_NothingHappened(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var set = make(Int64HashSet)
+
+	k := int64(1)
+	set.Add(k)
+
+	// Act
+	set.Remove(int64(2))
+
+	// Assert
+	_, ok := set[k]
 	ass.True(ok)
 }
 
@@ -245,16 +344,66 @@ func TestStringHashSet_EmptySet_NoKey(t *testing.T) {
 	ass.False(ok)
 }
 
-func TestStringHashSet_AddItem_ItemAdded(t *testing.T) {
+func TestStringHashSet_Add_ItemAdded(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var set = make(StringHashSet)
+	k := "1"
+
+	// Act
+	set.Add(k)
+
+	// Assert
+	_, ok := set[k]
+	ass.True(ok)
+}
+
+func TestStringHashSet_AddRange_ItemsAdded(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var set = make(StringHashSet)
+	k1 := "1"
+	k2 := "2"
+
+	// Act
+	set.AddRange(k1, k2)
+
+	// Assert
+	_, ok := set[k1]
+	ass.True(ok)
+	_, ok = set[k2]
+	ass.True(ok)
+}
+
+func TestStringHashSet_Remove_ItemRemoved(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	var set = make(StringHashSet)
 
+	k := "1"
+	set.Add(k)
+
 	// Act
-	set.Add("1")
+	set.Remove(k)
 
 	// Assert
-	_, ok := set["1"]
+	_, ok := set[k]
+	ass.False(ok)
+}
+
+func TestStringHashSet_RemoveUnexist_NothingHappened(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	var set = make(StringHashSet)
+
+	k := "1"
+	set.Add(k)
+
+	// Act
+	set.Remove("2")
+
+	// Assert
+	_, ok := set[k]
 	ass.True(ok)
 }
 
@@ -386,7 +535,6 @@ func ExampleStringHashSet_Contains() {
 func ExampleStringHashSet_ItemsDecorated() {
 	var set = make(StringHashSet)
 	set.Add("a")
-	set.Add("b")
 
 	itemsOriginal := set.ItemsDecorated(func(s string) string { return s })
 	itemsUpperCased := set.ItemsDecorated(func(s string) string { return strings.ToUpper(s) })
@@ -394,6 +542,6 @@ func ExampleStringHashSet_ItemsDecorated() {
 	fmt.Println(itemsOriginal)
 	fmt.Println(itemsUpperCased)
 	// Output:
-	// [a b]
-	// [A B]
+	// [a]
+	// [A]
 }
