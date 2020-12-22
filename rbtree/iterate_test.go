@@ -51,8 +51,8 @@ func Test_Foreach_Normal(t *testing.T) {
 			result := make([]int, 0)
 
 			// Act
-			test.it.Foreach(func(n *Node) {
-				result = append(result, GetInt(n.Key()))
+			test.it.Foreach(func(n Comparable) {
+				result = append(result, GetInt(n))
 			})
 
 			// Assert
@@ -113,8 +113,8 @@ func Test_Foreach_SpecialCases(t *testing.T) {
 			result := make([]int, 0)
 
 			// Act
-			it.Foreach(func(n *Node) {
-				result = append(result, GetInt(n.Key()))
+			it.Foreach(func(n Comparable) {
+				result = append(result, GetInt(n))
 			})
 
 			// Assert
@@ -145,7 +145,7 @@ func Test_IteratorsWithInterruption_Normal(t *testing.T) {
 
 			// Act
 			for it.Next() {
-				curr := GetInt(it.Current().Key())
+				curr := GetInt(it.Current())
 				if curr > 6 {
 					break
 				}
@@ -166,8 +166,8 @@ func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 	it := NewWalkInorder(tree)
 
 	// Act
-	it.Foreach(func(n *Node) {
-		result = append(result, n.Key().(*String).String())
+	it.Foreach(func(n Comparable) {
+		result = append(result, n.(*String).String())
 	})
 
 	// Assert
@@ -194,8 +194,8 @@ func Test_Foreach_EmptyTree(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			// Act
-			test.it.Foreach(func(n *Node) {
-				result = append(result, n.Key())
+			test.it.Foreach(func(n Comparable) {
+				result = append(result, n)
 			})
 
 			// Assert

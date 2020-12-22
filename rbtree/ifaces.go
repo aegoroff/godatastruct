@@ -54,12 +54,12 @@ type Enumerable interface {
 
 // NodeAction defines function prototype that used by an iteration method to iterate over portions of
 // the tree.
-type NodeAction func(*Node)
+type NodeAction func(Comparable)
 
 // Iterator is an node iterator.
 type Iterator interface {
 	// Node gets current Node
-	Current() *Node
+	Current() Comparable
 
 	// Next advances the iterator and returns whether
 	// the next call to the item method will return a

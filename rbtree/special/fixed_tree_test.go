@@ -27,14 +27,14 @@ func Test_MaxSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	ft := NewMaxTree(top)
 
 	// Act
-	rbtree.NewWalkInorder(tree).Foreach(func(n *rbtree.Node) {
-		ft.Insert(n.Key())
+	rbtree.NewWalkInorder(tree).Foreach(func(n rbtree.Comparable) {
+		ft.Insert(n)
 	})
 
 	iterationCount := int64(0)
-	rbtree.NewDescend(ft).Foreach(func(n *rbtree.Node) {
+	rbtree.NewDescend(ft).Foreach(func(n rbtree.Comparable) {
 		iterationCount++
-		result = append(result, rbtree.GetInt(n.Key()))
+		result = append(result, rbtree.GetInt(n))
 	})
 
 	// Assert
@@ -63,14 +63,14 @@ func Test_MinSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	ft := NewMinTree(top)
 
 	// Act
-	rbtree.NewWalkPreorder(tree).Foreach(func(n *rbtree.Node) {
-		ft.Insert(n.Key())
+	rbtree.NewWalkPreorder(tree).Foreach(func(n rbtree.Comparable) {
+		ft.Insert(n)
 	})
 
 	iterationCount := int64(0)
-	rbtree.NewDescend(ft).Foreach(func(n *rbtree.Node) {
+	rbtree.NewDescend(ft).Foreach(func(n rbtree.Comparable) {
 		iterationCount++
-		result = append(result, rbtree.GetInt(n.Key()))
+		result = append(result, rbtree.GetInt(n))
 	})
 
 	// Assert
@@ -101,12 +101,12 @@ func TestMaxSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.
 	ft := NewMaxTree(ftSize)
 
 	// Act
-	rbtree.NewWalkInorder(tree).Foreach(func(n *rbtree.Node) {
-		ft.Insert(n.Key())
+	rbtree.NewWalkInorder(tree).Foreach(func(n rbtree.Comparable) {
+		ft.Insert(n)
 	})
 
-	rbtree.NewDescend(ft).Foreach(func(n *rbtree.Node) {
-		result = append(result, n.Key().(*rbtree.String).String())
+	rbtree.NewDescend(ft).Foreach(func(n rbtree.Comparable) {
+		result = append(result, n.(*rbtree.String).String())
 	})
 
 	// Assert
@@ -144,12 +144,12 @@ func TestMinSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.
 	ft := NewMinTree(ftSize)
 
 	// Act
-	rbtree.NewWalkInorder(tree).Foreach(func(n *rbtree.Node) {
-		ft.Insert(n.Key())
+	rbtree.NewWalkInorder(tree).Foreach(func(n rbtree.Comparable) {
+		ft.Insert(n)
 	})
 
-	rbtree.NewAscend(ft).Foreach(func(n *rbtree.Node) {
-		result = append(result, n.Key().(*rbtree.String).String())
+	rbtree.NewAscend(ft).Foreach(func(n rbtree.Comparable) {
+		result = append(result, n.(*rbtree.String).String())
 	})
 
 	// Assert
@@ -336,8 +336,8 @@ func Test_FexedTree_Foreach(t *testing.T) {
 			result := make([]int, 0)
 
 			// Act
-			test.it.Foreach(func(n *rbtree.Node) {
-				result = append(result, rbtree.GetInt(n.Key()))
+			test.it.Foreach(func(n rbtree.Comparable) {
+				result = append(result, rbtree.GetInt(n))
 			})
 
 			// Assert

@@ -52,8 +52,8 @@ func Test_WrapTreeToConcurrencySafeTree_InsertTest(t *testing.T) {
 
 	// Assert
 	ass.Equal(top, tree.Len())
-	rbtree.NewDescend(tree).Foreach(func(n *rbtree.Node) {
-		result = append(result, rbtree.GetInt(n.Key()))
+	rbtree.NewDescend(tree).Foreach(func(n rbtree.Comparable) {
+		result = append(result, rbtree.GetInt(n))
 	})
 	ass.Equal([]int{200, 199, 198, 197}, result)
 }
@@ -287,8 +287,8 @@ func Test_ConcurrencySafeTree_Foreach(t *testing.T) {
 			result := make([]int, 0)
 
 			// Act
-			test.it.Foreach(func(n *rbtree.Node) {
-				result = append(result, rbtree.GetInt(n.Key()))
+			test.it.Foreach(func(n rbtree.Comparable) {
+				result = append(result, rbtree.GetInt(n))
 			})
 
 			// Assert

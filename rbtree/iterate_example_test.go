@@ -13,8 +13,8 @@ func ExampleNewWalkInorder() {
 
 	it := NewWalkInorder(tree)
 
-	it.Foreach(func(n *Node) {
-		fmt.Println(n.Key())
+	it.Foreach(func(n Comparable) {
+		fmt.Println(n)
 	})
 	// Output:
 	// 3
@@ -31,8 +31,8 @@ func ExampleNewWalkPreorder() {
 
 	it := NewWalkPreorder(tree)
 
-	it.Foreach(func(n *Node) {
-		fmt.Println(n.Key())
+	it.Foreach(func(n Comparable) {
+		fmt.Println(n)
 	})
 	// Output:
 	// 6
@@ -49,8 +49,8 @@ func ExampleNewWalkPostorder() {
 
 	it := NewWalkPostorder(tree)
 
-	it.Foreach(func(n *Node) {
-		fmt.Println(n.Key())
+	it.Foreach(func(n Comparable) {
+		fmt.Println(n)
 	})
 	// Output:
 	// 3
@@ -67,8 +67,8 @@ func ExampleNewAscend() {
 
 	it := NewAscend(tree)
 
-	it.Foreach(func(n *Node) {
-		fmt.Println(n.Key())
+	it.Foreach(func(n Comparable) {
+		fmt.Println(n)
 	})
 	// Output:
 	// 3
@@ -85,8 +85,8 @@ func ExampleNewDescend() {
 
 	it := NewDescend(tree)
 
-	it.Foreach(func(n *Node) {
-		fmt.Println(n.Key())
+	it.Foreach(func(n Comparable) {
+		fmt.Println(n)
 	})
 	// Output:
 	// 18
@@ -103,8 +103,8 @@ func ExampleNewAscendRange() {
 
 	it := NewAscendRange(tree, NewInt(3), NewInt(6))
 
-	it.Foreach(func(n *Node) {
-		fmt.Println(n.Key())
+	it.Foreach(func(n Comparable) {
+		fmt.Println(n)
 	})
 	// Output:
 	// 3
@@ -120,8 +120,8 @@ func ExampleNewDescendRange() {
 
 	it := NewDescendRange(tree, NewInt(6), NewInt(3))
 
-	it.Foreach(func(n *Node) {
-		fmt.Println(n.Key())
+	it.Foreach(func(n Comparable) {
+		fmt.Println(n)
 	})
 	// Output:
 	// 6

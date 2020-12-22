@@ -325,10 +325,10 @@ func getTreeAsGraphviz(tree RbTree) string {
 
 	var id int64
 
-	it := NewWalkPreorder(tree)
+	it := NewWalkPreorder(tree).Iterator()
 
-	it.Foreach(func(n *Node) {
-		nod := n
+	for it.Next() {
+		nod := it.(*walkPreorder).current()
 		gn := &GraphNode{node: nod, NodeID: id}
 		gr.AddNode(gn)
 		id++
@@ -341,7 +341,7 @@ func getTreeAsGraphviz(tree RbTree) string {
 				break
 			}
 		}
-	})
+	}
 
 	data, _ := dot.Marshal(gr, "", " ", " ")
 
