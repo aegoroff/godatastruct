@@ -17,18 +17,22 @@ func (s *StringHashSet) Count() int {
 
 // Items gets all set's items
 func (s *StringHashSet) Items() []string {
-	keys := make([]string, 0, len(*s))
+	keys := make([]string, len(*s))
+	i := 0
 	for k := range *s {
-		keys = append(keys, k)
+		keys[i] = k
+		i++
 	}
 	return keys
 }
 
 // ItemsDecorated gets all set's items applying decorator function to each item
 func (s *StringHashSet) ItemsDecorated(decorator func(s string) string) []string {
-	keys := make([]string, 0, len(*s))
+	keys := make([]string, len(*s))
+	i := 0
 	for k := range *s {
-		keys = append(keys, decorator(k))
+		keys[i] = decorator(k)
+		i++
 	}
 	return keys
 }
@@ -64,9 +68,11 @@ func (s *IntHashSet) Count() int {
 
 // Items gets all set's items
 func (s *IntHashSet) Items() []int {
-	keys := make([]int, 0, len(*s))
+	keys := make([]int, len(*s))
+	i := 0
 	for k := range *s {
-		keys = append(keys, k)
+		keys[i] = k
+		i++
 	}
 	return keys
 }
@@ -102,9 +108,11 @@ func (s *Int64HashSet) Count() int {
 
 // Items gets all set's items
 func (s *Int64HashSet) Items() []int64 {
-	keys := make([]int64, 0, len(*s))
+	keys := make([]int64, len(*s))
+	i := 0
 	for k := range *s {
-		keys = append(keys, k)
+		keys[i] = k
+		i++
 	}
 	return keys
 }
