@@ -161,14 +161,14 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	}
 	tree := createIntTree(nodes)
 
-	n := NewInt(24)
+	n := Int(24)
 	found, _ := tree.Search(n)
 
 	// Act
 	tree.DeleteNode(found)
 
 	// Assert
-	n = NewInt(28)
+	n = Int(28)
 	foundAfterDelete, _ := tree.SearchNode(n)
 	ass.Equal(Black, foundAfterDelete.color)
 }
@@ -189,7 +189,7 @@ func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
 
 	// Act
 	for i := 1; i < nodesCount; i++ {
-		n := NewInt(nodes[i-1])
+		n := Int(nodes[i-1])
 		found, _ := tree.Search(n)
 		tree.DeleteNode(found)
 	}
@@ -519,7 +519,7 @@ func Test_DeleteNodeNil_NothingDeleted(t *testing.T) {
 func TestGetInt(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	c := NewInt(3)
+	c := Int(3)
 
 	// Act
 	i := GetInt(c)
@@ -531,7 +531,7 @@ func TestGetInt(t *testing.T) {
 func TestGetInt64(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	c := NewInt64(3)
+	c := Int64(3)
 
 	// Act
 	i := GetInt64(c)
@@ -544,12 +544,12 @@ func Test_Int64Tree(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := NewRbTree()
-	tree.Insert(NewInt64(4))
-	tree.Insert(NewInt64(45))
-	tree.Insert(NewInt64(3))
+	tree.Insert(Int64(4))
+	tree.Insert(Int64(45))
+	tree.Insert(Int64(3))
 
 	// Act
-	found, ok := tree.Search(NewInt64(4))
+	found, ok := tree.Search(Int64(4))
 
 	// Assert
 	ass.True(ok)
@@ -570,7 +570,7 @@ func createTestStringTree() *rbTree {
 func createIntTree(nodes []int) RbTree {
 	tree := NewRbTree()
 	for _, n := range nodes {
-		tree.Insert(NewInt(n))
+		tree.Insert(Int(n))
 	}
 	return tree
 }

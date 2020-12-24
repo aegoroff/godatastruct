@@ -11,7 +11,7 @@ func ExampleNewConcurrencySafeTree() {
 
 	const nodesCount = 10
 	for i := 1; i <= nodesCount; i++ {
-		tree.Insert(rbtree.NewInt(i))
+		tree.Insert(rbtree.Int(i))
 	}
 
 	var wg sync.WaitGroup
@@ -19,13 +19,13 @@ func ExampleNewConcurrencySafeTree() {
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			tree.DeleteNode(rbtree.NewInt(ix))
+			tree.DeleteNode(rbtree.Int(ix))
 		}(i)
 
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			_, ok := tree.Search(rbtree.NewInt(nodesCount/2 + ix))
+			_, ok := tree.Search(rbtree.Int(nodesCount/2 + ix))
 			fmt.Println(ok)
 		}(i)
 	}
@@ -43,7 +43,7 @@ func ExampleWrapTreeToConcurrencySafeTree() {
 
 	const nodesCount = 10
 	for i := 1; i <= nodesCount; i++ {
-		tree.Insert(rbtree.NewInt(i))
+		tree.Insert(rbtree.Int(i))
 	}
 
 	safeTree := WrapTreeToConcurrencySafeTree(tree)
@@ -54,13 +54,13 @@ func ExampleWrapTreeToConcurrencySafeTree() {
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			safeTree.DeleteNode(rbtree.NewInt(nodesCount - ix))
+			safeTree.DeleteNode(rbtree.Int(nodesCount - ix))
 		}(i)
 
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			_, ok := safeTree.Search(rbtree.NewInt(nodesCount))
+			_, ok := safeTree.Search(rbtree.Int(nodesCount))
 			fmt.Println(ok)
 		}()
 	}

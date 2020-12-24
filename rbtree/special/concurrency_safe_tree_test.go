@@ -20,7 +20,7 @@ func Test_ConcurrencySafeTree_InsertTest(t *testing.T) {
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			tree.Insert(rbtree.NewInt(ix))
+			tree.Insert(rbtree.Int(ix))
 		}(i)
 	}
 	wg.Wait()
@@ -45,7 +45,7 @@ func Test_WrapTreeToConcurrencySafeTree_InsertTest(t *testing.T) {
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			tree.Insert(rbtree.NewInt(ix))
+			tree.Insert(rbtree.Int(ix))
 		}(i)
 	}
 	wg.Wait()
@@ -67,7 +67,7 @@ func Test_ConcurrencySafeTree_DeleteNodeTest(t *testing.T) {
 	tree := NewConcurrencySafeTree()
 
 	for i := 1; i <= nodesCount; i++ {
-		tree.Insert(rbtree.NewInt(i))
+		tree.Insert(rbtree.Int(i))
 	}
 
 	// Act
@@ -75,7 +75,7 @@ func Test_ConcurrencySafeTree_DeleteNodeTest(t *testing.T) {
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			tree.DeleteNode(rbtree.NewInt(ix))
+			tree.DeleteNode(rbtree.Int(ix))
 		}(i)
 	}
 	wg.Wait()
@@ -93,7 +93,7 @@ func Test_ConcurrencySafeTree_DeleteAllNodesTest(t *testing.T) {
 	tree := NewConcurrencySafeTree()
 
 	for i := 1; i <= nodesCount; i++ {
-		tree.Insert(rbtree.NewInt(i))
+		tree.Insert(rbtree.Int(i))
 	}
 
 	// Act
@@ -101,7 +101,7 @@ func Test_ConcurrencySafeTree_DeleteAllNodesTest(t *testing.T) {
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			tree.DeleteAllNodes(rbtree.NewInt(ix))
+			tree.DeleteAllNodes(rbtree.Int(ix))
 		}(i)
 	}
 	wg.Wait()
@@ -120,7 +120,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndSearchTest(t *testing.T) 
 	readResultsChan := make(chan bool, nodesCount/2)
 
 	for i := 1; i <= nodesCount; i++ {
-		tree.Insert(rbtree.NewInt(i))
+		tree.Insert(rbtree.Int(i))
 	}
 
 	// Act
@@ -128,13 +128,13 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndSearchTest(t *testing.T) 
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			tree.DeleteAllNodes(rbtree.NewInt(ix))
+			tree.DeleteAllNodes(rbtree.Int(ix))
 		}(i)
 
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			_, ok := tree.Search(rbtree.NewInt(nodesCount/2 + ix))
+			_, ok := tree.Search(rbtree.Int(nodesCount/2 + ix))
 			readResultsChan <- ok
 		}(i)
 	}
@@ -158,7 +158,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndSearchNodeTest(t *testing
 	readResultsChan := make(chan bool, nodesCount/2)
 
 	for i := 1; i <= nodesCount; i++ {
-		tree.Insert(rbtree.NewInt(i))
+		tree.Insert(rbtree.Int(i))
 	}
 
 	// Act
@@ -166,13 +166,13 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndSearchNodeTest(t *testing
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			tree.DeleteAllNodes(rbtree.NewInt(ix))
+			tree.DeleteAllNodes(rbtree.Int(ix))
 		}(i)
 
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			_, ok := tree.SearchNode(rbtree.NewInt(nodesCount/2 + ix))
+			_, ok := tree.SearchNode(rbtree.Int(nodesCount/2 + ix))
 			readResultsChan <- ok
 		}(i)
 	}
@@ -196,7 +196,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndMinimumTest(t *testing.T)
 	readResultsChan := make(chan *rbtree.Node, nodesCount/2)
 
 	for i := 1; i <= nodesCount; i++ {
-		tree.Insert(rbtree.NewInt(i))
+		tree.Insert(rbtree.Int(i))
 	}
 
 	// Act
@@ -204,7 +204,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndMinimumTest(t *testing.T)
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			tree.DeleteAllNodes(rbtree.NewInt(ix))
+			tree.DeleteAllNodes(rbtree.Int(ix))
 		}(i)
 
 		wg.Add(1)
@@ -234,7 +234,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndMaximumTest(t *testing.T)
 	readResultsChan := make(chan *rbtree.Node, nodesCount/2)
 
 	for i := 1; i <= nodesCount; i++ {
-		tree.Insert(rbtree.NewInt(i))
+		tree.Insert(rbtree.Int(i))
 	}
 
 	// Act
@@ -242,7 +242,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndMaximumTest(t *testing.T)
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			tree.DeleteAllNodes(rbtree.NewInt(ix))
+			tree.DeleteAllNodes(rbtree.Int(ix))
 		}(i)
 
 		wg.Add(1)
@@ -273,7 +273,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndOrderStatisticSelectTest(
 	readResultsChan := make(chan bool, nodesCount/2)
 
 	for i := 1; i <= nodesCount; i++ {
-		tree.Insert(rbtree.NewInt(i))
+		tree.Insert(rbtree.Int(i))
 	}
 
 	// Act
@@ -281,7 +281,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndOrderStatisticSelectTest(
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			tree.DeleteAllNodes(rbtree.NewInt(ix))
+			tree.DeleteAllNodes(rbtree.Int(ix))
 		}(i)
 
 		wg.Add(1)
@@ -303,9 +303,9 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndOrderStatisticSelectTest(
 
 func Test_ConcurrencySafeTree_Foreach(t *testing.T) {
 	tree := NewConcurrencySafeTree()
-	tree.Insert(rbtree.NewInt(6))
-	tree.Insert(rbtree.NewInt(18))
-	tree.Insert(rbtree.NewInt(3))
+	tree.Insert(rbtree.Int(6))
+	tree.Insert(rbtree.Int(18))
+	tree.Insert(rbtree.Int(3))
 
 	var tests = []struct {
 		name     string

@@ -55,7 +55,7 @@ func Test_SearchIntTree_Success(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
-	v := NewInt(13)
+	v := Int(13)
 
 	// Act
 	found, ok := tree.Search(v)
@@ -103,9 +103,9 @@ func Test_SearchIntTree_Failure(t *testing.T) {
 		tree RbTree
 		key  Comparable
 	}{
-		{createIntegerTestTree(), NewInt(22)},
+		{createIntegerTestTree(), Int(22)},
 		{createIntegerTestTree(), nil},
-		{NewRbTree(), NewInt(20)},
+		{NewRbTree(), Int(20)},
 	}
 	for _, test := range tests {
 		// Act
@@ -132,7 +132,7 @@ func Test_Successor_ReturnSuccessor(t *testing.T) {
 		{2, 3},
 	}
 	for _, test := range tests {
-		v := NewInt(test.node)
+		v := Int(test.node)
 		r, _ := tree.SearchNode(v)
 
 		// Act
@@ -147,7 +147,7 @@ func Test_SuccessorOfMax_ReturnNil(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
-	v := NewInt(20)
+	v := Int(20)
 	r, _ := tree.SearchNode(v)
 
 	// Act
@@ -184,7 +184,7 @@ func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 		{3, 2},
 	}
 	for _, test := range tests {
-		v := NewInt(test.node)
+		v := Int(test.node)
 		r, _ := tree.SearchNode(v)
 
 		// Act
@@ -199,7 +199,7 @@ func Test_PredecessorOfMin_ReturnNil(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := createIntegerTestTree()
-	v := NewInt(2)
+	v := Int(2)
 	r, _ := tree.SearchNode(v)
 
 	// Act

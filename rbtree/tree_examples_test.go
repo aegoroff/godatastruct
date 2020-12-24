@@ -30,9 +30,9 @@ func ExampleNewRbTree() {
 func ExampleRbTree_OrderStatisticSelect() {
 	tree := NewRbTree()
 
-	tree.Insert(NewInt(6))
-	tree.Insert(NewInt(18))
-	tree.Insert(NewInt(3))
+	tree.Insert(Int(6))
+	tree.Insert(Int(18))
+	tree.Insert(Int(3))
 
 	found, ok := tree.OrderStatisticSelect(2)
 	fmt.Println(found.Key())
@@ -45,9 +45,9 @@ func ExampleRbTree_OrderStatisticSelect() {
 func ExampleNode_Size() {
 	tree := NewRbTree()
 
-	tree.Insert(NewInt(6))
-	tree.Insert(NewInt(18))
-	tree.Insert(NewInt(3))
+	tree.Insert(Int(6))
+	tree.Insert(Int(18))
+	tree.Insert(Int(3))
 
 	root := tree.Root()
 
@@ -60,9 +60,9 @@ func ExampleNode_Size() {
 func ExampleNode_Successor() {
 	tree := NewRbTree()
 
-	tree.Insert(NewInt(6))
-	tree.Insert(NewInt(18))
-	tree.Insert(NewInt(3))
+	tree.Insert(Int(6))
+	tree.Insert(Int(18))
+	tree.Insert(Int(3))
 
 	root := tree.Root()
 
@@ -75,9 +75,9 @@ func ExampleNode_Successor() {
 func ExampleNode_Predecessor() {
 	tree := NewRbTree()
 
-	tree.Insert(NewInt(6))
-	tree.Insert(NewInt(18))
-	tree.Insert(NewInt(3))
+	tree.Insert(Int(6))
+	tree.Insert(Int(18))
+	tree.Insert(Int(3))
 
 	root := tree.Root()
 

@@ -7,9 +7,9 @@ import (
 func ExampleNewWalkInorder() {
 	tree := NewRbTree()
 
-	tree.Insert(NewInt(6))
-	tree.Insert(NewInt(18))
-	tree.Insert(NewInt(3))
+	tree.Insert(Int(6))
+	tree.Insert(Int(18))
+	tree.Insert(Int(3))
 
 	it := NewWalkInorder(tree)
 
@@ -25,9 +25,9 @@ func ExampleNewWalkInorder() {
 func ExampleNewWalkPreorder() {
 	tree := NewRbTree()
 
-	tree.Insert(NewInt(6))
-	tree.Insert(NewInt(18))
-	tree.Insert(NewInt(3))
+	tree.Insert(Int(6))
+	tree.Insert(Int(18))
+	tree.Insert(Int(3))
 
 	it := NewWalkPreorder(tree)
 
@@ -43,9 +43,9 @@ func ExampleNewWalkPreorder() {
 func ExampleNewWalkPostorder() {
 	tree := NewRbTree()
 
-	tree.Insert(NewInt(6))
-	tree.Insert(NewInt(18))
-	tree.Insert(NewInt(3))
+	tree.Insert(Int(6))
+	tree.Insert(Int(18))
+	tree.Insert(Int(3))
 
 	it := NewWalkPostorder(tree)
 
@@ -61,9 +61,9 @@ func ExampleNewWalkPostorder() {
 func ExampleNewAscend() {
 	tree := NewRbTree()
 
-	tree.Insert(NewInt(6))
-	tree.Insert(NewInt(18))
-	tree.Insert(NewInt(3))
+	tree.Insert(Int(6))
+	tree.Insert(Int(18))
+	tree.Insert(Int(3))
 
 	it := NewAscend(tree)
 
@@ -79,9 +79,9 @@ func ExampleNewAscend() {
 func ExampleNewDescend() {
 	tree := NewRbTree()
 
-	tree.Insert(NewInt(6))
-	tree.Insert(NewInt(18))
-	tree.Insert(NewInt(3))
+	tree.Insert(Int(6))
+	tree.Insert(Int(18))
+	tree.Insert(Int(3))
 
 	it := NewDescend(tree)
 
@@ -97,11 +97,11 @@ func ExampleNewDescend() {
 func ExampleNewAscendRange() {
 	tree := NewRbTree()
 
-	tree.Insert(NewInt(6))
-	tree.Insert(NewInt(18))
-	tree.Insert(NewInt(3))
+	tree.Insert(Int(6))
+	tree.Insert(Int(18))
+	tree.Insert(Int(3))
 
-	it := NewAscendRange(tree, NewInt(3), NewInt(6))
+	it := NewAscendRange(tree, Int(3), Int(6))
 
 	it.Foreach(func(n Comparable) {
 		fmt.Println(n)
@@ -114,11 +114,11 @@ func ExampleNewAscendRange() {
 func ExampleNewDescendRange() {
 	tree := NewRbTree()
 
-	tree.Insert(NewInt(6))
-	tree.Insert(NewInt(18))
-	tree.Insert(NewInt(3))
+	tree.Insert(Int(6))
+	tree.Insert(Int(18))
+	tree.Insert(Int(3))
 
-	it := NewDescendRange(tree, NewInt(6), NewInt(3))
+	it := NewDescendRange(tree, Int(6), Int(3))
 
 	it.Foreach(func(n Comparable) {
 		fmt.Println(n)

@@ -20,7 +20,7 @@ func Test_MaxSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	}
 	tree := rbtree.NewRbTree()
 	for _, value := range nodes {
-		tree.Insert(rbtree.NewInt(value))
+		tree.Insert(rbtree.Int(value))
 	}
 
 	top := int64(5)
@@ -56,7 +56,7 @@ func Test_MinSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	}
 	tree := rbtree.NewRbTree()
 	for _, value := range nodes {
-		tree.Insert(rbtree.NewInt(value))
+		tree.Insert(rbtree.Int(value))
 	}
 
 	top := int64(5)
@@ -172,8 +172,8 @@ func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
 	maxTree := NewMaxTree(3)
 
 	for i := 1; i <= 10; i++ {
-		minTree.Insert(rbtree.NewInt(i))
-		maxTree.Insert(rbtree.NewInt(i))
+		minTree.Insert(rbtree.Int(i))
+		maxTree.Insert(rbtree.Int(i))
 	}
 
 	var tests = []struct {
@@ -206,8 +206,8 @@ func Test_SearchIntTree_Success(t *testing.T) {
 	maxTree := NewMaxTree(3)
 
 	for i := 1; i <= 10; i++ {
-		minTree.Insert(rbtree.NewInt(i))
-		maxTree.Insert(rbtree.NewInt(i))
+		minTree.Insert(rbtree.Int(i))
+		maxTree.Insert(rbtree.Int(i))
 	}
 
 	var tests = []struct {
@@ -220,7 +220,7 @@ func Test_SearchIntTree_Success(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			v := rbtree.NewInt(test.expected)
+			v := rbtree.Int(test.expected)
 
 			// Act
 			found, ok := test.tree.Search(v)
@@ -240,8 +240,8 @@ func Test_SearchNodeIntTree_Success(t *testing.T) {
 	maxTree := NewMaxTree(3)
 
 	for i := 1; i <= 10; i++ {
-		minTree.Insert(rbtree.NewInt(i))
-		maxTree.Insert(rbtree.NewInt(i))
+		minTree.Insert(rbtree.Int(i))
+		maxTree.Insert(rbtree.Int(i))
 	}
 
 	var tests = []struct {
@@ -254,7 +254,7 @@ func Test_SearchNodeIntTree_Success(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			v := rbtree.NewInt(test.expected)
+			v := rbtree.Int(test.expected)
 
 			// Act
 			found, ok := test.tree.SearchNode(v)
@@ -274,8 +274,8 @@ func Test_DeleteNode_Success(t *testing.T) {
 	maxTree := NewMaxTree(3)
 
 	for i := 1; i <= 10; i++ {
-		minTree.Insert(rbtree.NewInt(i))
-		maxTree.Insert(rbtree.NewInt(i))
+		minTree.Insert(rbtree.Int(i))
+		maxTree.Insert(rbtree.Int(i))
 	}
 
 	var tests = []struct {
@@ -288,7 +288,7 @@ func Test_DeleteNode_Success(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			v := rbtree.NewInt(test.expected)
+			v := rbtree.Int(test.expected)
 
 			// Act
 			ok := test.tree.DeleteNode(v)
@@ -309,8 +309,8 @@ func Test_DeleteAllNodesNodes_Success(t *testing.T) {
 	maxTree := NewMaxTree(3)
 
 	for i := 1; i <= 10; i++ {
-		minTree.Insert(rbtree.NewInt(i))
-		maxTree.Insert(rbtree.NewInt(i))
+		minTree.Insert(rbtree.Int(i))
+		maxTree.Insert(rbtree.Int(i))
 	}
 
 	var tests = []struct {
@@ -323,7 +323,7 @@ func Test_DeleteAllNodesNodes_Success(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			v := rbtree.NewInt(test.expected)
+			v := rbtree.Int(test.expected)
 
 			// Act
 			ok := test.tree.DeleteAllNodes(v)
@@ -342,8 +342,8 @@ func Test_FexedTree_Foreach(t *testing.T) {
 	maxTree := NewMaxTree(3)
 
 	for i := 1; i <= 10; i++ {
-		minTree.Insert(rbtree.NewInt(i))
-		maxTree.Insert(rbtree.NewInt(i))
+		minTree.Insert(rbtree.Int(i))
+		maxTree.Insert(rbtree.Int(i))
 	}
 
 	var tests = []struct {

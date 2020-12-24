@@ -14,30 +14,30 @@ func Test_Foreach_Normal(t *testing.T) {
 	}{
 		{"ascend normal", NewAscend(tree), []int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}},
 
-		{"ascend range 6 to 15", NewAscendRange(tree, NewInt(6), NewInt(15)), []int{6, 7, 9, 13, 15}},
-		{"ascend range 6 to 6", NewAscendRange(tree, NewInt(6), NewInt(6)), []int{6}},
-		{"ascend range 15 to 15", NewAscendRange(tree, NewInt(15), NewInt(15)), []int{15}},
-		{"ascend range 20 to 20", NewAscendRange(tree, NewInt(20), NewInt(20)), []int{20}},
-		{"ascend range 2 to 2", NewAscendRange(tree, NewInt(2), NewInt(2)), []int{2}},
-		{"ascend range 15 to 6", NewAscendRange(tree, NewInt(15), NewInt(6)), []int{}},
-		{"ascend range 8 to 15", NewAscendRange(tree, NewInt(8), NewInt(15)), []int{}},
+		{"ascend range 6 to 15", NewAscendRange(tree, Int(6), Int(15)), []int{6, 7, 9, 13, 15}},
+		{"ascend range 6 to 6", NewAscendRange(tree, Int(6), Int(6)), []int{6}},
+		{"ascend range 15 to 15", NewAscendRange(tree, Int(15), Int(15)), []int{15}},
+		{"ascend range 20 to 20", NewAscendRange(tree, Int(20), Int(20)), []int{20}},
+		{"ascend range 2 to 2", NewAscendRange(tree, Int(2), Int(2)), []int{2}},
+		{"ascend range 15 to 6", NewAscendRange(tree, Int(15), Int(6)), []int{}},
+		{"ascend range 8 to 15", NewAscendRange(tree, Int(8), Int(15)), []int{}},
 
-		{"ascend range nil to val", NewAscendRange(tree, nil, NewInt(6)), []int{}},
-		{"ascend range val to nil", NewAscendRange(tree, NewInt(6), nil), []int{}},
+		{"ascend range nil to val", NewAscendRange(tree, nil, Int(6)), []int{}},
+		{"ascend range val to nil", NewAscendRange(tree, Int(6), nil), []int{}},
 		{"ascend range nil to nil", NewAscendRange(tree, nil, nil), []int{}},
 
 		{"descend normal", NewDescend(tree), []int{20, 18, 17, 15, 13, 9, 7, 6, 4, 3, 2}},
 
-		{"descend range 15 to 6", NewDescendRange(tree, NewInt(15), NewInt(6)), []int{15, 13, 9, 7, 6}},
-		{"descend range 6 to 6", NewDescendRange(tree, NewInt(6), NewInt(6)), []int{6}},
-		{"descend range 15 to 15", NewDescendRange(tree, NewInt(15), NewInt(15)), []int{15}},
-		{"descend range 20 to 20", NewDescendRange(tree, NewInt(20), NewInt(20)), []int{20}},
-		{"descend range 2 to 2", NewDescendRange(tree, NewInt(2), NewInt(2)), []int{2}},
-		{"descend range 6 to 15", NewDescendRange(tree, NewInt(6), NewInt(15)), []int{}},
-		{"descend range 14 to 6", NewDescendRange(tree, NewInt(14), NewInt(6)), []int{}},
+		{"descend range 15 to 6", NewDescendRange(tree, Int(15), Int(6)), []int{15, 13, 9, 7, 6}},
+		{"descend range 6 to 6", NewDescendRange(tree, Int(6), Int(6)), []int{6}},
+		{"descend range 15 to 15", NewDescendRange(tree, Int(15), Int(15)), []int{15}},
+		{"descend range 20 to 20", NewDescendRange(tree, Int(20), Int(20)), []int{20}},
+		{"descend range 2 to 2", NewDescendRange(tree, Int(2), Int(2)), []int{2}},
+		{"descend range 6 to 15", NewDescendRange(tree, Int(6), Int(15)), []int{}},
+		{"descend range 14 to 6", NewDescendRange(tree, Int(14), Int(6)), []int{}},
 
-		{"descend range nil to val", NewDescendRange(tree, nil, NewInt(6)), []int{}},
-		{"descend range val to nil", NewDescendRange(tree, NewInt(6), nil), []int{}},
+		{"descend range nil to val", NewDescendRange(tree, nil, Int(6)), []int{}},
+		{"descend range val to nil", NewDescendRange(tree, Int(6), nil), []int{}},
 		{"descend range nil to nil", NewDescendRange(tree, nil, nil), []int{}},
 
 		{"inorder normal", NewWalkInorder(tree), []int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}},
@@ -105,7 +105,7 @@ func Test_Foreach_SpecialCases(t *testing.T) {
 
 			tree := NewRbTree()
 			for _, n := range test.input {
-				tree.Insert(NewInt(n))
+				tree.Insert(Int(n))
 			}
 
 			it := test.itFunc(tree)
