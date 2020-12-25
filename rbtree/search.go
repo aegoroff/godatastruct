@@ -11,6 +11,20 @@ func (tree *rbTree) Search(value Comparable) (Comparable, bool) {
 	return n.key, ok
 }
 
+func (tree *rbTree) SearchAll(value Comparable) []Comparable {
+	var result []Comparable
+	n, ok := tree.SearchNode(value)
+	if ok {
+		result = append(result, n.key)
+		s := n.Successor()
+		for s.isNotNil() && s.key.EqualTo(value) {
+			result = append(result, s.key)
+			s = s.Successor()
+		}
+	}
+	return result
+}
+
 // SearchNode searches *Node which key is equals value specified
 func (tree *rbTree) SearchNode(value Comparable) (*Node, bool) {
 	if tree.root.isNil() {

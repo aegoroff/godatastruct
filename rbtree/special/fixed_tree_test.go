@@ -233,6 +233,39 @@ func Test_SearchIntTree_Success(t *testing.T) {
 	}
 }
 
+func Test_SearchAllIntTree_Success(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	minTree := NewMinTree(3)
+	maxTree := NewMaxTree(3)
+
+	for i := 1; i <= 10; i++ {
+		minTree.Insert(rbtree.Int(i))
+		maxTree.Insert(rbtree.Int(i))
+	}
+
+	var tests = []struct {
+		name     string
+		tree     rbtree.RbTree
+		expected int
+	}{
+		{"Min tree", minTree, 1},
+		{"Max tree", maxTree, 8},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			v := rbtree.Int(test.expected)
+
+			// Act
+			found := test.tree.SearchAll(v)
+
+			// Assert
+			ass.NotNil(found)
+			ass.Equal(1, len(found))
+		})
+	}
+}
+
 func Test_SearchNodeIntTree_Success(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)

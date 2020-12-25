@@ -19,6 +19,9 @@ type RbTree interface {
 	// Search searches value specified within search tree
 	Search(value Comparable) (Comparable, bool)
 
+	// SearchAll searches all values with the same key as specified within search tree
+	SearchAll(value Comparable) []Comparable
+
 	// SearchNode searches *Node which key is equals value specified
 	SearchNode(value Comparable) (*Node, bool)
 

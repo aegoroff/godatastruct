@@ -47,6 +47,12 @@ func (t *concurrencySafeTree) Search(value rbtree.Comparable) (rbtree.Comparable
 	return t.tree.Search(value)
 }
 
+func (t *concurrencySafeTree) SearchAll(value rbtree.Comparable) []rbtree.Comparable {
+	t.mu.RLock()
+	defer t.mu.RUnlock()
+	return t.tree.SearchAll(value)
+}
+
 func (t *concurrencySafeTree) SearchNode(value rbtree.Comparable) (*rbtree.Node, bool) {
 	t.mu.RLock()
 	defer t.mu.RUnlock()

@@ -66,6 +66,41 @@ func Test_SearchIntTree_Success(t *testing.T) {
 	ass.Equal(13, GetInt(found))
 }
 
+func Test_SearchAllIntTree_Success(t *testing.T) {
+	var tests = []struct {
+		name       string
+		duplicates int
+	}{
+		{"1", 1},
+		{"2", 2},
+		{"3", 3},
+		{"4", 4},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+			tree := NewRbTree()
+			tree.Insert(Int(1))
+
+			for i := 0; i < test.duplicates; i++ {
+				tree.Insert(Int(2))
+			}
+
+			tree.Insert(Int(3))
+			tree.Insert(Int(4))
+			v := Int(2)
+
+			// Act
+			found := tree.SearchAll(v)
+
+			// Assert
+			ass.NotNil(found)
+			ass.Equal(test.duplicates, len(found))
+		})
+	}
+}
+
 func Test_SearchStringTree_Success(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
@@ -92,6 +127,19 @@ func Test_SearchStringTree_Fail(t *testing.T) {
 
 	// Assert
 	ass.False(ok)
+	ass.Nil(found)
+}
+
+func Test_SearchAllStringTree_Fail(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := createTestStringTree()
+	n := NewString("abrakadabra")
+
+	// Act
+	found := tree.SearchAll(n)
+
+	// Assert
 	ass.Nil(found)
 }
 
