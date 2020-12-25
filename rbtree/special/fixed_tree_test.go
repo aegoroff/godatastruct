@@ -348,7 +348,7 @@ func Test_ReplaceOrInsertMinTreeDuplicateLessThenPrevNodes_PrevNodesDeletedLenLe
 
 	// Act
 	for i := 0; i <= 5; i++ {
-		tree.ReplaceOrInsertInsert(duplicate)
+		tree.ReplaceOrInsert(duplicate)
 	}
 
 	// Assert
@@ -374,10 +374,10 @@ func Test_ReplaceOrInsertMinTreeDuplicateGreaterThenPrevNodes_PrevNodesNotDelete
 
 	// Act
 	for i := 0; i <= 5; i++ {
-		tree.ReplaceOrInsertInsert(duplicate)
+		tree.ReplaceOrInsert(duplicate)
 	}
 
-	tree.ReplaceOrInsertInsert(rbtree.Int(4))
+	tree.ReplaceOrInsert(rbtree.Int(4))
 
 	// Assert
 	found, ok := tree.Search(duplicate)
@@ -403,7 +403,7 @@ func Test_ReplaceOrInsertMaxTreeDuplicateLessThenPrevNodes_PrevNodesNotDeletedLe
 
 	// Act
 	for i := 0; i <= 5; i++ {
-		tree.ReplaceOrInsertInsert(duplicate)
+		tree.ReplaceOrInsert(duplicate)
 	}
 
 	// Assert
@@ -430,7 +430,7 @@ func Test_ReplaceOrInsertMaxTreeDuplicateGreaterThenPrevNodes_PrevNodesDeletedLe
 
 	// Act
 	for i := 0; i <= 5; i++ {
-		tree.ReplaceOrInsertInsert(duplicate)
+		tree.ReplaceOrInsert(duplicate)
 	}
 
 	// Assert
@@ -457,10 +457,10 @@ func Test_ReplaceOrInsertMaxTreeDuplicateGreaterThenPrevNodesAndInsertLessNodesA
 
 	// Act
 	for i := 0; i <= 5; i++ {
-		tree.ReplaceOrInsertInsert(duplicate)
+		tree.ReplaceOrInsert(duplicate)
 	}
-	tree.ReplaceOrInsertInsert(rbtree.Int(0))
-	tree.ReplaceOrInsertInsert(rbtree.Int(1))
+	tree.ReplaceOrInsert(rbtree.Int(0))
+	tree.ReplaceOrInsert(rbtree.Int(1))
 
 	// Assert
 	found, ok := tree.Search(duplicate)

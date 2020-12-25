@@ -29,10 +29,10 @@ func (t *concurrencySafeTree) Insert(n rbtree.Comparable) {
 	t.tree.Insert(n)
 }
 
-func (t *concurrencySafeTree) ReplaceOrInsertInsert(n rbtree.Comparable) rbtree.Comparable {
+func (t *concurrencySafeTree) ReplaceOrInsert(n rbtree.Comparable) rbtree.Comparable {
 	t.mu.Lock()
 	defer t.mu.Unlock()
-	return t.tree.ReplaceOrInsertInsert(n)
+	return t.tree.ReplaceOrInsert(n)
 }
 
 func (t *concurrencySafeTree) DeleteNode(c rbtree.Comparable) bool {

@@ -484,7 +484,7 @@ func Test_ReplaceOrInsertInsertNil_NothingInserted(t *testing.T) {
 	oldSize := tree.Len()
 
 	// Act
-	tree.ReplaceOrInsertInsert(nil)
+	tree.ReplaceOrInsert(nil)
 
 	// Assert
 	ass.Equal(oldSize, tree.Len())
@@ -509,7 +509,7 @@ func Test_ReplaceOrInsertIntoEmpty_Inserted(t *testing.T) {
 	tree := NewRbTree()
 
 	// Act
-	r := tree.ReplaceOrInsertInsert(NewString("1"))
+	r := tree.ReplaceOrInsert(NewString("1"))
 
 	// Assert
 	ass.Equal(int64(1), tree.Len())
@@ -524,7 +524,7 @@ func Test_ReplaceOrInsertThatAlreadyInserted_InsertedOldDeletedAndReturned(t *te
 	tree.Insert(k)
 
 	// Act
-	r := tree.ReplaceOrInsertInsert(NewString("1"))
+	r := tree.ReplaceOrInsert(NewString("1"))
 
 	// Assert
 	ass.Equal(int64(1), tree.Len())

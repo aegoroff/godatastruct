@@ -74,7 +74,7 @@ func Test_WrapTreeToConcurrencySafeTree_ReplaceOrInsertTest(t *testing.T) {
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			tree.ReplaceOrInsertInsert(rbtree.Int(ix))
+			tree.ReplaceOrInsert(rbtree.Int(ix))
 		}(i)
 	}
 	wg.Wait()

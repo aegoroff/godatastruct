@@ -8,11 +8,11 @@ type RbTree interface {
 	// Insert inserts new Node into Red-Black tree. Creates Root if tree is empty
 	Insert(n Comparable)
 
-	// ReplaceOrInsertInsert inserts new Node into Red-Black tree. Creates Root if tree is empty
+	// ReplaceOrInsert inserts new Node into Red-Black tree. Creates Root if tree is empty
 	// If an item in the tree
 	// already equals the given one, it is removed from the tree and returned.
 	// Otherwise, nil is returned.
-	ReplaceOrInsertInsert(n Comparable) Comparable
+	ReplaceOrInsert(n Comparable) Comparable
 
 	// DeleteNode searches and deletes Node with key value specified from Red-black tree
 	// It returns true if Node was successfully deleted otherwise false
