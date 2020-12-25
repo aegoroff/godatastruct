@@ -38,11 +38,9 @@ func BenchmarkRbTree_Search(b *testing.B) {
 	for _, n := range ints {
 		tree.Insert(Int(n))
 	}
-	k := Int(ints[len(ints)/2])
-	k1 := Int(ints[len(ints)/4])
+
 	for i := 0; i < b.N; i++ {
-		tree.Search(k)
-		tree.Search(k1)
+		tree.Search(Int(i))
 	}
 	b.ReportAllocs()
 }
@@ -54,11 +52,8 @@ func BenchmarkBTree_Search(b *testing.B) {
 		tree.ReplaceOrInsert(Int(n))
 	}
 
-	k := Int(ints[len(ints)/2])
-	k1 := Int(ints[len(ints)/4])
 	for i := 0; i < b.N; i++ {
-		tree.Has(k)
-		tree.Has(k1)
+		tree.Has(Int(i))
 	}
 	b.ReportAllocs()
 }
