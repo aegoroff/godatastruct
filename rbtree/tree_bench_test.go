@@ -169,14 +169,14 @@ func perm(n int) (out []int) {
 }
 
 func generateRandomStrings(num int, length int) []*String {
-	unexist := make([]*String, num)
+	result := make([]*String, num)
 	for i := 0; i < num; i++ {
 		l := 1 + rand.Intn(length)
 		s := randomString(l)
 		n := String(s)
-		unexist[i] = &n
+		result[i] = &n
 	}
-	return unexist
+	return result
 }
 
 func randomString(n int) string {
