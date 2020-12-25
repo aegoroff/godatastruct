@@ -9,12 +9,17 @@ import (
 const treeSizeInsert = 20000
 const treeSizeSearchOrIterate = 100000
 const bTreeDegree = 16
+const searches = 100
 
 func (i Int) Less(y btree.Item) bool {
 	return i < y.(Int)
 }
 
-func BenchmarkRbTree_Insert(b *testing.B) {
+func (s *String) Less(y btree.Item) bool {
+	return string(*s) < string(*y.(*String))
+}
+
+func Benchmark_RbTree_Insert(b *testing.B) {
 	ints := perm(treeSizeInsert)
 	tree := NewRbTree()
 	for i := 0; i < b.N; i++ {
@@ -25,7 +30,7 @@ func BenchmarkRbTree_Insert(b *testing.B) {
 	b.ReportAllocs()
 }
 
-func BenchmarkRbTree_ReplaceOrInsert(b *testing.B) {
+func Benchmark_RbTree_ReplaceOrInsert(b *testing.B) {
 	ints := perm(treeSizeInsert)
 	tree := NewRbTree()
 	for i := 0; i < b.N; i++ {
@@ -36,7 +41,7 @@ func BenchmarkRbTree_ReplaceOrInsert(b *testing.B) {
 	b.ReportAllocs()
 }
 
-func BenchmarkBTree_ReplaceOrInsert(b *testing.B) {
+func Benchmark_BTree_ReplaceOrInsert(b *testing.B) {
 	ints := perm(treeSizeInsert)
 	tree := btree.New(bTreeDegree)
 	for i := 0; i < b.N; i++ {
@@ -47,33 +52,52 @@ func BenchmarkBTree_ReplaceOrInsert(b *testing.B) {
 	b.ReportAllocs()
 }
 
-func BenchmarkRbTree_Search(b *testing.B) {
-	ints := perm(treeSizeSearchOrIterate)
+func Benchmark_RbTree_Search(b *testing.B) {
+	// Arrange
 	tree := NewRbTree()
-	for _, n := range ints {
-		tree.Insert(Int(n))
+	nodes := make([]Comparable, treeSizeSearchOrIterate)
+	for i := 0; i < treeSizeSearchOrIterate; i++ {
+		l := 1 + rand.Intn(50)
+		s := randomString(l)
+		n := NewString(s)
+		tree.Insert(n)
+		nodes[i] = n
 	}
 
+	off := rand.Intn(treeSizeSearchOrIterate / 2)
+
+	// Act
 	for i := 0; i < b.N; i++ {
-		tree.Search(Int(i))
+		for j := 0; j < searches; j++ {
+			tree.Search(nodes[j+off])
+		}
 	}
 	b.ReportAllocs()
 }
 
-func BenchmarkBTree_Search(b *testing.B) {
-	ints := perm(treeSizeSearchOrIterate)
+func Benchmark_BTree_Search(b *testing.B) {
+	// Arrange
 	tree := btree.New(bTreeDegree)
-	for _, n := range ints {
-		tree.ReplaceOrInsert(Int(n))
+	nodes := make([]*String, treeSizeSearchOrIterate)
+	for i := 0; i < treeSizeSearchOrIterate; i++ {
+		l := 1 + rand.Intn(50)
+		s := randomString(l)
+		n := String(s)
+		tree.ReplaceOrInsert(&n)
+		nodes[i] = &n
 	}
 
+	off := rand.Intn(treeSizeSearchOrIterate / 2)
+
 	for i := 0; i < b.N; i++ {
-		tree.Has(Int(i))
+		for j := 0; j < searches; j++ {
+			tree.Has(nodes[j+off])
+		}
 	}
 	b.ReportAllocs()
 }
 
-func BenchmarkRbTree_Ascend(b *testing.B) {
+func Benchmark_RbTree_Ascend(b *testing.B) {
 	ints := perm(treeSizeSearchOrIterate)
 	tree := NewRbTree()
 	for _, n := range ints {
@@ -89,7 +113,7 @@ func BenchmarkRbTree_Ascend(b *testing.B) {
 	b.ReportAllocs()
 }
 
-func BenchmarkBTree_Ascend(b *testing.B) {
+func Benchmark_BTree_Ascend(b *testing.B) {
 	ints := perm(treeSizeSearchOrIterate)
 	tree := btree.New(bTreeDegree)
 	for _, n := range ints {
@@ -106,7 +130,7 @@ func BenchmarkBTree_Ascend(b *testing.B) {
 	b.ReportAllocs()
 }
 
-func BenchmarkRbTree_Descend(b *testing.B) {
+func Benchmark_RbTree_Descend(b *testing.B) {
 	ints := perm(treeSizeSearchOrIterate)
 	tree := NewRbTree()
 	for _, n := range ints {
@@ -122,7 +146,7 @@ func BenchmarkRbTree_Descend(b *testing.B) {
 	b.ReportAllocs()
 }
 
-func BenchmarkBTree_Descend(b *testing.B) {
+func Benchmark_BTree_Descend(b *testing.B) {
 	ints := perm(treeSizeSearchOrIterate)
 	tree := btree.New(bTreeDegree)
 	for _, n := range ints {
@@ -143,4 +167,15 @@ func BenchmarkBTree_Descend(b *testing.B) {
 func perm(n int) (out []int) {
 	out = append(out, rand.Perm(n)...)
 	return
+}
+
+func randomString(n int) string {
+	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+
+	s := make([]rune, n)
+	for i := range s {
+		ix := rand.Intn(len(letters))
+		s[i] = letters[ix]
+	}
+	return string(s)
 }
