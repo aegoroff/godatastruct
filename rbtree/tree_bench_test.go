@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-const bTrueeDegree = 16
+const bTreeDegree = 16
 
 func (i Int) Less(y btree.Item) bool {
 	return i < y.(Int)
@@ -25,7 +25,7 @@ func BenchmarkRbTree_Insert(b *testing.B) {
 
 func BenchmarkBTree_Insert(b *testing.B) {
 	ints := perm(10000)
-	tree := btree.New(bTrueeDegree)
+	tree := btree.New(bTreeDegree)
 	for i := 0; i < b.N; i++ {
 		for _, n := range ints {
 			tree.ReplaceOrInsert(Int(n))
@@ -49,7 +49,7 @@ func BenchmarkRbTree_Search(b *testing.B) {
 
 func BenchmarkBTree_Search(b *testing.B) {
 	ints := perm(100000)
-	tree := btree.New(bTrueeDegree)
+	tree := btree.New(bTreeDegree)
 	for _, n := range ints {
 		tree.ReplaceOrInsert(Int(n))
 	}
@@ -78,7 +78,7 @@ func BenchmarkRbTree_Ascend(b *testing.B) {
 
 func BenchmarkBTree_Ascend(b *testing.B) {
 	ints := perm(100000)
-	tree := btree.New(bTrueeDegree)
+	tree := btree.New(bTreeDegree)
 	for _, n := range ints {
 		tree.ReplaceOrInsert(Int(n))
 	}
@@ -111,7 +111,7 @@ func BenchmarkRbTree_Descend(b *testing.B) {
 
 func BenchmarkBTree_Descend(b *testing.B) {
 	ints := perm(100000)
-	tree := btree.New(bTrueeDegree)
+	tree := btree.New(bTreeDegree)
 	for _, n := range ints {
 		tree.ReplaceOrInsert(Int(n))
 	}
