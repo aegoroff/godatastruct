@@ -477,6 +477,20 @@ func Test_InsertNil_NothingInserted(t *testing.T) {
 	ass.Nil(tree.tnil.parent)
 }
 
+func Test_ReplaceOrInsertInsertNil_NothingInserted(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := createTestStringTree()
+	oldSize := tree.Len()
+
+	// Act
+	tree.ReplaceOrInsertInsert(nil)
+
+	// Assert
+	ass.Equal(oldSize, tree.Len())
+	ass.Nil(tree.tnil.parent)
+}
+
 func Test_InsertIntoEmpty_Inserted(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
@@ -487,6 +501,35 @@ func Test_InsertIntoEmpty_Inserted(t *testing.T) {
 
 	// Assert
 	ass.Equal(int64(1), tree.Len())
+}
+
+func Test_ReplaceOrInsertIntoEmpty_Inserted(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := NewRbTree()
+
+	// Act
+	r := tree.ReplaceOrInsertInsert(NewString("1"))
+
+	// Assert
+	ass.Equal(int64(1), tree.Len())
+	ass.Nil(r)
+}
+
+func Test_ReplaceOrInsertThatAlreadyInserted_InsertedOldDeletedAndReturned(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := NewRbTree()
+	k := NewString("1")
+	tree.Insert(k)
+
+	// Act
+	r := tree.ReplaceOrInsertInsert(NewString("1"))
+
+	// Assert
+	ass.Equal(int64(1), tree.Len())
+	ass.NotNil(r)
+	ass.Equal(k, r)
 }
 
 func Test_InsertIntoNotEmpty_Inserted(t *testing.T) {

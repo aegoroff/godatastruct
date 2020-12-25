@@ -335,6 +335,148 @@ func Test_DeleteNode_Success(t *testing.T) {
 	}
 }
 
+func Test_ReplaceOrInsertMinTreeDuplicateLessThenPrevNodes_PrevNodesDeletedLenLessThenMinLen(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := NewMinTree(3)
+
+	tree.Insert(rbtree.Int(1))
+	tree.Insert(rbtree.Int(3))
+	tree.Insert(rbtree.Int(4))
+
+	duplicate := rbtree.Int(2)
+
+	// Act
+	for i := 0; i <= 5; i++ {
+		tree.ReplaceOrInsertInsert(duplicate)
+	}
+
+	// Assert
+	found, ok := tree.Search(duplicate)
+	ass.True(ok)
+	ass.Equal(int64(2), tree.Len())
+	ass.NotNil(found)
+	found, ok = tree.Search(rbtree.Int(3))
+	ass.False(ok)
+	found, ok = tree.Search(rbtree.Int(4))
+	ass.False(ok)
+}
+
+func Test_ReplaceOrInsertMinTreeDuplicateGreaterThenPrevNodes_PrevNodesNotDeleteLenEqualThenMinLen(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := NewMinTree(3)
+
+	tree.Insert(rbtree.Int(1))
+	tree.Insert(rbtree.Int(2))
+
+	duplicate := rbtree.Int(3)
+
+	// Act
+	for i := 0; i <= 5; i++ {
+		tree.ReplaceOrInsertInsert(duplicate)
+	}
+
+	tree.ReplaceOrInsertInsert(rbtree.Int(4))
+
+	// Assert
+	found, ok := tree.Search(duplicate)
+	ass.True(ok)
+	ass.Equal(int64(3), tree.Len())
+	ass.NotNil(found)
+	found, ok = tree.Search(rbtree.Int(3))
+	ass.True(ok)
+	found, ok = tree.Search(rbtree.Int(4))
+	ass.False(ok)
+}
+
+func Test_ReplaceOrInsertMaxTreeDuplicateLessThenPrevNodes_PrevNodesNotDeletedLenEqualMaxLen(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := NewMaxTree(3)
+
+	tree.Insert(rbtree.Int(1))
+	tree.Insert(rbtree.Int(3))
+	tree.Insert(rbtree.Int(4))
+
+	duplicate := rbtree.Int(2)
+
+	// Act
+	for i := 0; i <= 5; i++ {
+		tree.ReplaceOrInsertInsert(duplicate)
+	}
+
+	// Assert
+	found, ok := tree.Search(duplicate)
+	ass.True(ok)
+	ass.Equal(int64(3), tree.Len())
+	ass.NotNil(found)
+	found, ok = tree.Search(rbtree.Int(3))
+	ass.True(ok)
+	found, ok = tree.Search(rbtree.Int(4))
+	ass.True(ok)
+}
+
+func Test_ReplaceOrInsertMaxTreeDuplicateGreaterThenPrevNodes_PrevNodesDeletedLenLessMaxLen(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := NewMaxTree(3)
+
+	tree.Insert(rbtree.Int(1))
+	tree.Insert(rbtree.Int(2))
+	tree.Insert(rbtree.Int(3))
+
+	duplicate := rbtree.Int(4)
+
+	// Act
+	for i := 0; i <= 5; i++ {
+		tree.ReplaceOrInsertInsert(duplicate)
+	}
+
+	// Assert
+	found, ok := tree.Search(duplicate)
+	ass.True(ok)
+	ass.Equal(int64(2), tree.Len())
+	ass.NotNil(found)
+	found, ok = tree.Search(rbtree.Int(3))
+	ass.True(ok)
+	found, ok = tree.Search(rbtree.Int(4))
+	ass.True(ok)
+}
+
+func Test_ReplaceOrInsertMaxTreeDuplicateGreaterThenPrevNodesAndInsertLessNodesAfterwards_PrevNodesDeletedLenEqualMaxLen(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := NewMaxTree(3)
+
+	tree.Insert(rbtree.Int(1))
+	tree.Insert(rbtree.Int(2))
+	tree.Insert(rbtree.Int(3))
+
+	duplicate := rbtree.Int(4)
+
+	// Act
+	for i := 0; i <= 5; i++ {
+		tree.ReplaceOrInsertInsert(duplicate)
+	}
+	tree.ReplaceOrInsertInsert(rbtree.Int(0))
+	tree.ReplaceOrInsertInsert(rbtree.Int(1))
+
+	// Assert
+	found, ok := tree.Search(duplicate)
+	ass.True(ok)
+	ass.Equal(int64(3), tree.Len())
+	ass.NotNil(found)
+	_, ok = tree.Search(rbtree.Int(3))
+	ass.True(ok)
+	_, ok = tree.Search(rbtree.Int(4))
+	ass.True(ok)
+	_, ok = tree.Search(rbtree.Int(0))
+	ass.False(ok)
+	_, ok = tree.Search(rbtree.Int(1))
+	ass.True(ok)
+}
+
 func Test_DeleteAllNodesNodes_Success(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)

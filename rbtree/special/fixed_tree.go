@@ -32,6 +32,18 @@ func (t *maxTree) Insert(c rbtree.Comparable) {
 	}
 }
 
+func (t *maxTree) ReplaceOrInsertInsert(c rbtree.Comparable) rbtree.Comparable {
+	min := t.tree.Minimum()
+	if t.tree.Len() < t.size || min.Key().LessThan(c) {
+		if t.Len() == t.size {
+			t.DeleteNode(min.Key())
+		}
+
+		return t.tree.ReplaceOrInsertInsert(c)
+	}
+	return nil
+}
+
 func (t *maxTree) DeleteNode(c rbtree.Comparable) bool {
 	return t.tree.DeleteNode(c)
 }
@@ -91,6 +103,18 @@ func (t *minTree) Insert(c rbtree.Comparable) {
 
 		t.tree.Insert(c)
 	}
+}
+
+func (t *minTree) ReplaceOrInsertInsert(c rbtree.Comparable) rbtree.Comparable {
+	max := t.tree.Maximum()
+	if t.tree.Len() < t.size || !max.Key().LessThan(c) {
+		if t.tree.Len() == t.size {
+			t.tree.DeleteNode(max.Key())
+		}
+
+		return t.tree.ReplaceOrInsertInsert(c)
+	}
+	return nil
 }
 
 func (t *minTree) DeleteNode(c rbtree.Comparable) bool {
