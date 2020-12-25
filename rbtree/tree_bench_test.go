@@ -20,9 +20,12 @@ func (s *String) Less(y btree.Item) bool {
 }
 
 func Benchmark_RbTree_Insert(b *testing.B) {
-	ints := perm(treeSizeInsert)
-	tree := NewRbTree()
 	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		tree := NewRbTree()
+		ints := perm(treeSizeInsert)
+		b.StartTimer()
+
 		for _, n := range ints {
 			tree.Insert(Int(n))
 		}
@@ -31,9 +34,12 @@ func Benchmark_RbTree_Insert(b *testing.B) {
 }
 
 func Benchmark_RbTree_ReplaceOrInsert(b *testing.B) {
-	ints := perm(treeSizeInsert)
-	tree := NewRbTree()
 	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		ints := perm(treeSizeInsert)
+		tree := NewRbTree()
+		b.StartTimer()
+
 		for _, n := range ints {
 			tree.ReplaceOrInsert(Int(n))
 		}
@@ -42,9 +48,12 @@ func Benchmark_RbTree_ReplaceOrInsert(b *testing.B) {
 }
 
 func Benchmark_BTree_ReplaceOrInsert(b *testing.B) {
-	ints := perm(treeSizeInsert)
-	tree := btree.New(bTreeDegree)
 	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		ints := perm(treeSizeInsert)
+		tree := btree.New(bTreeDegree)
+		b.StartTimer()
+
 		for _, n := range ints {
 			tree.ReplaceOrInsert(Int(n))
 		}
