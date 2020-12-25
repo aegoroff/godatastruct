@@ -337,35 +337,34 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndOrderStatisticSelectTest(
 
 	const nodesCount = 200
 	tree := NewConcurrencySafeTree()
-	readResultsChan := make(chan bool, nodesCount/2)
 
 	for i := 1; i <= nodesCount; i++ {
 		tree.Insert(rbtree.Int(i))
 	}
+	var mu sync.Mutex
+	res := true
 
 	// Act
+	wg.Add(nodesCount)
 	for i := 1; i <= nodesCount/2; i++ {
-		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			tree.DeleteAllNodes(rbtree.Int(ix))
+			tree.DeleteNode(rbtree.Int(ix))
 		}(i)
 
-		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
 			_, ok := tree.OrderStatisticSelect(1)
-			readResultsChan <- ok
+			mu.Lock()
+			res = res && ok
+			mu.Unlock()
 		}(i)
 	}
 	wg.Wait()
-	close(readResultsChan)
 
 	// Assert
 	ass.Equal(int64(nodesCount/2), tree.Len())
-	for ok := range readResultsChan {
-		ass.True(ok)
-	}
+	ass.True(res)
 }
 
 func Test_ConcurrencySafeTree_Foreach(t *testing.T) {
