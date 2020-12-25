@@ -55,14 +55,13 @@ func Benchmark_BTree_ReplaceOrInsert(b *testing.B) {
 func Benchmark_RbTree_Search(b *testing.B) {
 	// Arrange
 	tree := NewRbTree()
-	nodes := make([]Comparable, treeSizeSearchOrIterate)
+	nodes := generateRandomStrings(treeSizeSearchOrIterate, 50)
+
 	for i := 0; i < treeSizeSearchOrIterate; i++ {
-		l := 1 + rand.Intn(50)
-		s := randomString(l)
-		n := NewString(s)
-		tree.Insert(n)
-		nodes[i] = n
+		tree.Insert(nodes[i])
 	}
+
+	unexist := generateRandomStrings(searches, 50)
 
 	off := rand.Intn(treeSizeSearchOrIterate / 2)
 
@@ -70,6 +69,7 @@ func Benchmark_RbTree_Search(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		for j := 0; j < searches; j++ {
 			tree.Search(nodes[j+off])
+			tree.Search(unexist[j])
 		}
 	}
 	b.ReportAllocs()
@@ -78,20 +78,19 @@ func Benchmark_RbTree_Search(b *testing.B) {
 func Benchmark_BTree_Search(b *testing.B) {
 	// Arrange
 	tree := btree.New(bTreeDegree)
-	nodes := make([]*String, treeSizeSearchOrIterate)
+	nodes := generateRandomStrings(treeSizeSearchOrIterate, 50)
 	for i := 0; i < treeSizeSearchOrIterate; i++ {
-		l := 1 + rand.Intn(50)
-		s := randomString(l)
-		n := String(s)
-		tree.ReplaceOrInsert(&n)
-		nodes[i] = &n
+		tree.ReplaceOrInsert(nodes[i])
 	}
+
+	unexist := generateRandomStrings(searches, 50)
 
 	off := rand.Intn(treeSizeSearchOrIterate / 2)
 
 	for i := 0; i < b.N; i++ {
 		for j := 0; j < searches; j++ {
 			tree.Has(nodes[j+off])
+			tree.Has(unexist[j])
 		}
 	}
 	b.ReportAllocs()
@@ -167,6 +166,17 @@ func Benchmark_BTree_Descend(b *testing.B) {
 func perm(n int) (out []int) {
 	out = append(out, rand.Perm(n)...)
 	return
+}
+
+func generateRandomStrings(num int, length int) []*String {
+	unexist := make([]*String, num)
+	for i := 0; i < num; i++ {
+		l := 1 + rand.Intn(length)
+		s := randomString(l)
+		n := String(s)
+		unexist[i] = &n
+	}
+	return unexist
 }
 
 func randomString(n int) string {
