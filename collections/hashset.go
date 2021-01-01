@@ -1,4 +1,3 @@
-// Package collections contains various containers. Now only int, int64 and string hashsets implemented
 package collections
 
 // StringHashSet defines strings hash set

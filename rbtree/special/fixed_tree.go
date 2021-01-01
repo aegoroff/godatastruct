@@ -1,4 +1,3 @@
-// Package special contains specialized Red-black search binary tree implementations
 package special
 
 import "github.com/aegoroff/godatastruct/rbtree"
