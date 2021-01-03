@@ -3,6 +3,7 @@ package collections
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"sort"
 	"strings"
 	"testing"
 )
@@ -544,4 +545,43 @@ func ExampleStringHashSet_ItemsDecorated() {
 	// Output:
 	// [a]
 	// [A]
+}
+
+func ExampleStringHashSet_SortedItems() {
+	var set = make(StringHashSet)
+	set.Add("c")
+	set.Add("a")
+	set.Add("b")
+
+	items := set.SortedItems(sort.Strings)
+
+	fmt.Println(items)
+	// Output:
+	// [a b c]
+}
+
+func ExampleIntHashSet_SortedItems() {
+	var set = make(IntHashSet)
+	set.Add(3)
+	set.Add(1)
+	set.Add(2)
+
+	items := set.SortedItems(sort.Ints)
+
+	fmt.Println(items)
+	// Output:
+	// [1 2 3]
+}
+
+func ExampleInt64HashSet_SortedItems() {
+	var set = make(Int64HashSet)
+	set.Add(3)
+	set.Add(1)
+	set.Add(2)
+
+	items := set.SortedItems(func(a []int64) { sort.Slice(a, func(i, j int) bool { return a[i] < a[j] }) })
+
+	fmt.Println(items)
+	// Output:
+	// [1 2 3]
 }

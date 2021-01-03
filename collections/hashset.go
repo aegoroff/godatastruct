@@ -16,12 +16,18 @@ func (s *StringHashSet) Count() int {
 
 // Items gets all set's items
 func (s *StringHashSet) Items() []string {
+	return s.SortedItems(func(s []string) {})
+}
+
+// SortedItems gets all set's items sorted using function specified
+func (s *StringHashSet) SortedItems(sorter func(s []string)) []string {
 	keys := make([]string, len(*s))
 	i := 0
 	for k := range *s {
 		keys[i] = k
 		i++
 	}
+	sorter(keys)
 	return keys
 }
 
@@ -67,12 +73,18 @@ func (s *IntHashSet) Count() int {
 
 // Items gets all set's items
 func (s *IntHashSet) Items() []int {
+	return s.SortedItems(func(s []int) {})
+}
+
+// SortedItems gets all set's items sorted using function specified
+func (s *IntHashSet) SortedItems(sorter func(s []int)) []int {
 	keys := make([]int, len(*s))
 	i := 0
 	for k := range *s {
 		keys[i] = k
 		i++
 	}
+	sorter(keys)
 	return keys
 }
 
@@ -107,12 +119,18 @@ func (s *Int64HashSet) Count() int {
 
 // Items gets all set's items
 func (s *Int64HashSet) Items() []int64 {
+	return s.SortedItems(func(s []int64) {})
+}
+
+// SortedItems gets all set's items sorted using function specified
+func (s *Int64HashSet) SortedItems(sorter func(s []int64)) []int64 {
 	keys := make([]int64, len(*s))
 	i := 0
 	for k := range *s {
 		keys[i] = k
 		i++
 	}
+	sorter(keys)
 	return keys
 }
 
