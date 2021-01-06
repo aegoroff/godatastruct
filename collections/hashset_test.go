@@ -504,7 +504,7 @@ func TestStringHashSet_ItemsDecorated_ResultAsSpecified(t *testing.T) {
 		result    []string
 	}{
 		{"pass through", func(s string) string { return s }, []string{"a", "b"}},
-		{"transform", func(s string) string { return strings.ToUpper(s) }, []string{"A", "B"}},
+		{"transform", strings.ToUpper, []string{"A", "B"}},
 	}
 
 	for _, tt := range tests {
