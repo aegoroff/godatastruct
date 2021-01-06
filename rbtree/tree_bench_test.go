@@ -11,12 +11,12 @@ const treeSizeSearchOrIterate = 100000
 const bTreeDegree = 16
 const searches = 100
 
-func (i Int) Less(y btree.Item) bool {
-	return i < y.(Int)
+func (x Int) Less(y btree.Item) bool {
+	return x < y.(Int)
 }
 
-func (s *String) Less(y btree.Item) bool {
-	return string(*s) < string(*y.(*String))
+func (x *String) Less(y btree.Item) bool {
+	return string(*x) < string(*y.(*String))
 }
 
 func Benchmark_RbTree_Insert(b *testing.B) {
