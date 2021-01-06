@@ -3,6 +3,7 @@ package rbtree
 import (
 	"bytes"
 	"fmt"
+	"github.com/aegoroff/godatastruct/collections"
 	"github.com/google/btree"
 	"math/rand"
 	"testing"
@@ -102,6 +103,29 @@ func Benchmark_BTree_Search(b *testing.B) {
 		for j := 0; j < searches; j++ {
 			tree.Has(nodes[j+off])
 			tree.Has(unexist[j])
+		}
+	}
+	b.ReportAllocs()
+}
+
+func Benchmark_StringHashSet_Search(b *testing.B) {
+	// Arrange
+	hs := collections.StringHashSet{}
+	nodes := generateRandomStrings(treeSizeSearchOrIterate, 50)
+
+	for i := 0; i < treeSizeSearchOrIterate; i++ {
+		hs.Add(string(*nodes[i]))
+	}
+
+	unexist := generateRandomStrings(searches, 50)
+
+	off := rand.Intn(treeSizeSearchOrIterate / 2)
+
+	// Act
+	for i := 0; i < b.N; i++ {
+		for j := 0; j < searches; j++ {
+			hs.Contains(string(*nodes[j+off]))
+			hs.Contains(string(*unexist[j]))
 		}
 	}
 	b.ReportAllocs()
