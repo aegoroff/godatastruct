@@ -1,6 +1,8 @@
 package rbtree
 
 import (
+	"bytes"
+	"fmt"
 	"github.com/google/btree"
 	"math/rand"
 	"testing"
@@ -112,13 +114,14 @@ func Benchmark_RbTree_Ascend(b *testing.B) {
 		tree.Insert(Int(n))
 	}
 	it := NewAscend(tree)
+	x := 0
 	for i := 0; i < b.N; i++ {
 		it.Foreach(func(c Comparable) {
-			x := int(c.(Int))
-			x++
+			x = int(c.(Int))
 		})
 	}
 	b.ReportAllocs()
+	_, _ = fmt.Fprintf(bytes.NewBuffer(nil), "%v", x)
 }
 
 func Benchmark_BTree_Ascend(b *testing.B) {
@@ -128,14 +131,15 @@ func Benchmark_BTree_Ascend(b *testing.B) {
 		tree.ReplaceOrInsert(Int(n))
 	}
 
+	x := 0
 	for i := 0; i < b.N; i++ {
 		tree.Ascend(func(i btree.Item) bool {
-			x := int(i.(Int))
-			x++
+			x = int(i.(Int))
 			return true
 		})
 	}
 	b.ReportAllocs()
+	_, _ = fmt.Fprintf(bytes.NewBuffer(nil), "%v", x)
 }
 
 func Benchmark_RbTree_Descend(b *testing.B) {
@@ -145,13 +149,14 @@ func Benchmark_RbTree_Descend(b *testing.B) {
 		tree.Insert(Int(n))
 	}
 	it := NewDescend(tree)
+	x := 0
 	for i := 0; i < b.N; i++ {
 		it.Foreach(func(c Comparable) {
-			x := int(c.(Int))
-			x++
+			x = int(c.(Int))
 		})
 	}
 	b.ReportAllocs()
+	_, _ = fmt.Fprintf(bytes.NewBuffer(nil), "%v", x)
 }
 
 func Benchmark_BTree_Descend(b *testing.B) {
@@ -160,15 +165,15 @@ func Benchmark_BTree_Descend(b *testing.B) {
 	for _, n := range ints {
 		tree.ReplaceOrInsert(Int(n))
 	}
-
+	x := 0
 	for i := 0; i < b.N; i++ {
 		tree.Descend(func(i btree.Item) bool {
-			x := int(i.(Int))
-			x++
+			x = int(i.(Int))
 			return true
 		})
 	}
 	b.ReportAllocs()
+	_, _ = fmt.Fprintf(bytes.NewBuffer(nil), "%v", x)
 }
 
 // perm returns a random permutation of n Int items in the range [0, n).

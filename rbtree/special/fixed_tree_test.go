@@ -356,9 +356,9 @@ func Test_ReplaceOrInsertMinTreeDuplicateLessThenPrevNodes_PrevNodesDeletedLenLe
 	ass.True(ok)
 	ass.Equal(int64(2), tree.Len())
 	ass.NotNil(found)
-	found, ok = tree.Search(rbtree.Int(3))
+	_, ok = tree.Search(rbtree.Int(3))
 	ass.False(ok)
-	found, ok = tree.Search(rbtree.Int(4))
+	_, ok = tree.Search(rbtree.Int(4))
 	ass.False(ok)
 }
 
@@ -384,9 +384,9 @@ func Test_ReplaceOrInsertMinTreeDuplicateGreaterThenPrevNodes_PrevNodesNotDelete
 	ass.True(ok)
 	ass.Equal(int64(3), tree.Len())
 	ass.NotNil(found)
-	found, ok = tree.Search(rbtree.Int(3))
+	_, ok = tree.Search(rbtree.Int(3))
 	ass.True(ok)
-	found, ok = tree.Search(rbtree.Int(4))
+	_, ok = tree.Search(rbtree.Int(4))
 	ass.False(ok)
 }
 
@@ -411,9 +411,9 @@ func Test_ReplaceOrInsertMaxTreeDuplicateLessThenPrevNodes_PrevNodesNotDeletedLe
 	ass.True(ok)
 	ass.Equal(int64(3), tree.Len())
 	ass.NotNil(found)
-	found, ok = tree.Search(rbtree.Int(3))
+	_, ok = tree.Search(rbtree.Int(3))
 	ass.True(ok)
-	found, ok = tree.Search(rbtree.Int(4))
+	_, ok = tree.Search(rbtree.Int(4))
 	ass.True(ok)
 }
 
@@ -438,9 +438,9 @@ func Test_ReplaceOrInsertMaxTreeDuplicateGreaterThenPrevNodes_PrevNodesDeletedLe
 	ass.True(ok)
 	ass.Equal(int64(2), tree.Len())
 	ass.NotNil(found)
-	found, ok = tree.Search(rbtree.Int(3))
+	_, ok = tree.Search(rbtree.Int(3))
 	ass.True(ok)
-	found, ok = tree.Search(rbtree.Int(4))
+	_, ok = tree.Search(rbtree.Int(4))
 	ass.True(ok)
 }
 
