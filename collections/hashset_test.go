@@ -538,7 +538,7 @@ func ExampleStringHashSet_ItemsDecorated() {
 	set.Add("a")
 
 	itemsOriginal := set.ItemsDecorated(func(s string) string { return s })
-	itemsUpperCased := set.ItemsDecorated(func(s string) string { return strings.ToUpper(s) })
+	itemsUpperCased := set.ItemsDecorated(strings.ToUpper)
 
 	fmt.Println(itemsOriginal)
 	fmt.Println(itemsUpperCased)
