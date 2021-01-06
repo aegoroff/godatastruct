@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_Foreach_Normal(t *testing.T) {
+func Test_Foreach(t *testing.T) {
 	tree := createIntegerTestTree()
 	var tests = []struct {
 		name     string
@@ -43,6 +43,12 @@ func Test_Foreach_Normal(t *testing.T) {
 		{"inorder normal", NewWalkInorder(tree), []int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}},
 		{"preorder normal", NewWalkPreorder(tree), []int{6, 3, 2, 4, 15, 9, 7, 13, 18, 17, 20}},
 		{"postorder normal", NewWalkPostorder(tree), []int{2, 4, 3, 7, 13, 9, 17, 20, 18, 15, 6}},
+
+		{"ascend empty", NewAscend(NewRbTree()), []int{}},
+		{"descend empty", NewDescend(NewRbTree()), []int{}},
+		{"inorder empty", NewWalkInorder(NewRbTree()), []int{}},
+		{"preorder empty", NewWalkPreorder(NewRbTree()), []int{}},
+		{"postorder empty", NewWalkPostorder(NewRbTree()), []int{}},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -172,34 +178,4 @@ func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 
 	// Assert
 	ass.Equal([]string{"abc", "amd", "cisco", "do", "fake", "intel", "it", "let", "microsoft", "russia", "usa", "xxx", "yyy", "zen"}, result)
-}
-
-func Test_Foreach_EmptyTree(t *testing.T) {
-	// Arrange
-	ass := assert.New(t)
-	tree := NewRbTree()
-	var result []Comparable
-
-	var tests = []struct {
-		name string
-		it   Enumerable
-	}{
-		{"inorder", NewWalkInorder(tree)},
-		{"preorder", NewWalkPreorder(tree)},
-		{"postorder", NewWalkPostorder(tree)},
-		{"ascend", NewAscend(tree)},
-		{"descend", NewDescend(tree)},
-	}
-
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			// Act
-			test.it.Foreach(func(n Comparable) {
-				result = append(result, n)
-			})
-
-			// Assert
-			ass.Equal(0, len(result))
-		})
-	}
 }
