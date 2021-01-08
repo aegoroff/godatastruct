@@ -26,8 +26,8 @@ func GetSortedInts(a []int, max int) []int {
 	}
 
 	for i := len(a) - 1; i >= 0; i-- {
-		b[c[a[i]]-1] = a[i]
 		c[a[i]]--
+		b[c[a[i]]] = a[i]
 	}
 
 	return b
@@ -47,8 +47,8 @@ func GetSortedInts64(a []int64, max int64) []int64 {
 	}
 
 	for i := len(a) - 1; i >= 0; i-- {
-		b[c[a[i]]-1] = a[i]
 		c[a[i]]--
+		b[c[a[i]]] = a[i]
 	}
 
 	return b
