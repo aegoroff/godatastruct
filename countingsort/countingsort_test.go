@@ -41,9 +41,7 @@ func TestIntsUnstable_Random(t *testing.T) {
 	IntsUnstable(items, 1024)
 
 	// Assert
-	for i := 1; i < len(items); i++ {
-		ass.True(items[i-1] <= items[i])
-	}
+	ass.True(sort.IsSorted(sort.IntSlice(items)))
 }
 
 func ExampleInts() {
@@ -97,9 +95,7 @@ func TestInts64Unstable_Random(t *testing.T) {
 	Ints64Unstable(items, 1024)
 
 	// Assert
-	for i := 1; i < len(items); i++ {
-		ass.True(items[i-1] <= items[i])
-	}
+	ass.True(sort.IsSorted(Int64Slice(items)))
 }
 
 func ExampleInts64() {
