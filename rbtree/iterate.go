@@ -190,7 +190,7 @@ func (i *walkPostorder) Next() bool {
 }
 
 func (i *ascend) Next() bool {
-	result := i.next.isNotNil() && (i.next.key.LessThan(i.to) || i.next.key.EqualTo(i.to))
+	result := i.next.isNotNil() && (i.next.key.Less(i.to) || i.next.key.Equal(i.to))
 	if result {
 		i.curr = i.next
 		i.next = i.curr.Successor()
@@ -199,7 +199,7 @@ func (i *ascend) Next() bool {
 }
 
 func (i *descend) Next() bool {
-	result := i.next.isNotNil() && !i.next.key.LessThan(i.to)
+	result := i.next.isNotNil() && !i.next.key.Less(i.to)
 	if result {
 		i.curr = i.next
 		i.next = i.curr.Predecessor()

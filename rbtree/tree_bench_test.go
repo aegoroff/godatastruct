@@ -14,12 +14,15 @@ const treeSizeSearchOrIterate = 100000
 const bTreeDegree = 16
 const searches = 100
 
-func (x Int) Less(y btree.Item) bool {
-	return x < y.(Int)
+type bint int
+type bstring string
+
+func (x bint) Less(y btree.Item) bool {
+	return x < y.(bint)
 }
 
-func (x *String) Less(y btree.Item) bool {
-	return string(*x) < string(*y.(*String))
+func (x *bstring) Less(y btree.Item) bool {
+	return string(*x) < string(*y.(*bstring))
 }
 
 func Benchmark_RbTree_Insert(b *testing.B) {
@@ -58,7 +61,7 @@ func Benchmark_BTree_ReplaceOrInsert(b *testing.B) {
 		b.StartTimer()
 
 		for _, n := range ints {
-			tree.ReplaceOrInsert(Int(n))
+			tree.ReplaceOrInsert(bint(n))
 		}
 	}
 	b.ReportAllocs()
@@ -90,12 +93,12 @@ func Benchmark_RbTree_Search(b *testing.B) {
 func Benchmark_BTree_Search(b *testing.B) {
 	// Arrange
 	tree := btree.New(bTreeDegree)
-	nodes := generateRandomStrings(treeSizeSearchOrIterate, 50)
+	nodes := generateRandomBStrings(treeSizeSearchOrIterate, 50)
 	for i := 0; i < treeSizeSearchOrIterate; i++ {
 		tree.ReplaceOrInsert(nodes[i])
 	}
 
-	unexist := generateRandomStrings(searches, 50)
+	unexist := generateRandomBStrings(searches, 50)
 
 	off := rand.Intn(treeSizeSearchOrIterate / 2)
 
@@ -152,13 +155,13 @@ func Benchmark_BTree_Ascend(b *testing.B) {
 	ints := perm(treeSizeSearchOrIterate)
 	tree := btree.New(bTreeDegree)
 	for _, n := range ints {
-		tree.ReplaceOrInsert(Int(n))
+		tree.ReplaceOrInsert(bint(n))
 	}
 
 	x := 0
 	for i := 0; i < b.N; i++ {
 		tree.Ascend(func(i btree.Item) bool {
-			x = int(i.(Int))
+			x = int(i.(bint))
 			return true
 		})
 	}
@@ -187,12 +190,12 @@ func Benchmark_BTree_Descend(b *testing.B) {
 	ints := perm(treeSizeSearchOrIterate)
 	tree := btree.New(bTreeDegree)
 	for _, n := range ints {
-		tree.ReplaceOrInsert(Int(n))
+		tree.ReplaceOrInsert(bint(n))
 	}
 	x := 0
 	for i := 0; i < b.N; i++ {
 		tree.Descend(func(i btree.Item) bool {
-			x = int(i.(Int))
+			x = int(i.(bint))
 			return true
 		})
 	}
@@ -208,11 +211,30 @@ func perm(n int) (out []int) {
 
 func generateRandomStrings(num int, length int) []*String {
 	result := make([]*String, num)
+	rnd := generateRandomStringSlice(num, length)
+	for i, s := range rnd {
+		bs := String(s)
+		result[i] = &bs
+	}
+	return result
+}
+
+func generateRandomBStrings(num int, length int) []*bstring {
+	result := make([]*bstring, num)
+	rnd := generateRandomStringSlice(num, length)
+	for i, s := range rnd {
+		bs := bstring(s)
+		result[i] = &bs
+	}
+	return result
+}
+
+func generateRandomStringSlice(num int, length int) []string {
+	result := make([]string, num)
 	for i := 0; i < num; i++ {
 		l := 1 + rand.Intn(length)
 		s := randomString(l)
-		n := String(s)
-		result[i] = &n
+		result[i] = s
 	}
 	return result
 }

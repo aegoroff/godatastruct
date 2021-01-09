@@ -47,11 +47,11 @@ type RbTree interface {
 
 // Comparable defines comparable type interface
 type Comparable interface {
-	// LessThan gets whether value specified less then current value
-	LessThan(y Comparable) bool
+	// Less gets whether value specified less then current value
+	Less(y Comparable) bool
 
-	// EqualTo gets whether value specified equal current value
-	EqualTo(y Comparable) bool
+	// Equal gets whether value specified equal current value
+	Equal(y Comparable) bool
 }
 
 // Enumerable represents tree enumeration interface

@@ -59,32 +59,32 @@ func (n *Node) isNotNil() bool {
 }
 
 // LessThan define Comparable interface member for Int
-func (x Int) LessThan(y Comparable) bool {
+func (x Int) Less(y Comparable) bool {
 	return x < y.(Int)
 }
 
 // EqualTo define Comparable interface member for Int
-func (x Int) EqualTo(y Comparable) bool {
+func (x Int) Equal(y Comparable) bool {
 	return x == y
 }
 
 // LessThan define Comparable interface member for Int64
-func (x Int64) LessThan(y Comparable) bool {
+func (x Int64) Less(y Comparable) bool {
 	return x < y.(Int64)
 }
 
 // EqualTo define Comparable interface member for Int64
-func (x Int64) EqualTo(y Comparable) bool {
+func (x Int64) Equal(y Comparable) bool {
 	return x == y
 }
 
 // LessThan define Comparable interface member for String
-func (x *String) LessThan(y Comparable) bool {
+func (x *String) Less(y Comparable) bool {
 	return *x < *(y.(*String))
 }
 
 // EqualTo define Comparable interface member for String
-func (x *String) EqualTo(y Comparable) bool {
+func (x *String) Equal(y Comparable) bool {
 	return *x == *(y.(*String))
 }
 

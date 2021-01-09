@@ -17,7 +17,7 @@ func (tree *rbTree) SearchAll(value Comparable) []Comparable {
 	if ok {
 		result = append(result, n.key)
 		s := n.Successor()
-		for s.isNotNil() && s.key.EqualTo(value) {
+		for s.isNotNil() && s.key.Equal(value) {
 			result = append(result, s.key)
 			s = s.Successor()
 		}
@@ -43,8 +43,8 @@ func (n *Node) search(value Comparable) (*Node, bool) {
 	}
 	var x *Node
 	x = n
-	for x.isNotNil() && !value.EqualTo(x.key) {
-		if value.LessThan(x.key) {
+	for x.isNotNil() && !value.Equal(x.key) {
+		if value.Less(x.key) {
 			x = x.left
 		} else {
 			x = x.right
