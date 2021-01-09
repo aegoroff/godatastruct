@@ -39,7 +39,7 @@ func Test_OrderStatisticSelectNegativeTests_NullResult(t *testing.T) {
 		order int64
 	}{
 		{createIntegerTestTree(), 200},
-		{NewRbTree(), 1},
+		{New(), 1},
 	}
 	for _, test := range tests {
 		// Act
@@ -80,7 +80,7 @@ func Test_SearchAllIntTree_Success(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			// Arrange
 			ass := assert.New(t)
-			tree := NewRbTree()
+			tree := New()
 			tree.Insert(Int(1))
 
 			for i := 0; i < test.duplicates; i++ {
@@ -153,7 +153,7 @@ func Test_SearchIntTree_Failure(t *testing.T) {
 	}{
 		{createIntegerTestTree(), Int(22)},
 		{createIntegerTestTree(), nil},
-		{NewRbTree(), Int(20)},
+		{New(), Int(20)},
 	}
 	for _, test := range tests {
 		// Act
@@ -285,7 +285,7 @@ func Test_Minimum_ValueAndSizeAsExpected(t *testing.T) {
 func Test_MinimumEmptyTree(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := NewRbTree()
+	tree := New()
 
 	// Act
 	r := tree.Minimum()
@@ -309,7 +309,7 @@ func Test_Maximum_ValueAsExpected(t *testing.T) {
 func Test_MaximumEmptyTree(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := NewRbTree()
+	tree := New()
 
 	// Act
 	r := tree.Maximum()

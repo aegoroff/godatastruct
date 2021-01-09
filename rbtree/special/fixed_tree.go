@@ -151,7 +151,7 @@ func (t *minTree) OrderStatisticSelect(i int64) (*rbtree.Node, bool) {
 // NewMaxTree creates new fixed size tree that stores <sz> max values
 func NewMaxTree(sz int64) rbtree.RbTree {
 	return &maxTree{
-		tree: rbtree.NewRbTree(),
+		tree: rbtree.New(),
 		size: sz,
 	}
 }
@@ -159,7 +159,7 @@ func NewMaxTree(sz int64) rbtree.RbTree {
 // NewMinTree creates new fixed size tree that stores <sz> min values
 func NewMinTree(sz int64) rbtree.RbTree {
 	return &minTree{
-		tree: rbtree.NewRbTree(),
+		tree: rbtree.New(),
 		size: sz,
 	}
 }

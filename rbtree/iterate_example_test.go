@@ -5,7 +5,7 @@ import (
 )
 
 func ExampleNewWalkInorder() {
-	tree := NewRbTree()
+	tree := New()
 
 	tree.Insert(Int(6))
 	tree.Insert(Int(18))
@@ -23,7 +23,7 @@ func ExampleNewWalkInorder() {
 }
 
 func ExampleNewWalkPreorder() {
-	tree := NewRbTree()
+	tree := New()
 
 	tree.Insert(Int(6))
 	tree.Insert(Int(18))
@@ -41,7 +41,7 @@ func ExampleNewWalkPreorder() {
 }
 
 func ExampleNewWalkPostorder() {
-	tree := NewRbTree()
+	tree := New()
 
 	tree.Insert(Int(6))
 	tree.Insert(Int(18))
@@ -59,7 +59,7 @@ func ExampleNewWalkPostorder() {
 }
 
 func ExampleNewAscend() {
-	tree := NewRbTree()
+	tree := New()
 
 	tree.Insert(Int(6))
 	tree.Insert(Int(18))
@@ -77,7 +77,7 @@ func ExampleNewAscend() {
 }
 
 func ExampleNewDescend() {
-	tree := NewRbTree()
+	tree := New()
 
 	tree.Insert(Int(6))
 	tree.Insert(Int(18))
@@ -95,7 +95,7 @@ func ExampleNewDescend() {
 }
 
 func ExampleNewAscendRange() {
-	tree := NewRbTree()
+	tree := New()
 
 	tree.Insert(Int(6))
 	tree.Insert(Int(18))
@@ -112,7 +112,7 @@ func ExampleNewAscendRange() {
 }
 
 func ExampleNewDescendRange() {
-	tree := NewRbTree()
+	tree := New()
 
 	tree.Insert(Int(6))
 	tree.Insert(Int(18))

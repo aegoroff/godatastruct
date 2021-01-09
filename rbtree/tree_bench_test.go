@@ -25,7 +25,7 @@ func (x *String) Less(y btree.Item) bool {
 func Benchmark_RbTree_Insert(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
-		tree := NewRbTree()
+		tree := New()
 		ints := perm(treeSizeInsert)
 		b.StartTimer()
 
@@ -40,7 +40,7 @@ func Benchmark_RbTree_ReplaceOrInsert(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		ints := perm(treeSizeInsert)
-		tree := NewRbTree()
+		tree := New()
 		b.StartTimer()
 
 		for _, n := range ints {
@@ -66,7 +66,7 @@ func Benchmark_BTree_ReplaceOrInsert(b *testing.B) {
 
 func Benchmark_RbTree_Search(b *testing.B) {
 	// Arrange
-	tree := NewRbTree()
+	tree := New()
 	nodes := generateRandomStrings(treeSizeSearchOrIterate, 50)
 
 	for i := 0; i < treeSizeSearchOrIterate; i++ {
@@ -133,7 +133,7 @@ func Benchmark_StringHashSet_Search(b *testing.B) {
 
 func Benchmark_RbTree_Ascend(b *testing.B) {
 	ints := perm(treeSizeSearchOrIterate)
-	tree := NewRbTree()
+	tree := New()
 	for _, n := range ints {
 		tree.Insert(Int(n))
 	}
@@ -168,7 +168,7 @@ func Benchmark_BTree_Ascend(b *testing.B) {
 
 func Benchmark_RbTree_Descend(b *testing.B) {
 	ints := perm(treeSizeSearchOrIterate)
-	tree := NewRbTree()
+	tree := New()
 	for _, n := range ints {
 		tree.Insert(Int(n))
 	}

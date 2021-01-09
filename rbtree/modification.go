@@ -35,7 +35,7 @@ func newNode(z Comparable) *Node {
 func (tree *rbTree) insert(z *Node) {
 	if tree.root.isNil() {
 		tree.root = z
-		tree.root.color = Black
+		tree.root.color = black
 		tree.root.parent = tree.tnil
 		tree.root.left = tree.tnil
 		tree.root.right = tree.tnil
@@ -63,18 +63,18 @@ func (tree *rbTree) insert(z *Node) {
 	}
 	z.left = tree.tnil
 	z.right = tree.tnil
-	z.color = Red
+	z.color = red
 	rbInsertFixup(tree, z)
 }
 
 func rbInsertFixup(tree *rbTree, z *Node) {
-	for z.parent.color == Red {
+	for z.parent.color == red {
 		if z.parent == z.parent.parent.left {
 			y := z.parent.parent.right
-			if y.color == Red {
-				z.parent.color = Black
-				y.color = Black
-				z.parent.parent.color = Red
+			if y.color == red {
+				z.parent.color = black
+				y.color = black
+				z.parent.parent.color = red
 				z = z.parent.parent
 			} else {
 				if z == z.parent.right {
@@ -82,16 +82,16 @@ func rbInsertFixup(tree *rbTree, z *Node) {
 					leftRotate(tree, z)
 				}
 
-				z.parent.color = Black
-				z.parent.parent.color = Red
+				z.parent.color = black
+				z.parent.parent.color = red
 				rightRotate(tree, z.parent.parent)
 			}
 		} else {
 			y := z.parent.parent.left
-			if y.color == Red {
-				z.parent.color = Black
-				y.color = Black
-				z.parent.parent.color = Red
+			if y.color == red {
+				z.parent.color = black
+				y.color = black
+				z.parent.parent.color = red
 				z = z.parent.parent
 			} else {
 				if z == z.parent.left {
@@ -99,13 +99,13 @@ func rbInsertFixup(tree *rbTree, z *Node) {
 					rightRotate(tree, z)
 				}
 
-				z.parent.color = Black
-				z.parent.parent.color = Red
+				z.parent.color = black
+				z.parent.parent.color = red
 				leftRotate(tree, z.parent.parent)
 			}
 		}
 	}
-	tree.root.color = Black
+	tree.root.color = black
 }
 
 // DeleteNode searches and deletes first found node with key value specified from Red-black tree
@@ -166,68 +166,68 @@ func (tree *rbTree) delete(z *Node) {
 		y.left.parent = y
 		y.color = z.color
 	}
-	if yOriginalColor == Black {
+	if yOriginalColor == black {
 		rbDeleteFixup(tree, x)
 	}
 }
 
 func rbDeleteFixup(tree *rbTree, x *Node) {
-	for x != tree.root && x.color == Black {
+	for x != tree.root && x.color == black {
 		if x == x.parent.left {
 			w := x.parent.right
-			if w.color == Red {
-				w.color = Black
-				x.parent.color = Red
+			if w.color == red {
+				w.color = black
+				x.parent.color = red
 				leftRotate(tree, x.parent)
 				w = x.parent.right
 			}
 
-			if w.left.color == Black && w.right.color == Black {
-				w.color = Red
+			if w.left.color == black && w.right.color == black {
+				w.color = red
 				x = x.parent
 			} else {
-				if w.right.color == Black {
-					w.left.color = Black
-					w.color = Red
+				if w.right.color == black {
+					w.left.color = black
+					w.color = red
 					rightRotate(tree, w)
 					w = x.parent.right
 				}
 
 				w.color = x.parent.color
-				x.parent.color = Black
-				w.right.color = Black
+				x.parent.color = black
+				w.right.color = black
 				leftRotate(tree, x.parent)
 				x = tree.root
 			}
 		} else {
 			w := x.parent.left
-			if w.color == Red {
-				w.color = Black
-				x.parent.color = Red
+			if w.color == red {
+				w.color = black
+				x.parent.color = red
 				rightRotate(tree, x.parent)
 				w = x.parent.left
 			}
 
-			if w.right.color == Black && w.left.color == Black {
-				w.color = Red
+			if w.right.color == black && w.left.color == black {
+				w.color = red
 				x = x.parent
 			} else {
-				if w.left.color == Black {
-					w.right.color = Black
-					w.color = Red
+				if w.left.color == black {
+					w.right.color = black
+					w.color = red
 					leftRotate(tree, w)
 					w = x.parent.left
 				}
 
 				w.color = x.parent.color
-				x.parent.color = Black
-				w.left.color = Black
+				x.parent.color = black
+				w.left.color = black
 				rightRotate(tree, x.parent)
 				x = tree.root
 			}
 		}
 	}
-	x.color = Black
+	x.color = black
 }
 
 func rbTransplant(tree *rbTree, u *Node, v *Node) {

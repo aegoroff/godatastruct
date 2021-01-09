@@ -44,11 +44,11 @@ func Test_Foreach(t *testing.T) {
 		{"preorder normal", NewWalkPreorder(tree), []int{6, 3, 2, 4, 15, 9, 7, 13, 18, 17, 20}},
 		{"postorder normal", NewWalkPostorder(tree), []int{2, 4, 3, 7, 13, 9, 17, 20, 18, 15, 6}},
 
-		{"ascend empty", NewAscend(NewRbTree()), []int{}},
-		{"descend empty", NewDescend(NewRbTree()), []int{}},
-		{"inorder empty", NewWalkInorder(NewRbTree()), []int{}},
-		{"preorder empty", NewWalkPreorder(NewRbTree()), []int{}},
-		{"postorder empty", NewWalkPostorder(NewRbTree()), []int{}},
+		{"ascend empty", NewAscend(New()), []int{}},
+		{"descend empty", NewDescend(New()), []int{}},
+		{"inorder empty", NewWalkInorder(New()), []int{}},
+		{"preorder empty", NewWalkPreorder(New()), []int{}},
+		{"postorder empty", NewWalkPostorder(New()), []int{}},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -109,7 +109,7 @@ func Test_Foreach_SpecialCases(t *testing.T) {
 			// Arrange
 			ass := assert.New(t)
 
-			tree := NewRbTree()
+			tree := New()
 			for _, n := range test.input {
 				tree.Insert(Int(n))
 			}

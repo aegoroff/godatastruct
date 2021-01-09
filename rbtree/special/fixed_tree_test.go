@@ -18,7 +18,7 @@ func Test_MaxSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	for i := 1; i <= nodesCount; i++ {
 		nodes = append(nodes, i)
 	}
-	tree := rbtree.NewRbTree()
+	tree := rbtree.New()
 	for _, value := range nodes {
 		tree.Insert(rbtree.Int(value))
 	}
@@ -54,7 +54,7 @@ func Test_MinSizeTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.T) {
 	for i := 1; i <= nodesCount; i++ {
 		nodes = append(nodes, i)
 	}
-	tree := rbtree.NewRbTree()
+	tree := rbtree.New()
 	for _, value := range nodes {
 		tree.Insert(rbtree.Int(value))
 	}
@@ -91,7 +91,7 @@ func TestMaxSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.
 		l := 1 + rand.Intn(50)
 		nodes = append(nodes, randomString(l))
 	}
-	tree := rbtree.NewRbTree()
+	tree := rbtree.New()
 	for _, n := range nodes {
 		c := rbtree.NewString(n)
 		tree.Insert(c)
@@ -134,7 +134,7 @@ func TestMinSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.
 		l := 1 + rand.Intn(50)
 		nodes = append(nodes, randomString(l))
 	}
-	tree := rbtree.NewRbTree()
+	tree := rbtree.New()
 	for _, n := range nodes {
 		c := rbtree.NewString(n)
 		tree.Insert(c)

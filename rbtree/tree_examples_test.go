@@ -4,8 +4,8 @@ import (
 	"fmt"
 )
 
-func ExampleNewRbTree() {
-	tree := NewRbTree()
+func ExampleNew() {
+	tree := New()
 	node := NewString("a")
 	tree.Insert(node)
 
@@ -28,7 +28,7 @@ func ExampleNewRbTree() {
 }
 
 func ExampleRbTree_OrderStatisticSelect() {
-	tree := NewRbTree()
+	tree := New()
 
 	tree.Insert(Int(6))
 	tree.Insert(Int(18))
@@ -43,7 +43,7 @@ func ExampleRbTree_OrderStatisticSelect() {
 }
 
 func ExampleNode_Size() {
-	tree := NewRbTree()
+	tree := New()
 
 	tree.Insert(Int(6))
 	tree.Insert(Int(18))
@@ -58,7 +58,7 @@ func ExampleNode_Size() {
 }
 
 func ExampleNode_Successor() {
-	tree := NewRbTree()
+	tree := New()
 
 	tree.Insert(Int(6))
 	tree.Insert(Int(18))
@@ -73,7 +73,7 @@ func ExampleNode_Successor() {
 }
 
 func ExampleNode_Predecessor() {
-	tree := NewRbTree()
+	tree := New()
 
 	tree.Insert(Int(6))
 	tree.Insert(Int(18))

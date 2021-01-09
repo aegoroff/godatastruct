@@ -1,12 +1,17 @@
 package rbtree
 
 const (
-	// Black RB tree node
-	Black = iota
+	// black RB tree node
+	black = iota
 
-	// Red RB tree node
-	Red
+	// red RB tree node
+	red
 )
+
+// New creates new empty Red-Black tree
+func New() RbTree {
+	return newRbTree()
+}
 
 type rbTree struct {
 	root *Node
@@ -103,13 +108,8 @@ func NewString(v string) Comparable {
 	return &s
 }
 
-// NewRbTree creates new Red-Black empty tree
-func NewRbTree() RbTree {
-	return newRbTree()
-}
-
 func newRbTree() *rbTree {
-	tnil := Node{color: Black}
+	tnil := Node{color: black}
 	return &rbTree{tnil: &tnil}
 }
 
