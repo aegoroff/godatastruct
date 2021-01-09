@@ -8,7 +8,7 @@ func IntsStable(items []int, max int) {
 }
 
 // Ints sorts integers slice using counting sort algorithm that is
-// unstable but in the most cases much faster due to less memory allocations
+// less stable but in the most cases much faster due to less memory allocations
 func Ints(items []int, max int) {
 	c := make([]int, max+1)
 
@@ -33,7 +33,7 @@ func Ints64Stable(items []int64, max int64) {
 }
 
 // Ints64 sorts integers slice using counting sort algorithm that is
-// unstable but in the most cases much faster due to less memory allocations
+// less stable but in the most cases much faster due to less memory allocations
 func Ints64(items []int64, max int64) {
 	c := make([]int64, max+1)
 
