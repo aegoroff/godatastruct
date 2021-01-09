@@ -38,7 +38,7 @@ func ExampleNewConcurrencySafeTree() {
 	// true
 }
 
-func ExampleWrapTreeToConcurrencySafeTree() {
+func ExampleWrapToConcurrencySafe() {
 	tree := NewMaxTree(4)
 
 	const nodesCount = 10
@@ -46,7 +46,7 @@ func ExampleWrapTreeToConcurrencySafeTree() {
 		tree.Insert(rbtree.Int(i))
 	}
 
-	safeTree := WrapTreeToConcurrencySafeTree(tree)
+	safeTree := WrapToConcurrencySafe(tree)
 
 	var wg sync.WaitGroup
 	fixedLen := int(tree.Len())

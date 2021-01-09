@@ -29,7 +29,7 @@ func Test_ConcurrencySafeTree_InsertTest(t *testing.T) {
 	ass.Equal(int64(nodesCount), tree.Len())
 }
 
-func Test_WrapTreeToConcurrencySafeTree_InsertTest(t *testing.T) {
+func Test_WrapToConcurrencySafe_InsertTest(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	result := make([]int, 0)
@@ -38,7 +38,7 @@ func Test_WrapTreeToConcurrencySafeTree_InsertTest(t *testing.T) {
 	const nodesCount = 200
 	top := int64(4)
 	mt := NewMaxTree(top)
-	tree := WrapTreeToConcurrencySafeTree(mt)
+	tree := WrapToConcurrencySafe(mt)
 
 	// Act
 	for i := 1; i <= nodesCount; i++ {
@@ -58,7 +58,7 @@ func Test_WrapTreeToConcurrencySafeTree_InsertTest(t *testing.T) {
 	ass.Equal([]int{200, 199, 198, 197}, result)
 }
 
-func Test_WrapTreeToConcurrencySafeTree_ReplaceOrInsertTest(t *testing.T) {
+func Test_WrapToConcurrencySafe_ReplaceOrInsertTest(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	result := make([]int, 0)
@@ -67,7 +67,7 @@ func Test_WrapTreeToConcurrencySafeTree_ReplaceOrInsertTest(t *testing.T) {
 	const nodesCount = 200
 	top := int64(4)
 	mt := NewMaxTree(top)
-	tree := WrapTreeToConcurrencySafeTree(mt)
+	tree := WrapToConcurrencySafe(mt)
 
 	// Act
 	for i := 1; i <= nodesCount; i++ {
