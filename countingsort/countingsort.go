@@ -1,14 +1,15 @@
 package countingsort
 
-// Ints sorts integers slice using counting sort algorithm
-func Ints(items []int, max int) {
+// IntsStable sorts integers slice using stable counting sort algorithm
+// but it allocates more memory and works slower
+func IntsStable(items []int, max int) {
 	sorted := GetSortedInts(items, max)
 	copy(items, sorted)
 }
 
-// IntsUnstable sorts integers slice using counting sort algorithm that is
+// Ints sorts integers slice using counting sort algorithm that is
 // unstable but in the most cases much faster due to less memory allocations
-func IntsUnstable(items []int, max int) {
+func Ints(items []int, max int) {
 	c := make([]int, max+1)
 
 	for _, item := range items {
@@ -24,15 +25,16 @@ func IntsUnstable(items []int, max int) {
 	}
 }
 
-// Ints64 sorts int64 slice using counting sort algorithm
-func Ints64(items []int64, max int64) {
+// Ints64Stable sorts int64 slice using stable counting sort algorithm
+// but it allocates more memory and works slower
+func Ints64Stable(items []int64, max int64) {
 	sorted := GetSortedInts64(items, max)
 	copy(items, sorted)
 }
 
-// Ints64Unstable sorts integers slice using counting sort algorithm that is
+// Ints64 sorts integers slice using counting sort algorithm that is
 // unstable but in the most cases much faster due to less memory allocations
-func Ints64Unstable(items []int64, max int64) {
+func Ints64(items []int64, max int64) {
 	c := make([]int64, max+1)
 
 	for _, item := range items {
