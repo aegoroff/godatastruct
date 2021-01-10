@@ -19,7 +19,7 @@ func ExampleNewConcurrencySafeTree() {
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			tree.DeleteNode(rbtree.Int(ix))
+			tree.Delete(rbtree.Int(ix))
 		}(i)
 
 		wg.Add(1)
@@ -54,7 +54,7 @@ func ExampleWrapToConcurrencySafe() {
 		wg.Add(1)
 		go func(ix int) {
 			defer wg.Done()
-			safeTree.DeleteNode(rbtree.Int(nodesCount - ix))
+			safeTree.Delete(rbtree.Int(nodesCount - ix))
 		}(i)
 
 		wg.Add(1)

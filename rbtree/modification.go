@@ -108,9 +108,9 @@ func rbInsertFixup(tree *rbTree, z *Node) {
 	tree.root.color = black
 }
 
-// DeleteNode searches and deletes first found node with key value specified from Red-black tree
+// Delete searches and deletes first found node with key value specified from Red-black tree
 // It returns true if node was successfully deleted otherwise false
-func (tree *rbTree) DeleteNode(c Comparable) bool {
+func (tree *rbTree) Delete(c Comparable) bool {
 	found, ok := tree.root.search(c)
 	if ok {
 		tree.delete(found)
@@ -118,13 +118,13 @@ func (tree *rbTree) DeleteNode(c Comparable) bool {
 	return ok
 }
 
-// DeleteAllNodes searches and deletes all found nodes with key value specified from Red-black tree
+// DeleteAll searches and deletes all found nodes with key value specified from Red-black tree
 // It returns true if nodes was successfully deleted otherwise false
-func (tree *rbTree) DeleteAllNodes(c Comparable) bool {
-	ok := tree.DeleteNode(c)
+func (tree *rbTree) DeleteAll(c Comparable) bool {
+	ok := tree.Delete(c)
 	res := ok
 	for ok {
-		ok = tree.DeleteNode(c)
+		ok = tree.Delete(c)
 	}
 	return res
 }

@@ -35,16 +35,16 @@ func (t *concurrencySafeTree) ReplaceOrInsert(n rbtree.Comparable) rbtree.Compar
 	return t.tree.ReplaceOrInsert(n)
 }
 
-func (t *concurrencySafeTree) DeleteNode(c rbtree.Comparable) bool {
+func (t *concurrencySafeTree) Delete(c rbtree.Comparable) bool {
 	t.mu.Lock()
 	defer t.mu.Unlock()
-	return t.tree.DeleteNode(c)
+	return t.tree.Delete(c)
 }
 
-func (t *concurrencySafeTree) DeleteAllNodes(c rbtree.Comparable) bool {
+func (t *concurrencySafeTree) DeleteAll(c rbtree.Comparable) bool {
 	t.mu.Lock()
 	defer t.mu.Unlock()
-	return t.tree.DeleteAllNodes(c)
+	return t.tree.DeleteAll(c)
 }
 
 func (t *concurrencySafeTree) Search(value rbtree.Comparable) (rbtree.Comparable, bool) {

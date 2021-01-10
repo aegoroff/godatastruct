@@ -324,7 +324,7 @@ func Test_DeleteNode_Success(t *testing.T) {
 			v := rbtree.Int(test.expected)
 
 			// Act
-			ok := test.tree.DeleteNode(v)
+			ok := test.tree.Delete(v)
 
 			// Assert
 			ass.True(ok)
@@ -501,7 +501,7 @@ func Test_DeleteAllNodesNodes_Success(t *testing.T) {
 			v := rbtree.Int(test.expected)
 
 			// Act
-			ok := test.tree.DeleteAllNodes(v)
+			ok := test.tree.DeleteAll(v)
 
 			// Assert
 			ass.True(ok)

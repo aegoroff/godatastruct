@@ -14,13 +14,13 @@ type RbTree interface {
 	// Otherwise, nil is returned.
 	ReplaceOrInsert(n Comparable) Comparable
 
-	// DeleteNode searches and deletes Node with key value specified from Red-black tree
+	// Delete searches and deletes Node with key value specified from Red-black tree
 	// It returns true if Node was successfully deleted otherwise false
-	DeleteNode(c Comparable) bool
+	Delete(c Comparable) bool
 
-	// DeleteAllNodes searches and deletes all found nodes with key value specified from Red-black tree
+	// DeleteAll searches and deletes all found nodes with key value specified from Red-black tree
 	// It returns true if nodes was successfully deleted otherwise false
-	DeleteAllNodes(c Comparable) bool
+	DeleteAll(c Comparable) bool
 
 	// Search searches value specified within search tree
 	Search(value Comparable) (Comparable, bool)

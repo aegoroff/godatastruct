@@ -165,7 +165,7 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	found, _ := tree.Search(n)
 
 	// Act
-	tree.DeleteNode(found)
+	tree.Delete(found)
 
 	// Assert
 	n = Int(28)
@@ -191,7 +191,7 @@ func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
 	for i := 1; i < nodesCount; i++ {
 		n := Int(nodes[i-1])
 		found, _ := tree.Search(n)
-		tree.DeleteNode(found)
+		tree.Delete(found)
 	}
 
 	// Assert
@@ -221,7 +221,7 @@ func Test_DeleteAllNodesWhenTreeContainsSameElements_TreeLenAsExpected(t *testin
 		}
 
 		// Act
-		res := tree.DeleteAllNodes(NewString(test.input[0]))
+		res := tree.DeleteAll(NewString(test.input[0]))
 
 		// Assert
 		ass.True(res)
@@ -244,11 +244,11 @@ func Test_SameKeyInsertDeleteLen_TreeLenAsExpected(t *testing.T) {
 	tree.Insert(k)
 	ass.Equal(int64(3), tree.Len())
 
-	tree.DeleteNode(k)
+	tree.Delete(k)
 	ass.Equal(int64(2), tree.Len())
-	tree.DeleteNode(k)
+	tree.Delete(k)
 	ass.Equal(int64(1), tree.Len())
-	tree.DeleteNode(k)
+	tree.Delete(k)
 	ass.Equal(int64(0), tree.Len())
 
 	// Assert
@@ -271,11 +271,11 @@ func Test_DifferentKeyInsertDeleteSameOrderLen_TreeLenAsExpected(t *testing.T) {
 	tree.Insert(k3)
 	ass.Equal(int64(3), tree.Len())
 
-	tree.DeleteNode(k1)
+	tree.Delete(k1)
 	ass.Equal(int64(2), tree.Len())
-	tree.DeleteNode(k2)
+	tree.Delete(k2)
 	ass.Equal(int64(1), tree.Len())
-	tree.DeleteNode(k3)
+	tree.Delete(k3)
 	ass.Equal(int64(0), tree.Len())
 
 	// Assert
@@ -298,11 +298,11 @@ func Test_DifferentKeyInsertDeleteReverseOrderLen_TreeLenAsExpected(t *testing.T
 	tree.Insert(k3)
 	ass.Equal(int64(3), tree.Len())
 
-	tree.DeleteNode(k3)
+	tree.Delete(k3)
 	ass.Equal(int64(2), tree.Len())
-	tree.DeleteNode(k2)
+	tree.Delete(k2)
 	ass.Equal(int64(1), tree.Len())
-	tree.DeleteNode(k1)
+	tree.Delete(k1)
 	ass.Equal(int64(0), tree.Len())
 
 	// Assert
@@ -390,7 +390,7 @@ func Test_DeleteEmptyTree_NoError(t *testing.T) {
 	n := NewString("intel")
 
 	// Act
-	tree.DeleteNode(n)
+	tree.Delete(n)
 
 	// Assert
 }
@@ -412,7 +412,7 @@ func Test_DeleteNode_ResultAsExpected(t *testing.T) {
 
 	for _, test := range tests {
 		// Act
-		ok := test.tree.DeleteNode(test.key)
+		ok := test.tree.Delete(test.key)
 
 		// Assert
 		ass.Equal(test.result, ok)
@@ -428,9 +428,9 @@ func Test_DeleteNodeDeleteSeveralNodesWithTheSameKey_ResultAsExpected(t *testing
 	tree.Insert(k)
 
 	// Act
-	ok1 := tree.DeleteNode(k)
-	ok2 := tree.DeleteNode(k)
-	ok3 := tree.DeleteNode(k)
+	ok1 := tree.Delete(k)
+	ok2 := tree.Delete(k)
+	ok3 := tree.Delete(k)
 
 	// Assert
 	ass.True(ok1)
@@ -552,7 +552,7 @@ func Test_DeleteNodeNil_NothingDeleted(t *testing.T) {
 	oldSize := tree.Len()
 
 	// Act
-	tree.DeleteNode(nil)
+	tree.Delete(nil)
 
 	// Assert
 	ass.Equal(oldSize, tree.Len())

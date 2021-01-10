@@ -24,7 +24,7 @@ func (t *maxTree) Insert(c rbtree.Comparable) {
 	min := t.tree.Minimum()
 	if t.tree.Len() < t.size || min.Key().Less(c) {
 		if t.Len() == t.size {
-			t.DeleteNode(min.Key())
+			t.Delete(min.Key())
 		}
 
 		t.tree.Insert(c)
@@ -35,7 +35,7 @@ func (t *maxTree) ReplaceOrInsert(c rbtree.Comparable) rbtree.Comparable {
 	min := t.tree.Minimum()
 	if t.tree.Len() < t.size || min.Key().Less(c) {
 		if t.Len() == t.size {
-			t.DeleteNode(min.Key())
+			t.Delete(min.Key())
 		}
 
 		return t.tree.ReplaceOrInsert(c)
@@ -43,12 +43,12 @@ func (t *maxTree) ReplaceOrInsert(c rbtree.Comparable) rbtree.Comparable {
 	return nil
 }
 
-func (t *maxTree) DeleteNode(c rbtree.Comparable) bool {
-	return t.tree.DeleteNode(c)
+func (t *maxTree) Delete(c rbtree.Comparable) bool {
+	return t.tree.Delete(c)
 }
 
-func (t *maxTree) DeleteAllNodes(c rbtree.Comparable) bool {
-	return t.tree.DeleteAllNodes(c)
+func (t *maxTree) DeleteAll(c rbtree.Comparable) bool {
+	return t.tree.DeleteAll(c)
 }
 
 func (t *maxTree) Search(value rbtree.Comparable) (rbtree.Comparable, bool) {
@@ -97,7 +97,7 @@ func (t *minTree) Insert(c rbtree.Comparable) {
 	max := t.tree.Maximum()
 	if t.tree.Len() < t.size || !max.Key().Less(c) {
 		if t.tree.Len() == t.size {
-			t.tree.DeleteNode(max.Key())
+			t.tree.Delete(max.Key())
 		}
 
 		t.tree.Insert(c)
@@ -108,7 +108,7 @@ func (t *minTree) ReplaceOrInsert(c rbtree.Comparable) rbtree.Comparable {
 	max := t.tree.Maximum()
 	if t.tree.Len() < t.size || !max.Key().Less(c) {
 		if t.tree.Len() == t.size {
-			t.tree.DeleteNode(max.Key())
+			t.tree.Delete(max.Key())
 		}
 
 		return t.tree.ReplaceOrInsert(c)
@@ -116,12 +116,12 @@ func (t *minTree) ReplaceOrInsert(c rbtree.Comparable) rbtree.Comparable {
 	return nil
 }
 
-func (t *minTree) DeleteNode(c rbtree.Comparable) bool {
-	return t.tree.DeleteNode(c)
+func (t *minTree) Delete(c rbtree.Comparable) bool {
+	return t.tree.Delete(c)
 }
 
-func (t *minTree) DeleteAllNodes(c rbtree.Comparable) bool {
-	return t.tree.DeleteAllNodes(c)
+func (t *minTree) DeleteAll(c rbtree.Comparable) bool {
+	return t.tree.DeleteAll(c)
 }
 
 func (t *minTree) Search(value rbtree.Comparable) (rbtree.Comparable, bool) {
