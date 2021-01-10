@@ -8,7 +8,7 @@ import (
 func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createIntegerTestTree()
+	tree := newIntTestTree()
 
 	var tests = []struct {
 		order    int64
@@ -38,7 +38,7 @@ func Test_OrderStatisticSelectNegativeTests_NullResult(t *testing.T) {
 		tree  RbTree
 		order int64
 	}{
-		{createIntegerTestTree(), 200},
+		{newIntTestTree(), 200},
 		{New(), 1},
 	}
 	for _, test := range tests {
@@ -54,7 +54,7 @@ func Test_OrderStatisticSelectNegativeTests_NullResult(t *testing.T) {
 func Test_SearchIntTree_Success(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createIntegerTestTree()
+	tree := newIntTestTree()
 	v := Int(13)
 
 	// Act
@@ -104,7 +104,7 @@ func Test_SearchAllIntTree_Success(t *testing.T) {
 func Test_SearchStringTree_Success(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createTestStringTree()
+	tree := newTestStringTree()
 	n := NewString("intel")
 
 	// Act
@@ -119,7 +119,7 @@ func Test_SearchStringTree_Success(t *testing.T) {
 func Test_SearchStringTree_Fail(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createTestStringTree()
+	tree := newTestStringTree()
 	n := NewString("abrakadabra")
 
 	// Act
@@ -133,7 +133,7 @@ func Test_SearchStringTree_Fail(t *testing.T) {
 func Test_SearchAllStringTree_Fail(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createTestStringTree()
+	tree := newTestStringTree()
 	n := NewString("abrakadabra")
 
 	// Act
@@ -151,8 +151,8 @@ func Test_SearchIntTree_Failure(t *testing.T) {
 		tree RbTree
 		key  Comparable
 	}{
-		{createIntegerTestTree(), Int(22)},
-		{createIntegerTestTree(), nil},
+		{newIntTestTree(), Int(22)},
+		{newIntTestTree(), nil},
 		{New(), Int(20)},
 	}
 	for _, test := range tests {
@@ -168,7 +168,7 @@ func Test_SearchIntTree_Failure(t *testing.T) {
 func Test_Successor_ReturnSuccessor(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createIntegerTestTree()
+	tree := newIntTestTree()
 
 	var tests = []struct {
 		node     int
@@ -194,7 +194,7 @@ func Test_Successor_ReturnSuccessor(t *testing.T) {
 func Test_SuccessorOfMax_ReturnNil(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createIntegerTestTree()
+	tree := newIntTestTree()
 	v := Int(20)
 	r, _ := tree.SearchNode(v)
 
@@ -220,7 +220,7 @@ func Test_SuccessorOfNil_ReturnNil(t *testing.T) {
 func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createIntegerTestTree()
+	tree := newIntTestTree()
 
 	var tests = []struct {
 		node     int
@@ -246,7 +246,7 @@ func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 func Test_PredecessorOfMin_ReturnNil(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createIntegerTestTree()
+	tree := newIntTestTree()
 	v := Int(2)
 	r, _ := tree.SearchNode(v)
 
@@ -272,7 +272,7 @@ func Test_PredecessorOfNull_ReturnNil(t *testing.T) {
 func Test_Minimum_ValueAndSizeAsExpected(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createIntegerTestTree()
+	tree := newIntTestTree()
 
 	// Act
 	r := tree.Minimum()
@@ -297,7 +297,7 @@ func Test_MinimumEmptyTree(t *testing.T) {
 func Test_Maximum_ValueAsExpected(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createIntegerTestTree()
+	tree := newIntTestTree()
 
 	// Act
 	r := tree.Maximum()

@@ -53,18 +53,21 @@ func Test_Len(t *testing.T) {
 	ass := assert.New(t)
 
 	var tests = []struct {
+		name     string
 		tree     RbTree
 		expected int64
 	}{
-		{createIntegerTestTree(), 11},
-		{New(), 0},
+		{"not empty", newIntTestTree(), 11},
+		{"empty", New(), 0},
 	}
 	for _, test := range tests {
-		// Act
-		length := test.tree.Len()
+		t.Run(test.name, func(t *testing.T) {
+			// Act
+			length := test.tree.Len()
 
-		// Assert
-		ass.Equal(test.expected, length)
+			// Assert
+			ass.Equal(test.expected, length)
+		})
 	}
 }
 
@@ -142,7 +145,7 @@ func Test_LeftRotate_StructureAsExpected(t *testing.T) {
 
 func Test_GraphvizInt(t *testing.T) {
 	// Arrange
-	tree := createIntegerTestTree()
+	tree := newIntTestTree()
 
 	// Act
 	graphviz := getTreeAsGraphviz(tree)
@@ -159,7 +162,7 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	for i := 1; i < 40; i++ {
 		nodes = append(nodes, i)
 	}
-	tree := createIntTree(nodes)
+	tree := newIntTree(nodes)
 
 	n := Int(24)
 	found, _ := tree.Search(n)
@@ -173,7 +176,7 @@ func Test_DeleteFromLargeTree_SpecifiedNodeColorBlack(t *testing.T) {
 	ass.Equal(black, foundAfterDelete.color)
 }
 
-func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
+func Test_DeleteAll_EmptyTree(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 
@@ -185,7 +188,7 @@ func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
 	for i := 1; i < nodesCount; i++ {
 		nodes[i-1] = r.Int()
 	}
-	tree := createIntTree(nodes)
+	tree := newIntTree(nodes)
 
 	// Act
 	for i := 1; i < nodesCount; i++ {
@@ -198,34 +201,37 @@ func Test_DeleteAllNodes_EmptyTree(t *testing.T) {
 	ass.Equal(int64(0), tree.Len())
 }
 
-func Test_DeleteAllNodesWhenTreeContainsSameElements_TreeLenAsExpected(t *testing.T) {
+func Test_DeleteAllWhenTreeContainsSameElements_TreeLenAsExpected(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	const nodesCount = 5
 
 	var tests = []struct {
+		name        string
 		input       []string
 		expectedlen int64
 	}{
-		{[]string{"tst"}, 0},
-		{[]string{"tst", "www"}, nodesCount},
+		{"all nodes", []string{"tst"}, 0},
+		{"only half", []string{"tst", "www"}, nodesCount},
 	}
 	for _, test := range tests {
-		tree := New()
+		t.Run(test.name, func(t *testing.T) {
+			tree := New()
 
-		for _, in := range test.input {
-			k := NewString(in)
-			for i := 0; i < nodesCount; i++ {
-				tree.Insert(k)
+			for _, in := range test.input {
+				k := NewString(in)
+				for i := 0; i < nodesCount; i++ {
+					tree.Insert(k)
+				}
 			}
-		}
 
-		// Act
-		res := tree.DeleteAll(NewString(test.input[0]))
+			// Act
+			res := tree.DeleteAll(NewString(test.input[0]))
 
-		// Assert
-		ass.True(res)
-		ass.Equal(test.expectedlen, tree.Len())
+			// Assert
+			ass.True(res)
+			ass.Equal(test.expectedlen, tree.Len())
+		})
 	}
 }
 
@@ -310,7 +316,7 @@ func Test_DifferentKeyInsertDeleteReverseOrderLen_TreeLenAsExpected(t *testing.T
 
 func Test_GraphvizString(t *testing.T) {
 	// Arrange
-	tree := createTestStringTree()
+	tree := newTestStringTree()
 
 	// Act
 	graphviz := getTreeAsGraphviz(tree)
@@ -353,7 +359,7 @@ func getTreeAsGraphviz(tree RbTree) string {
 func Test_Delete_NodeDeleted(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createTestStringTree()
+	tree := newTestStringTree()
 	n := NewString("intel")
 	found, _ := tree.root.search(n)
 
@@ -370,10 +376,10 @@ func Test_Delete_NodeDeleted(t *testing.T) {
 	ass.Equal("microsoft", found.key.(*String).String())
 }
 
-func Test_DeleteNil_NothingDeleted(t *testing.T) {
+func Test_deleteNil_NothingDeleted(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createTestStringTree()
+	tree := newTestStringTree()
 
 	// Act
 	tree.delete(nil)
@@ -384,45 +390,51 @@ func Test_DeleteNil_NothingDeleted(t *testing.T) {
 	ass.Equal("microsoft", found.key.(*String).String())
 }
 
-func Test_DeleteEmptyTree_NoError(t *testing.T) {
-	// Arrange
-	tree := New()
-	n := NewString("intel")
-
-	// Act
-	tree.Delete(n)
-
-	// Assert
-}
-
-func Test_DeleteNode_ResultAsExpected(t *testing.T) {
+func Test_DeleteNil_NothingDeleted(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
+	tree := newTestStringTree()
+	oldSize := tree.Len()
 
+	// Act
+	res := tree.Delete(nil)
+
+	// Assert
+	ass.False(res)
+	ass.Equal(oldSize, tree.Len())
+	ass.Nil(tree.tnil.parent)
+}
+
+func Test_Delete_ResultAsExpected(t *testing.T) {
 	var tests = []struct {
-		key    Comparable
+		key    string
 		result bool
 		tree   RbTree
 	}{
-		{NewString("intel"), true, createTestStringTree()},
-		{NewString("vff"), false, createTestStringTree()},
-		{nil, false, createTestStringTree()},
-		{NewString("intel"), false, New()},
+		{"intel", true, newTestStringTree()},
+		{"vff", false, newTestStringTree()},
+		{"intel", false, New()},
 	}
 
 	for _, test := range tests {
-		// Act
-		ok := test.tree.Delete(test.key)
+		t.Run(test.key, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+			k := NewString(test.key)
 
-		// Assert
-		ass.Equal(test.result, ok)
+			// Act
+			ok := test.tree.Delete(k)
+
+			// Assert
+			ass.Equal(test.result, ok)
+		})
 	}
 }
 
-func Test_DeleteNodeDeleteSeveralNodesWithTheSameKey_ResultAsExpected(t *testing.T) {
+func Test_DeleteSeveralNodesWithTheSameKey_ResultAsExpected(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createTestStringTree()
+	tree := newTestStringTree()
 	k := NewString("vff")
 	tree.Insert(k)
 	tree.Insert(k)
@@ -466,7 +478,7 @@ func Test_InsertAndCheckLen(t *testing.T) {
 func Test_InsertNil_NothingInserted(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createTestStringTree()
+	tree := newTestStringTree()
 	oldSize := tree.Len()
 
 	// Act
@@ -480,7 +492,7 @@ func Test_InsertNil_NothingInserted(t *testing.T) {
 func Test_ReplaceOrInsertInsertNil_NothingInserted(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createTestStringTree()
+	tree := newTestStringTree()
 	oldSize := tree.Len()
 
 	// Act
@@ -545,20 +557,6 @@ func Test_InsertIntoNotEmpty_Inserted(t *testing.T) {
 	ass.Equal(int64(2), tree.Len())
 }
 
-func Test_DeleteNodeNil_NothingDeleted(t *testing.T) {
-	// Arrange
-	ass := assert.New(t)
-	tree := createTestStringTree()
-	oldSize := tree.Len()
-
-	// Act
-	tree.Delete(nil)
-
-	// Assert
-	ass.Equal(oldSize, tree.Len())
-	ass.Nil(tree.tnil.parent)
-}
-
 func TestGetInt(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
@@ -600,17 +598,17 @@ func Test_Int64Tree(t *testing.T) {
 }
 
 // []int{6, 18, 3, 15, 7, 2, 4, 13, 9, 17, 20}
-func createIntegerTestTree() RbTree {
+func newIntTestTree() RbTree {
 	nodes := []int{6, 18, 3, 15, 7, 2, 4, 13, 9, 17, 20}
-	return createIntTree(nodes)
+	return newIntTree(nodes)
 }
 
-func createTestStringTree() *rbTree {
+func newTestStringTree() *rbTree {
 	nodes := []string{"abc", "amd", "cisco", "do", "fake", "intel", "it", "let", "microsoft", "russia", "usa", "xxx", "yyy", "zen"}
-	return createStringTree(nodes)
+	return newStringTree(nodes)
 }
 
-func createIntTree(nodes []int) RbTree {
+func newIntTree(nodes []int) RbTree {
 	tree := New()
 	for _, n := range nodes {
 		tree.Insert(Int(n))
@@ -618,7 +616,7 @@ func createIntTree(nodes []int) RbTree {
 	return tree
 }
 
-func createStringTree(nodes []string) *rbTree {
+func newStringTree(nodes []string) *rbTree {
 	tree := newRbTree()
 	for _, n := range nodes {
 		tree.Insert(NewString(n))

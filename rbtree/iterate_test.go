@@ -6,7 +6,7 @@ import (
 )
 
 func Test_Foreach(t *testing.T) {
-	tree := createIntegerTestTree()
+	tree := newIntTestTree()
 	var tests = []struct {
 		name     string
 		it       Enumerable
@@ -130,7 +130,7 @@ func Test_Foreach_SpecialCases(t *testing.T) {
 }
 
 func Test_IteratorsWithInterruption_Normal(t *testing.T) {
-	tree := createIntegerTestTree()
+	tree := newIntTestTree()
 	var tests = []struct {
 		name     string
 		enum     Enumerable
@@ -167,7 +167,7 @@ func Test_IteratorsWithInterruption_Normal(t *testing.T) {
 func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	tree := createTestStringTree()
+	tree := newTestStringTree()
 	var result []string
 	it := NewWalkInorder(tree)
 
