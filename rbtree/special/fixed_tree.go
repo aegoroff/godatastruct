@@ -55,6 +55,14 @@ func (t *maxTree) Search(value rbtree.Comparable) (rbtree.Comparable, bool) {
 	return t.tree.Search(value)
 }
 
+func (t *maxTree) Floor(value rbtree.Comparable) (rbtree.Comparable, bool) {
+	return t.tree.Floor(value)
+}
+
+func (t *maxTree) Ceiling(value rbtree.Comparable) (rbtree.Comparable, bool) {
+	return t.tree.Ceiling(value)
+}
+
 func (t *maxTree) SearchAll(value rbtree.Comparable) []rbtree.Comparable {
 	return t.tree.SearchAll(value)
 }
@@ -126,6 +134,14 @@ func (t *minTree) DeleteAll(c rbtree.Comparable) bool {
 
 func (t *minTree) Search(value rbtree.Comparable) (rbtree.Comparable, bool) {
 	return t.tree.Search(value)
+}
+
+func (t *minTree) Floor(value rbtree.Comparable) (rbtree.Comparable, bool) {
+	return t.tree.Floor(value)
+}
+
+func (t *minTree) Ceiling(value rbtree.Comparable) (rbtree.Comparable, bool) {
+	return t.tree.Ceiling(value)
 }
 
 func (t *minTree) SearchAll(value rbtree.Comparable) []rbtree.Comparable {

@@ -11,6 +11,28 @@ func (tree *rbTree) Search(value Comparable) (Comparable, bool) {
 	return n.key, ok
 }
 
+func (tree *rbTree) Floor(value Comparable) (Comparable, bool) {
+	if tree.root.isNil() {
+		return nil, false
+	}
+	n, ok := tree.root.floor(value)
+	if !ok {
+		return nil, ok
+	}
+	return n.key, ok
+}
+
+func (tree *rbTree) Ceiling(value Comparable) (Comparable, bool) {
+	if tree.root.isNil() {
+		return nil, false
+	}
+	n, ok := tree.root.ceiling(value)
+	if !ok {
+		return nil, ok
+	}
+	return n.key, ok
+}
+
 func (tree *rbTree) SearchAll(value Comparable) []Comparable {
 	var result []Comparable
 	n, ok := tree.SearchNode(value)
@@ -56,6 +78,58 @@ func (n *Node) search(value Comparable) (*Node, bool) {
 	}
 
 	return x, true
+}
+
+func (n *Node) floor(value Comparable) (*Node, bool) {
+	if value == nil {
+		return nil, false
+	}
+	var min *Node
+	var x *Node
+	x = n
+	for x.isNotNil() && !value.Equal(x.key) {
+		if value.Less(x.key) {
+			if min.isNil() && x.left.isNil() {
+				min = x
+			}
+			x = x.left
+		} else {
+			min = x
+			x = x.right
+		}
+	}
+
+	if x.isNotNil() {
+		return x, true
+	}
+
+	return min, true
+}
+
+func (n *Node) ceiling(value Comparable) (*Node, bool) {
+	if value == nil {
+		return nil, false
+	}
+	var max *Node
+	var x *Node
+	x = n
+	for x.isNotNil() && !value.Equal(x.key) {
+		if value.Less(x.key) {
+			max = x
+			x = x.left
+		} else {
+			if max.isNil() && x.right.isNil() {
+				max = x
+			}
+			x = x.right
+		}
+	}
+
+	if x.isNotNil() {
+		return x, true
+	}
+
+	return max, true
 }
 
 // Minimum gets tree's min element

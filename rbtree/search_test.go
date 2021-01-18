@@ -317,3 +317,119 @@ func Test_MaximumEmptyTree(t *testing.T) {
 	// Assert
 	ass.Nil(r)
 }
+
+func Test_Floor_Success(t *testing.T) {
+	var tests = []struct {
+		name     string
+		node     int
+		expected int
+	}{
+		{"1", 1, 2},
+		{"2", 2, 2},
+		{"5", 5, 4},
+		{"12", 12, 9},
+		{"20", 20, 20},
+		{"21", 21, 20},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+			tree := newIntTestTree()
+			v := Int(test.node)
+
+			// Act
+			found, ok := tree.Floor(v)
+
+			// Assert
+			ass.True(ok)
+			ass.NotNil(found)
+			ass.Equal(test.expected, GetInt(found))
+		})
+	}
+}
+
+func Test_FloorEmptyTree(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := New()
+	v := Int(2)
+
+	// Act
+	found, ok := tree.Floor(v)
+
+	// Assert
+	ass.False(ok)
+	ass.Nil(found)
+}
+
+func Test_FloorNullValye(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := newIntTestTree()
+
+	// Act
+	found, ok := tree.Floor(nil)
+
+	// Assert
+	ass.False(ok)
+	ass.Nil(found)
+}
+
+func Test_Ceiling_Success(t *testing.T) {
+	var tests = []struct {
+		name     string
+		node     int
+		expected int
+	}{
+		{"1", 1, 2},
+		{"2", 2, 2},
+		{"5", 5, 6},
+		{"12", 12, 13},
+		{"20", 20, 20},
+		{"21", 21, 20},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+			tree := newIntTestTree()
+			v := Int(test.node)
+
+			// Act
+			found, ok := tree.Ceiling(v)
+
+			// Assert
+			ass.True(ok)
+			ass.NotNil(found)
+			ass.Equal(test.expected, GetInt(found))
+		})
+	}
+}
+
+func Test_CeilingEmptyTree(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := New()
+	v := Int(2)
+
+	// Act
+	found, ok := tree.Ceiling(v)
+
+	// Assert
+	ass.False(ok)
+	ass.Nil(found)
+}
+
+func Test_CeilingNullValye(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := newIntTestTree()
+
+	// Act
+	found, ok := tree.Ceiling(nil)
+
+	// Assert
+	ass.False(ok)
+	ass.Nil(found)
+}

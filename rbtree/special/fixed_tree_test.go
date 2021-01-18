@@ -233,6 +233,76 @@ func Test_SearchIntTree_Success(t *testing.T) {
 	}
 }
 
+func Test_FloorIntTree_Success(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	minTree := NewMinTree(3)
+	maxTree := NewMaxTree(3)
+
+	for i := 1; i <= 10; i++ {
+		minTree.Insert(rbtree.Int(i))
+		maxTree.Insert(rbtree.Int(i))
+	}
+
+	var tests = []struct {
+		name     string
+		tree     rbtree.RbTree
+		key      int
+		expected int
+	}{
+		{"Min tree", minTree, 0, 1},
+		{"Max tree", maxTree, 11, 10},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			v := rbtree.Int(test.key)
+
+			// Act
+			found, ok := test.tree.Floor(v)
+
+			// Assert
+			ass.True(ok)
+			ass.NotNil(found)
+			ass.Equal(test.expected, rbtree.GetInt(found))
+		})
+	}
+}
+
+func Test_CeilingIntTree_Success(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	minTree := NewMinTree(3)
+	maxTree := NewMaxTree(3)
+
+	for i := 1; i <= 10; i++ {
+		minTree.Insert(rbtree.Int(i))
+		maxTree.Insert(rbtree.Int(i))
+	}
+
+	var tests = []struct {
+		name     string
+		tree     rbtree.RbTree
+		key      int
+		expected int
+	}{
+		{"Min tree", minTree, 4, 3},
+		{"Max tree", maxTree, 5, 8},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			v := rbtree.Int(test.key)
+
+			// Act
+			found, ok := test.tree.Ceiling(v)
+
+			// Assert
+			ass.True(ok)
+			ass.NotNil(found)
+			ass.Equal(test.expected, rbtree.GetInt(found))
+		})
+	}
+}
+
 func Test_SearchAllIntTree_Success(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
