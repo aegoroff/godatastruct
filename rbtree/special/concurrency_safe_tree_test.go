@@ -428,13 +428,13 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndOrderStatisticSelectTest(
 			tree.Delete(rbtree.Int(ix))
 		}(i)
 
-		go func(ix int) {
+		go func() {
 			defer wg.Done()
 			_, ok := tree.OrderStatisticSelect(1)
 			mu.Lock()
 			res = res && ok
 			mu.Unlock()
-		}(i)
+		}()
 	}
 	wg.Wait()
 
