@@ -111,6 +111,23 @@ func ExampleNewAscendRange() {
 	// 6
 }
 
+func ExampleNewOpenAscendRange() {
+	tree := New()
+
+	tree.Insert(Int(6))
+	tree.Insert(Int(18))
+	tree.Insert(Int(3))
+
+	it := NewOpenAscendRange(tree, Int(2), Int(10))
+
+	it.Foreach(func(n Comparable) {
+		fmt.Println(n)
+	})
+	// Output:
+	// 3
+	// 6
+}
+
 func ExampleNewDescendRange() {
 	tree := New()
 
@@ -126,4 +143,21 @@ func ExampleNewDescendRange() {
 	// Output:
 	// 6
 	// 3
+}
+
+func ExampleNewOpenDescendRange() {
+	tree := New()
+
+	tree.Insert(Int(6))
+	tree.Insert(Int(18))
+	tree.Insert(Int(3))
+
+	it := NewOpenDescendRange(tree, Int(20), Int(5))
+
+	it.Foreach(func(n Comparable) {
+		fmt.Println(n)
+	})
+	// Output:
+	// 18
+	// 6
 }

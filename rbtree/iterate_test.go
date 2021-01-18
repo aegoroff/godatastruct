@@ -14,6 +14,14 @@ func Test_Foreach(t *testing.T) {
 	}{
 		{"ascend normal", NewAscend(tree), []int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}},
 
+		{"open ascend range from < min", NewOpenAscendRange(tree, Int(1), Int(4)), []int{2, 3, 4}},
+		{"open ascend range from > min", NewOpenAscendRange(tree, Int(5), Int(6)), []int{6}},
+		{"open ascend range from > min deep", NewOpenAscendRange(tree, Int(8), Int(13)), []int{9, 13}},
+		{"open ascend range from to < max", NewOpenAscendRange(tree, Int(9), Int(16)), []int{9, 13, 15}},
+		{"open descend range both open inside", NewOpenAscendRange(tree, Int(5), Int(10)), []int{6, 7, 9}},
+		{"open descend range both open outside", NewOpenAscendRange(tree, Int(0), Int(1)), []int{}},
+
+		{"ascend range from < min", NewAscendRange(tree, Int(1), Int(4)), []int{}},
 		{"ascend range 6 to 15", NewAscendRange(tree, Int(6), Int(15)), []int{6, 7, 9, 13, 15}},
 		{"ascend range 6 to 6", NewAscendRange(tree, Int(6), Int(6)), []int{6}},
 		{"ascend range 15 to 15", NewAscendRange(tree, Int(15), Int(15)), []int{15}},
@@ -28,6 +36,14 @@ func Test_Foreach(t *testing.T) {
 
 		{"descend normal", NewDescend(tree), []int{20, 18, 17, 15, 13, 9, 7, 6, 4, 3, 2}},
 
+		{"open descend range from > max", NewOpenDescendRange(tree, Int(30), Int(17)), []int{20, 18, 17}},
+		{"open descend range from < max", NewOpenDescendRange(tree, Int(19), Int(17)), []int{18, 17}},
+		{"open descend range from < max deep", NewOpenDescendRange(tree, Int(14), Int(9)), []int{13, 9}},
+		{"open descend range from to > min", NewOpenDescendRange(tree, Int(9), Int(5)), []int{9, 7, 6}},
+		{"open descend range both open inside", NewOpenDescendRange(tree, Int(10), Int(5)), []int{9, 7, 6}},
+		{"open descend range both open outside", NewOpenDescendRange(tree, Int(40), Int(21)), []int{}},
+
+		{"descend range from > max", NewDescendRange(tree, Int(30), Int(17)), []int{}},
 		{"descend range 15 to 6", NewDescendRange(tree, Int(15), Int(6)), []int{15, 13, 9, 7, 6}},
 		{"descend range 6 to 6", NewDescendRange(tree, Int(6), Int(6)), []int{6}},
 		{"descend range 15 to 15", NewDescendRange(tree, Int(15), Int(15)), []int{15}},

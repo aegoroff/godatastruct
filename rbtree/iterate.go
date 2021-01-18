@@ -95,6 +95,35 @@ func NewAscendRange(t RbTree, from, to Comparable) Enumerable {
 	return e
 }
 
+// NewOpenAscendRange creates Enumerable that walks tree in ascending order within the range (from, to])
+// open means that both ends not necessary present in the tree. If not
+// nearest tree nodes will be found and iteration starts and stops using them
+func NewOpenAscendRange(t RbTree, from, to Comparable) Enumerable {
+	ordered := newOrdered(t)
+	e := &ascend{ordered: ordered}
+	e.it = e
+
+	n, ok := e.tree.SearchNode(from)
+	if ok && to != nil {
+		e.next = n
+		e.to = to
+	} else if from != nil && to != nil {
+		max := e.tree.Maximum()
+		min := e.tree.Minimum()
+		if from.Less(min.key) {
+			e.next = min
+		} else if from.Less(max.key) {
+			e.next = min.Successor()
+			for e.next.key.Less(from) {
+				e.next = e.next.Successor()
+			}
+		}
+		e.to = to
+	}
+
+	return e
+}
+
 // NewDescend creates Enumerable that walks tree in descending order
 func NewDescend(t RbTree) Enumerable {
 	e := newDescend(t)
@@ -115,6 +144,33 @@ func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
 	n, ok := e.tree.SearchNode(from)
 	if ok && to != nil {
 		e.next = n
+		e.to = to
+	}
+
+	return e
+}
+
+// NewOpenDescendRange that walks tree in descending order within the range (from, to)
+// open means that both ends not necessary present in the tree. If not
+// nearest tree nodes will be found and iteration starts and stops using them
+func NewOpenDescendRange(t RbTree, from, to Comparable) Enumerable {
+	e := newDescend(t)
+
+	n, ok := e.tree.SearchNode(from)
+	if ok && to != nil {
+		e.next = n
+		e.to = to
+	} else if from != nil && to != nil {
+		max := e.tree.Maximum()
+		min := e.tree.Minimum()
+		if !from.Less(max.key) {
+			e.next = max
+		} else if !from.Less(min.key) {
+			e.next = max.Predecessor()
+			for !e.next.key.Less(from) {
+				e.next = e.next.Predecessor()
+			}
+		}
 		e.to = to
 	}
 
