@@ -11,22 +11,25 @@ func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
 	tree := newIntTestTree()
 
 	var tests = []struct {
+		name     string
 		order    int64
 		expected int
 	}{
-		{1, 2},
-		{2, 3},
-		{11, 20},
-		{10, 18},
-		{6, 9},
+		{"1", 1, 2},
+		{"2", 2, 3},
+		{"11", 11, 20},
+		{"10", 10, 18},
+		{"6", 6, 9},
 	}
 	for _, test := range tests {
-		// Act
-		found, _ := tree.OrderStatisticSelect(test.order)
+		t.Run(test.name, func(t *testing.T) {
+			// Act
+			found, _ := tree.OrderStatisticSelect(test.order)
 
-		// Assert
-		ass.NotNil(found)
-		ass.Equal(test.expected, GetInt(found.Key()))
+			// Assert
+			ass.NotNil(found)
+			ass.Equal(test.expected, GetInt(found.Key()))
+		})
 	}
 }
 
@@ -35,19 +38,22 @@ func Test_OrderStatisticSelectNegativeTests_NullResult(t *testing.T) {
 	ass := assert.New(t)
 
 	var tests = []struct {
+		name  string
 		tree  RbTree
 		order int64
 	}{
-		{newIntTestTree(), 200},
-		{New(), 1},
+		{"more then len", newIntTestTree(), 200},
+		{"empty tree", New(), 1},
 	}
 	for _, test := range tests {
-		// Act
-		found, ok := test.tree.OrderStatisticSelect(test.order)
+		t.Run(test.name, func(t *testing.T) {
+			// Act
+			found, ok := test.tree.OrderStatisticSelect(test.order)
 
-		// Assert
-		ass.Nil(found)
-		ass.False(ok)
+			// Assert
+			ass.Nil(found)
+			ass.False(ok)
+		})
 	}
 }
 
@@ -148,20 +154,23 @@ func Test_SearchIntTree_Failure(t *testing.T) {
 	ass := assert.New(t)
 
 	var tests = []struct {
+		name string
 		tree RbTree
 		key  Comparable
 	}{
-		{newIntTestTree(), Int(22)},
-		{newIntTestTree(), nil},
-		{New(), Int(20)},
+		{"unexist key", newIntTestTree(), Int(22)},
+		{"nil key", newIntTestTree(), nil},
+		{"empty tree", New(), Int(20)},
 	}
 	for _, test := range tests {
-		// Act
-		found, ok := test.tree.Search(test.key)
+		t.Run(test.name, func(t *testing.T) {
+			// Act
+			found, ok := test.tree.Search(test.key)
 
-		// Assert
-		ass.False(ok)
-		ass.Nil(found)
+			// Assert
+			ass.False(ok)
+			ass.Nil(found)
+		})
 	}
 }
 
@@ -171,23 +180,26 @@ func Test_Successor_ReturnSuccessor(t *testing.T) {
 	tree := newIntTestTree()
 
 	var tests = []struct {
+		name     string
 		node     int
 		expected int
 	}{
-		{13, 15},
-		{6, 7},
-		{18, 20},
-		{2, 3},
+		{"13", 13, 15},
+		{"6", 6, 7},
+		{"18", 18, 20},
+		{"2", 2, 3},
 	}
 	for _, test := range tests {
-		v := Int(test.node)
-		r, _ := tree.SearchNode(v)
+		t.Run(test.name, func(t *testing.T) {
+			v := Int(test.node)
+			r, _ := tree.SearchNode(v)
 
-		// Act
-		s := r.Successor()
+			// Act
+			s := r.Successor()
 
-		// Assert
-		ass.Equal(test.expected, GetInt(s.Key()))
+			// Assert
+			ass.Equal(test.expected, GetInt(s.Key()))
+		})
 	}
 }
 
@@ -223,23 +235,26 @@ func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 	tree := newIntTestTree()
 
 	var tests = []struct {
+		name     string
 		node     int
 		expected int
 	}{
-		{13, 9},
-		{6, 4},
-		{18, 17},
-		{3, 2},
+		{"13", 13, 9},
+		{"6", 6, 4},
+		{"18", 18, 17},
+		{"3", 3, 2},
 	}
 	for _, test := range tests {
-		v := Int(test.node)
-		r, _ := tree.SearchNode(v)
+		t.Run(test.name, func(t *testing.T) {
+			v := Int(test.node)
+			r, _ := tree.SearchNode(v)
 
-		// Act
-		s := r.Predecessor()
+			// Act
+			s := r.Predecessor()
 
-		// Assert
-		ass.Equal(test.expected, GetInt(s.Key()))
+			// Assert
+			ass.Equal(test.expected, GetInt(s.Key()))
+		})
 	}
 }
 

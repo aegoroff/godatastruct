@@ -15,6 +15,8 @@ func Test_Foreach(t *testing.T) {
 		{"ascend normal", NewAscend(tree), []int{2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20}},
 
 		{"open ascend range from < min", NewOpenAscendRange(tree, Int(1), Int(4)), []int{2, 3, 4}},
+		{"open ascend range min > max", NewOpenAscendRange(tree, Int(4), Int(1)), []int{}},
+		{"open ascend range min = max and not in tree", NewOpenAscendRange(tree, Int(16), Int(16)), []int{}},
 		{"open ascend range from > min", NewOpenAscendRange(tree, Int(5), Int(6)), []int{6}},
 		{"open ascend range from > min deep", NewOpenAscendRange(tree, Int(8), Int(13)), []int{9, 13}},
 		{"open ascend range from to < max", NewOpenAscendRange(tree, Int(9), Int(16)), []int{9, 13, 15}},
@@ -37,6 +39,8 @@ func Test_Foreach(t *testing.T) {
 		{"descend normal", NewDescend(tree), []int{20, 18, 17, 15, 13, 9, 7, 6, 4, 3, 2}},
 
 		{"open descend range from > max", NewOpenDescendRange(tree, Int(30), Int(17)), []int{20, 18, 17}},
+		{"open descend range max < min", NewOpenDescendRange(tree, Int(17), Int(30)), []int{}},
+		{"open descend range min = max and not in tree", NewOpenDescendRange(tree, Int(16), Int(16)), []int{}},
 		{"open descend range from < max", NewOpenDescendRange(tree, Int(19), Int(17)), []int{18, 17}},
 		{"open descend range from < max deep", NewOpenDescendRange(tree, Int(14), Int(9)), []int{13, 9}},
 		{"open descend range from to > min", NewOpenDescendRange(tree, Int(9), Int(5)), []int{9, 7, 6}},
