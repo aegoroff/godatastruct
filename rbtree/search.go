@@ -219,19 +219,20 @@ func (tree *rbTree) OrderStatisticSelect(i int64) (*Node, bool) {
 		return nil, false
 	}
 
-	return tree.root.orderStatisticSelect(i)
-}
+	x := tree.root
+	r := x.left.size + 1
 
-func (n *Node) orderStatisticSelect(i int64) (*Node, bool) {
-	if n.left == nil {
-		return nil, false
+	for i != r {
+		if i < r {
+			x = x.left
+		} else {
+			i = i - r
+			x = x.right
+		}
+		if x.left == nil {
+			return nil, false
+		}
+		r = x.left.size + 1
 	}
-	r := n.left.size + 1
-	if i == r {
-		return n, true
-	} else if i < r {
-		return n.left.orderStatisticSelect(i)
-	} else {
-		return n.right.orderStatisticSelect(i - r)
-	}
+	return x, true
 }

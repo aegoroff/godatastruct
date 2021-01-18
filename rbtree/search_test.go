@@ -37,6 +37,9 @@ func Test_OrderStatisticSelectNegativeTests_NullResult(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 
+	one := New()
+	one.Insert(Int(1))
+
 	var tests = []struct {
 		name  string
 		tree  RbTree
@@ -44,6 +47,7 @@ func Test_OrderStatisticSelectNegativeTests_NullResult(t *testing.T) {
 	}{
 		{"more then len", newIntTestTree(), 200},
 		{"empty tree", New(), 1},
+		{"one element tree", one, 2},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
