@@ -9,6 +9,21 @@ type IntHashSet map[int]struct{}
 // Int64HashSet defines large integers hash set
 type Int64HashSet map[int64]struct{}
 
+// NewIntHashSet creates new IntHashSet
+func NewIntHashSet() IntHashSet {
+	return make(IntHashSet)
+}
+
+// NewInt64HashSet creates new Int64HashSet
+func NewInt64HashSet() Int64HashSet {
+	return make(Int64HashSet)
+}
+
+// NewStringHashSet creates new StringHashSet
+func NewStringHashSet() StringHashSet {
+	return make(StringHashSet)
+}
+
 // Count gets the number of items in the set
 func (s *StringHashSet) Count() int {
 	return len(*s)
