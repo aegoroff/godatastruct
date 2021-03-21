@@ -1,2 +1,3 @@
-// Package rbtree provides Red-black search binary tree implementation with support ordered statistic on the tree
+// Package rbtree provides Red-black search binary tree implementation
+// that supports ordered statistic
 package rbtree
