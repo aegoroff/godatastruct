@@ -7,7 +7,6 @@ import (
 
 func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
 	// Arrange
-	ass := assert.New(t)
 	tree := newIntTestTree()
 
 	var tests = []struct {
@@ -23,6 +22,8 @@ func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			ass := assert.New(t)
+
 			// Act
 			found, _ := tree.OrderStatisticSelect(test.order)
 
@@ -35,8 +36,6 @@ func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
 
 func Test_OrderStatisticSelectNegativeTests_NullResult(t *testing.T) {
 	// Arrange
-	ass := assert.New(t)
-
 	one := New()
 	one.Insert(Int(1))
 
@@ -51,6 +50,8 @@ func Test_OrderStatisticSelectNegativeTests_NullResult(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			ass := assert.New(t)
+
 			// Act
 			found, ok := test.tree.OrderStatisticSelect(test.order)
 
@@ -154,9 +155,6 @@ func Test_SearchAllStringTree_Fail(t *testing.T) {
 }
 
 func Test_SearchIntTree_Failure(t *testing.T) {
-	// Arrange
-	ass := assert.New(t)
-
 	var tests = []struct {
 		name string
 		tree RbTree
@@ -168,6 +166,9 @@ func Test_SearchIntTree_Failure(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+
 			// Act
 			found, ok := test.tree.Search(test.key)
 
@@ -180,7 +181,6 @@ func Test_SearchIntTree_Failure(t *testing.T) {
 
 func Test_Successor_ReturnSuccessor(t *testing.T) {
 	// Arrange
-	ass := assert.New(t)
 	tree := newIntTestTree()
 
 	var tests = []struct {
@@ -195,6 +195,7 @@ func Test_Successor_ReturnSuccessor(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			ass := assert.New(t)
 			v := Int(test.node)
 			r, _ := tree.SearchNode(v)
 
@@ -235,7 +236,6 @@ func Test_SuccessorOfNil_ReturnNil(t *testing.T) {
 
 func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 	// Arrange
-	ass := assert.New(t)
 	tree := newIntTestTree()
 
 	var tests = []struct {
@@ -250,6 +250,7 @@ func Test_PredecessorInTheMiddle_PredecessorFound(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			ass := assert.New(t)
 			v := Int(test.node)
 			r, _ := tree.SearchNode(v)
 

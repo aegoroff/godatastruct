@@ -113,9 +113,6 @@ func TestIntHashSet_ContainsUnexistKey_ResultFalse(t *testing.T) {
 }
 
 func TestIntHashSet_Count_ResultAsSpecified(t *testing.T) {
-	// Arrange
-	ass := assert.New(t)
-
 	var tests = []struct {
 		name  string
 		items []int
@@ -128,6 +125,9 @@ func TestIntHashSet_Count_ResultAsSpecified(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+
 			var set = NewIntHashSet()
 			for _, i := range tt.items {
 				set.Add(i)
@@ -143,9 +143,6 @@ func TestIntHashSet_Count_ResultAsSpecified(t *testing.T) {
 }
 
 func TestIntHashSet_Items_ResultAsSpecified(t *testing.T) {
-	// Arrange
-	ass := assert.New(t)
-
 	var tests = []struct {
 		name  string
 		items []int
@@ -157,6 +154,9 @@ func TestIntHashSet_Items_ResultAsSpecified(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+
 			var set = NewIntHashSet()
 			for _, i := range tt.items {
 				set.Add(i)
@@ -274,9 +274,6 @@ func TestInt64HashSet_ContainsUnexistKey_ResultFalse(t *testing.T) {
 }
 
 func TestInt64HashSet_Count_ResultAsSpecified(t *testing.T) {
-	// Arrange
-	ass := assert.New(t)
-
 	var tests = []struct {
 		name  string
 		items []int64
@@ -289,6 +286,9 @@ func TestInt64HashSet_Count_ResultAsSpecified(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+
 			var set = NewInt64HashSet()
 			for _, i := range tt.items {
 				set.Add(i)
@@ -304,9 +304,6 @@ func TestInt64HashSet_Count_ResultAsSpecified(t *testing.T) {
 }
 
 func TestInt64HashSet_Items_ResultAsSpecified(t *testing.T) {
-	// Arrange
-	ass := assert.New(t)
-
 	var tests = []struct {
 		name  string
 		items []int64
@@ -318,6 +315,9 @@ func TestInt64HashSet_Items_ResultAsSpecified(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+
 			var set = NewInt64HashSet()
 			for _, i := range tt.items {
 				set.Add(i)
@@ -436,9 +436,6 @@ func TestStringHashSet_ContainsUnexistKey_ResultFalse(t *testing.T) {
 }
 
 func TestStringHashSet_Count_ResultAsSpecified(t *testing.T) {
-	// Arrange
-	ass := assert.New(t)
-
 	var tests = []struct {
 		name  string
 		items []string
@@ -451,6 +448,9 @@ func TestStringHashSet_Count_ResultAsSpecified(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+
 			var set = NewStringHashSet()
 			for _, i := range tt.items {
 				set.Add(i)
@@ -466,9 +466,6 @@ func TestStringHashSet_Count_ResultAsSpecified(t *testing.T) {
 }
 
 func TestStringHashSet_Items_ResultAsSpecified(t *testing.T) {
-	// Arrange
-	ass := assert.New(t)
-
 	var tests = []struct {
 		name  string
 		items []string
@@ -480,6 +477,9 @@ func TestStringHashSet_Items_ResultAsSpecified(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+
 			var set = NewStringHashSet()
 			for _, i := range tt.items {
 				set.Add(i)
@@ -495,8 +495,6 @@ func TestStringHashSet_Items_ResultAsSpecified(t *testing.T) {
 }
 
 func TestStringHashSet_ItemsDecorated_ResultAsSpecified(t *testing.T) {
-	// Arrange
-	ass := assert.New(t)
 	items := []string{"a", "b"}
 
 	var tests = []struct {
@@ -510,6 +508,9 @@ func TestStringHashSet_ItemsDecorated_ResultAsSpecified(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+
 			var set = NewStringHashSet()
 			for _, i := range items {
 				set.Add(i)

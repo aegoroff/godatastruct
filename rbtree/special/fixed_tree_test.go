@@ -167,7 +167,6 @@ func TestMinSizeRandomTree_SizeAsExpectedIterationWithoutSideEffects(t *testing.
 
 func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
 	// Arrange
-	ass := assert.New(t)
 	minTree := NewMinTree(3)
 	maxTree := NewMaxTree(3)
 
@@ -189,6 +188,8 @@ func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			ass := assert.New(t)
+
 			// Act
 			found, _ := test.tree.OrderStatisticSelect(test.order)
 
@@ -201,7 +202,6 @@ func Test_OrderStatisticSelect_ValueAsExpected(t *testing.T) {
 
 func Test_SearchIntTree_Success(t *testing.T) {
 	// Arrange
-	ass := assert.New(t)
 	minTree := NewMinTree(3)
 	maxTree := NewMaxTree(3)
 
@@ -220,6 +220,7 @@ func Test_SearchIntTree_Success(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			ass := assert.New(t)
 			v := rbtree.Int(test.expected)
 
 			// Act
@@ -235,7 +236,6 @@ func Test_SearchIntTree_Success(t *testing.T) {
 
 func Test_FloorIntTree_Success(t *testing.T) {
 	// Arrange
-	ass := assert.New(t)
 	minTree := NewMinTree(3)
 	maxTree := NewMaxTree(3)
 
@@ -255,6 +255,7 @@ func Test_FloorIntTree_Success(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			ass := assert.New(t)
 			v := rbtree.Int(test.key)
 
 			// Act
@@ -270,7 +271,6 @@ func Test_FloorIntTree_Success(t *testing.T) {
 
 func Test_CeilingIntTree_Success(t *testing.T) {
 	// Arrange
-	ass := assert.New(t)
 	minTree := NewMinTree(3)
 	maxTree := NewMaxTree(3)
 
@@ -290,6 +290,7 @@ func Test_CeilingIntTree_Success(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			ass := assert.New(t)
 			v := rbtree.Int(test.key)
 
 			// Act
@@ -305,7 +306,6 @@ func Test_CeilingIntTree_Success(t *testing.T) {
 
 func Test_SearchAllIntTree_Success(t *testing.T) {
 	// Arrange
-	ass := assert.New(t)
 	minTree := NewMinTree(3)
 	maxTree := NewMaxTree(3)
 
@@ -324,6 +324,7 @@ func Test_SearchAllIntTree_Success(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			ass := assert.New(t)
 			v := rbtree.Int(test.expected)
 
 			// Act
@@ -338,7 +339,6 @@ func Test_SearchAllIntTree_Success(t *testing.T) {
 
 func Test_SearchNodeIntTree_Success(t *testing.T) {
 	// Arrange
-	ass := assert.New(t)
 	minTree := NewMinTree(3)
 	maxTree := NewMaxTree(3)
 
@@ -357,6 +357,7 @@ func Test_SearchNodeIntTree_Success(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			ass := assert.New(t)
 			v := rbtree.Int(test.expected)
 
 			// Act
@@ -372,7 +373,6 @@ func Test_SearchNodeIntTree_Success(t *testing.T) {
 
 func Test_DeleteNode_Success(t *testing.T) {
 	// Arrange
-	ass := assert.New(t)
 	minTree := NewMinTree(3)
 	maxTree := NewMaxTree(3)
 
@@ -391,6 +391,7 @@ func Test_DeleteNode_Success(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			ass := assert.New(t)
 			v := rbtree.Int(test.expected)
 
 			// Act
@@ -549,7 +550,6 @@ func Test_ReplaceOrInsertMaxTreeDuplicateGreaterThenPrevNodesAndInsertLessNodesA
 
 func Test_DeleteAllNodesNodes_Success(t *testing.T) {
 	// Arrange
-	ass := assert.New(t)
 	minTree := NewMinTree(3)
 	maxTree := NewMaxTree(3)
 
@@ -568,6 +568,7 @@ func Test_DeleteAllNodesNodes_Success(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			ass := assert.New(t)
 			v := rbtree.Int(test.expected)
 
 			// Act

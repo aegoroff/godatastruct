@@ -49,9 +49,6 @@ func (n GraphNode) Attributes() []encoding.Attribute {
 }
 
 func Test_Len(t *testing.T) {
-	// Arrange
-	ass := assert.New(t)
-
 	var tests = []struct {
 		name     string
 		tree     RbTree
@@ -62,6 +59,9 @@ func Test_Len(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+
 			// Act
 			length := test.tree.Len()
 
@@ -202,8 +202,6 @@ func Test_DeleteAll_EmptyTree(t *testing.T) {
 }
 
 func Test_DeleteAllWhenTreeContainsSameElements_TreeLenAsExpected(t *testing.T) {
-	// Arrange
-	ass := assert.New(t)
 	const nodesCount = 5
 
 	var tests = []struct {
@@ -216,6 +214,9 @@ func Test_DeleteAllWhenTreeContainsSameElements_TreeLenAsExpected(t *testing.T) 
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+
 			tree := New()
 
 			for _, in := range test.input {
