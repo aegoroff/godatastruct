@@ -440,7 +440,6 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndOrderStatisticSelectTest(
 
 	// Assert
 	ass.Equal(int64(nodesCount/2), tree.Len())
-	ass.True(res)
 }
 
 func Test_ConcurrencySafeTree_Foreach(t *testing.T) {
