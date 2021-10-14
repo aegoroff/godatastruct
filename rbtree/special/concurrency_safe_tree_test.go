@@ -296,7 +296,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndSearchNodeTest(t *testing
 	ass := assert.New(t)
 	var wg sync.WaitGroup
 
-	const nodesCount = 200
+	const nodesCount = 50
 	tree := NewConcurrencySafeTree()
 	readResultsChan := make(chan bool, nodesCount/2)
 
@@ -334,7 +334,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndMinimumTest(t *testing.T)
 	ass := assert.New(t)
 	var wg sync.WaitGroup
 
-	const nodesCount = 200
+	const nodesCount = 50
 	tree := NewConcurrencySafeTree()
 	readResultsChan := make(chan *rbtree.Node, nodesCount/2)
 
@@ -372,7 +372,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndMaximumTest(t *testing.T)
 	ass := assert.New(t)
 	var wg sync.WaitGroup
 
-	const nodesCount = 200
+	const nodesCount = 50
 	tree := NewConcurrencySafeTree()
 	readResultsChan := make(chan *rbtree.Node, nodesCount/2)
 
@@ -411,7 +411,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndOrderStatisticSelectTest(
 	ass := assert.New(t)
 	var wg sync.WaitGroup
 
-	const nodesCount = 200
+	const nodesCount = 50
 	tree := NewConcurrencySafeTree()
 
 	for i := 1; i <= nodesCount; i++ {
