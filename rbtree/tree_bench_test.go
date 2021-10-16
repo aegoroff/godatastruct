@@ -128,7 +128,7 @@ func Benchmark_SlimTrie_Search(b *testing.B) {
 		panic(err)
 	}
 
-	unexist := generateRandomStringSlice(searches, 50)
+	unexist := generateRandomStringSlice(searches, maxStringLength)
 
 	off := rand.Intn(treeSizeSearchOrIterate / 2)
 
