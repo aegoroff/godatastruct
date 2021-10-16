@@ -11,7 +11,7 @@ import (
 
 const treeSizeInsert = 20000
 const treeSizeSearchOrIterate = 100000
-const bTreeDegree = 16
+const bTreeDegree = 256
 const searches = 100
 
 type bint int

@@ -1,6 +1,6 @@
 module github.com/aegoroff/godatastruct
 
-go 1.12
+go 1.15
 
 require (
 	github.com/google/btree v1.0.0

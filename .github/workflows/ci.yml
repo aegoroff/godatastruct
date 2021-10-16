@@ -45,6 +45,10 @@ jobs:
       if: matrix.build != 'linux'
       run: go test ./...
 
+    - name: Benchmarks
+      shell: bash
+      run: go test ./... -bench .
+
     - name: Send coverage
       if: matrix.build == 'linux'
       run: |
