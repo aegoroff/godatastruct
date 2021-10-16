@@ -5,14 +5,20 @@ import (
 	"fmt"
 	"github.com/aegoroff/godatastruct/collections"
 	"github.com/google/btree"
+	"github.com/openacid/slim/encode"
+	"github.com/openacid/slim/trie"
 	"math/rand"
+	"sort"
 	"testing"
+	"time"
 )
 
 const treeSizeInsert = 20000
-const treeSizeSearchOrIterate = 100000
+const treeSizeSearchOrIterate = 50000
 const bTreeDegree = 256
-const searches = 100
+const searches = 64
+const minStringLength = 5
+const maxStringLength = 50
 
 type bint int
 type bstring string
@@ -70,13 +76,13 @@ func Benchmark_BTree_ReplaceOrInsert(b *testing.B) {
 func Benchmark_RbTree_Search(b *testing.B) {
 	// Arrange
 	tree := New()
-	nodes := generateRandomStrings(treeSizeSearchOrIterate, 50)
+	nodes := generateRandomStrings(treeSizeSearchOrIterate, maxStringLength)
 
 	for i := 0; i < treeSizeSearchOrIterate; i++ {
 		tree.Insert(nodes[i])
 	}
 
-	unexist := generateRandomStrings(searches, 50)
+	unexist := generateRandomStrings(searches, maxStringLength)
 
 	off := rand.Intn(treeSizeSearchOrIterate / 2)
 
@@ -93,15 +99,16 @@ func Benchmark_RbTree_Search(b *testing.B) {
 func Benchmark_BTree_Search(b *testing.B) {
 	// Arrange
 	tree := btree.New(bTreeDegree)
-	nodes := generateRandomBStrings(treeSizeSearchOrIterate, 50)
+	nodes := generateRandomBStrings(treeSizeSearchOrIterate, maxStringLength)
 	for i := 0; i < treeSizeSearchOrIterate; i++ {
 		tree.ReplaceOrInsert(nodes[i])
 	}
 
-	unexist := generateRandomBStrings(searches, 50)
+	unexist := generateRandomBStrings(searches, maxStringLength)
 
 	off := rand.Intn(treeSizeSearchOrIterate / 2)
 
+	// Act
 	for i := 0; i < b.N; i++ {
 		for j := 0; j < searches; j++ {
 			tree.Has(nodes[j+off])
@@ -111,16 +118,40 @@ func Benchmark_BTree_Search(b *testing.B) {
 	b.ReportAllocs()
 }
 
+func Benchmark_SlimTrie_Search(b *testing.B) {
+	// Arrange
+	nodes := generateRandomStringSlice(treeSizeSearchOrIterate, maxStringLength)
+	sort.Strings(nodes)
+	values := make([]interface{}, len(nodes), len(nodes))
+	tree, err := trie.NewSlimTrie(encode.Dummy{}, nodes, values, trie.Opt{Complete: trie.Bool(true)})
+	if err != nil {
+		panic(err)
+	}
+
+	unexist := generateRandomStringSlice(searches, 50)
+
+	off := rand.Intn(treeSizeSearchOrIterate / 2)
+
+	// Act
+	for i := 0; i < b.N; i++ {
+		for j := 0; j < searches; j++ {
+			_, _ = tree.Get(nodes[j+off])
+			_, _ = tree.Get(unexist[j])
+		}
+	}
+	b.ReportAllocs()
+}
+
 func Benchmark_StringHashSet_Search(b *testing.B) {
 	// Arrange
 	hs := collections.StringHashSet{}
-	nodes := generateRandomStrings(treeSizeSearchOrIterate, 50)
+	nodes := generateRandomStrings(treeSizeSearchOrIterate, maxStringLength)
 
 	for i := 0; i < treeSizeSearchOrIterate; i++ {
 		hs.Add(string(*nodes[i]))
 	}
 
-	unexist := generateRandomStrings(searches, 50)
+	unexist := generateRandomStrings(searches, maxStringLength)
 
 	off := rand.Intn(treeSizeSearchOrIterate / 2)
 
@@ -231,10 +262,18 @@ func generateRandomBStrings(num int, length int) []*bstring {
 
 func generateRandomStringSlice(num int, length int) []string {
 	result := make([]string, num)
+	existing := collections.NewStringHashSet()
+	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < num; i++ {
-		l := 1 + rand.Intn(length)
+		l := minStringLength + rand.Intn(length-minStringLength)
 		s := randomString(l)
+		exist := existing.Contains(s)
+		for exist {
+			s = randomString(l)
+			exist = existing.Contains(s)
+		}
 		result[i] = s
+		existing.Add(s)
 	}
 	return result
 }
