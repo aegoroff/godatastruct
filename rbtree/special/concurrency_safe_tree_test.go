@@ -424,7 +424,8 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndOrderStatisticSelectTest(
 	wg.Add(nodesCount)
 	for i := 1; i <= nodesCount/2; i++ {
 		go func(ix int) {
-			tree.Delete(rbtree.Int(ix))
+			ix_ := ix
+			tree.Delete(rbtree.Int(ix_))
 			wg.Done()
 		}(i)
 
@@ -440,6 +441,7 @@ func Test_ConcurrencySafeTree_ConcurrentModificationAndOrderStatisticSelectTest(
 
 	// Assert
 	ass.Equal(int64(nodesCount/2), tree.Len())
+	ass.True(res)
 }
 
 func Test_ConcurrencySafeTree_Foreach(t *testing.T) {
