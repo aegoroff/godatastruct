@@ -97,7 +97,7 @@ func NewAscendRange(t RbTree, from, to Comparable) Enumerable {
 
 // NewOpenAscendRange creates Enumerable that walks tree in ascending order within the range (from, to])
 // open means that both ends not necessary present in the tree. If not
-// nearest tree nodes will be found and iteration starts and stops using them
+// the nearest tree nodes will be found and iteration starts and stops using them
 func NewOpenAscendRange(t RbTree, from, to Comparable) Enumerable {
 	ordered := newOrdered(t)
 	e := &ascend{ordered: ordered}
@@ -146,7 +146,7 @@ func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
 
 // NewOpenDescendRange that walks tree in descending order within the range (from, to)
 // open means that both ends not necessary present in the tree. If not
-// nearest tree nodes will be found and iteration starts and stops using them
+// the nearest tree nodes will be found and iteration starts and stops using them
 func NewOpenDescendRange(t RbTree, from, to Comparable) Enumerable {
 	e := newDescend(t)
 

@@ -25,10 +25,10 @@ type RbTree interface {
 	// Search searches value specified within search tree
 	Search(value Comparable) (Comparable, bool)
 
-	// Floor searches value with greatest data lesser than or equal to key value.
+	// Floor searches value with the greatest data lesser than or equal to key value.
 	Floor(value Comparable) (Comparable, bool)
 
-	// Ceiling searches value with smallest data larger than or equal to key value.
+	// Ceiling searches value with the smallest data larger than or equal to key value.
 	Ceiling(value Comparable) (Comparable, bool)
 
 	// SearchAll searches all values with the same key as specified within search tree
@@ -76,7 +76,7 @@ type NodeAction func(Comparable)
 
 // Iterator is an node iterator.
 type Iterator interface {
-	// Node gets current Node
+	// Current gets current Node
 	Current() Comparable
 
 	// Next advances the iterator and returns whether

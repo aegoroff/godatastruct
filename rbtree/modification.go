@@ -11,7 +11,7 @@ func (tree *rbTree) Insert(z Comparable) {
 	tree.insert(n)
 }
 
-// Insert inserts new node into Red-Black tree. Creates Root if tree is empty
+// ReplaceOrInsert inserts new node into Red-Black tree. Creates Root if tree is empty
 func (tree *rbTree) ReplaceOrInsert(z Comparable) Comparable {
 	if z == nil {
 		return nil

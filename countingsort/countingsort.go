@@ -25,7 +25,7 @@ func Ints(items []int, max int) {
 	}
 }
 
-// Ints64Stable sorts int64 slice using stable counting sort algorithm
+// Ints64Stable sorts int64 slice using stable counting sort algorithm,
 // but it allocates more memory and works slower
 func Ints64Stable(items []int64, max int64) {
 	sorted := GetSortedInts64(items, max)
