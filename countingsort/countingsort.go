@@ -1,15 +1,20 @@
 package countingsort
 
+// Integer defines all integer types interface
+type Integer interface {
+	int | int64 | int16 | int8 | int32 | uint | uint8 | uint16 | uint32 | uint64
+}
+
 // Stable sorts slice using stable counting sort algorithm,
 // but it allocates more memory and works slower
-func Stable[T int | int64 | int16 | int8](items []T, max T) {
+func Stable[T Integer](items []T, max T) {
 	sorted := GetSorted(items, max)
 	copy(items, sorted)
 }
 
 // Sort sorts slice using counting sort algorithm that is
 // less stable but in the most cases much faster due to less memory allocations
-func Sort[T int | int64 | int16 | int8](items []T, max T) {
+func Sort[T Integer](items []T, max T) {
 	c := make([]T, max+1)
 
 	for _, item := range items {
@@ -29,7 +34,7 @@ func Sort[T int | int64 | int16 | int8](items []T, max T) {
 }
 
 // GetSorted returns sorted slice
-func GetSorted[T int | int64 | int16 | int8](a []T, max T) []T {
+func GetSorted[T Integer](a []T, max T) []T {
 	b := make([]T, len(a))
 	c := make([]T, max+1)
 
