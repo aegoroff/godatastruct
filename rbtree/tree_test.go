@@ -1,51 +1,10 @@
 package rbtree
 
 import (
-	"fmt"
 	"github.com/stretchr/testify/assert"
-	"gonum.org/v1/gonum/graph/encoding"
-	"gonum.org/v1/gonum/graph/simple"
 	"math/rand"
-	"strings"
 	"testing"
 )
-
-type GraphNode struct {
-	node   *Node
-	NodeID int64
-}
-
-func (n GraphNode) ID() int64 {
-	return n.NodeID
-}
-
-func (n GraphNode) DOTID() string {
-	if key, ok := n.node.key.(*String); ok {
-		return fmt.Sprintf("\"%s\"", *key)
-	}
-
-	if key, ok := n.node.key.(Int); ok {
-		return fmt.Sprintf("\"%d\"", key)
-	}
-
-	return ""
-}
-
-func (n GraphNode) Attributes() []encoding.Attribute {
-	node := *n.node
-
-	fc := "black"
-	if node.color == red {
-		fc = "red"
-	}
-
-	fillcolor := encoding.Attribute{Key: "fillcolor", Value: fc}
-	fontcolor := encoding.Attribute{Key: "fontcolor", Value: "white"}
-	style := encoding.Attribute{Key: "style", Value: "filled"}
-	shape := encoding.Attribute{Key: "shape", Value: "box"}
-	label := encoding.Attribute{Key: "label", Value: fmt.Sprintf(`"%s [%d]"`, strings.Trim(n.DOTID(), `"`), node.size)}
-	return []encoding.Attribute{fontcolor, fillcolor, style, label, shape}
-}
 
 func Test_Len(t *testing.T) {
 	var tests = []struct {
@@ -312,47 +271,6 @@ func Test_DifferentKeyInsertDeleteReverseOrderLen_TreeLenAsExpected(t *testing.T
 	ass.Equal(int64(0), tree.Len())
 
 	// Assert
-}
-
-func Test_GraphvizString(t *testing.T) {
-	// Arrange
-	tree := newTestStringTree()
-
-	// Act
-	graphviz := getTreeAsGraphviz(tree)
-
-	// Assert
-	t.Log(graphviz)
-}
-
-func getTreeAsGraphviz(tree RbTree) string {
-	b := strings.Builder{}
-	gr := simple.NewUndirectedGraph()
-
-	var id int64
-
-	it := NewWalkPreorder(tree).Iterator()
-
-	for it.Next() {
-		nod := it.(*walkPreorder).current()
-		gn := &GraphNode{node: nod, NodeID: id}
-		gr.AddNode(gn)
-		id++
-
-		for i := id - 2; i >= 0; i-- {
-			n := gr.Node(i)
-			if nod.parent != nil && n.(*GraphNode).node == nod.parent {
-				edge := gr.NewEdge(n, gn)
-				gr.SetEdge(edge)
-				break
-			}
-		}
-	}
-
-	//data, _ := dot.Marshal(gr, "", " ", " ")
-	//b.Write(data)
-
-	return b.String()
 }
 
 func Test_Delete_NodeDeleted(t *testing.T) {

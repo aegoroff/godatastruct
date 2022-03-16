@@ -263,8 +263,6 @@ func (e *enumerable) Iterator() Iterator { return e.it }
 
 func (i *iterator) Current() Comparable { return i.curr.key }
 
-func (i *iterator) current() *Node { return i.curr }
-
 func newWalk(t RbTree) walk {
 	it := iterator{tree: t}
 
