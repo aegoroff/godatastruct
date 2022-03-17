@@ -1,2 +1,2 @@
-// Package countingsort provides counting sort methods that sorts int or in64 slice using counting sort algorithm
+// Package countingsort provides counting sort methods that sorts any integer's slices (i.e. int, int64, int8 etc.) using counting sort algorithm
 package countingsort
