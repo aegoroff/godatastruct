@@ -2,6 +2,7 @@ package collections
 
 import (
 	"fmt"
+	"github.com/aegoroff/godatastruct/types"
 	"github.com/stretchr/testify/assert"
 	"sort"
 	"strings"
@@ -580,7 +581,7 @@ func ExampleInt64HashSet_SortedItems() {
 	set.Add(1)
 	set.Add(2)
 
-	items := set.SortedItems(func(a []int64) { sort.Sort(Int64Slice(a)) })
+	items := set.SortedItems(func(a []int64) { sort.Sort(types.Int64Slice(a)) })
 
 	fmt.Println(items)
 	// Output:
