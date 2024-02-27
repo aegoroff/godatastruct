@@ -47,7 +47,7 @@ func (tree *rbTree) SearchAll(value Comparable) []Comparable {
 	return result
 }
 
-// SearchNode searches *Node which key is equals value specified
+// SearchNode searches *Node which key is equal to value specified
 func (tree *rbTree) SearchNode(value Comparable) (*Node, bool) {
 	if tree.root.isNil() {
 		return nil, false
