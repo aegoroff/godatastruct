@@ -39,7 +39,9 @@ jobs:
 
     - name: Test with coverage
       if: matrix.build == 'linux'
-      run: go test -coverprofile=coverage.txt -covermode=atomic ./...
+      run: |
+        mkdir _icoverdir_
+        go test -coverprofile=coverage.txt -covermode=atomic ./...
 
     - name: Test
       if: matrix.build != 'linux'
