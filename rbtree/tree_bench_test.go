@@ -144,7 +144,7 @@ func Benchmark_SlimTrie_Search(b *testing.B) {
 
 func Benchmark_StringHashSet_Search(b *testing.B) {
 	// Arrange
-	hs := collections.StringHashSet{}
+	hs := collections.HashSet[string]{}
 	nodes := generateRandomStrings(treeSizeSearchOrIterate, maxStringLength)
 
 	for i := 0; i < treeSizeSearchOrIterate; i++ {
@@ -262,7 +262,7 @@ func generateRandomBStrings(num int, length int) []*bstring {
 
 func generateRandomStringSlice(num int, length int) []string {
 	result := make([]string, num)
-	existing := collections.NewStringHashSet()
+	existing := collections.NewHashSet[string]()
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < num; i++ {
 		l := minStringLength + rand.Intn(length-minStringLength)

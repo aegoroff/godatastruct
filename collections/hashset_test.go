@@ -2,11 +2,11 @@ package collections
 
 import (
 	"fmt"
-	"github.com/aegoroff/godatastruct/types"
-	"github.com/stretchr/testify/assert"
 	"sort"
 	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // IntHashSet
@@ -14,7 +14,7 @@ import (
 func TestIntHashSet_EmptySet_NoKey(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewIntHashSet()
+	var set = NewHashSet[int]()
 
 	// Act
 
@@ -26,7 +26,7 @@ func TestIntHashSet_EmptySet_NoKey(t *testing.T) {
 func TestIntHashSet_Add_ItemAdded(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewIntHashSet()
+	var set = NewHashSet[int]()
 	k := 1
 
 	// Act
@@ -40,7 +40,7 @@ func TestIntHashSet_Add_ItemAdded(t *testing.T) {
 func TestIntHashSet_AddRange_ItemsAdded(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewIntHashSet()
+	var set = NewHashSet[int]()
 	k1 := 1
 	k2 := 2
 
@@ -57,7 +57,7 @@ func TestIntHashSet_AddRange_ItemsAdded(t *testing.T) {
 func TestIntHashSet_Remove_ItemRemoved(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewIntHashSet()
+	var set = NewHashSet[int]()
 
 	k := 1
 	set.Add(k)
@@ -73,7 +73,7 @@ func TestIntHashSet_Remove_ItemRemoved(t *testing.T) {
 func TestIntHashSet_RemoveUnexist_NothingHappend(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewIntHashSet()
+	var set = NewHashSet[int]()
 
 	k := 1
 	set.Add(k)
@@ -89,7 +89,7 @@ func TestIntHashSet_RemoveUnexist_NothingHappend(t *testing.T) {
 func TestIntHashSet_Contains_ResultTrue(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewIntHashSet()
+	var set = NewHashSet[int]()
 	set.Add(1)
 
 	// Act
@@ -102,7 +102,7 @@ func TestIntHashSet_Contains_ResultTrue(t *testing.T) {
 func TestIntHashSet_ContainsUnexistKey_ResultFalse(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewIntHashSet()
+	var set = NewHashSet[int]()
 	set.Add(1)
 
 	// Act
@@ -128,7 +128,7 @@ func TestIntHashSet_Count_ResultAsSpecified(t *testing.T) {
 			// Arrange
 			ass := assert.New(t)
 
-			var set = NewIntHashSet()
+			var set = NewHashSet[int]()
 			for _, i := range tt.items {
 				set.Add(i)
 			}
@@ -157,7 +157,7 @@ func TestIntHashSet_Items_ResultAsSpecified(t *testing.T) {
 			// Arrange
 			ass := assert.New(t)
 
-			var set = NewIntHashSet()
+			var set = NewHashSet[int]()
 			for _, i := range tt.items {
 				set.Add(i)
 			}
@@ -176,7 +176,7 @@ func TestIntHashSet_Items_ResultAsSpecified(t *testing.T) {
 func TestInt64HashSet_EmptySet_NoKey(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewInt64HashSet()
+	var set = NewHashSet[int64]()
 
 	// Act
 
@@ -188,7 +188,7 @@ func TestInt64HashSet_EmptySet_NoKey(t *testing.T) {
 func TestInt64HashSet_Add_ItemAdded(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewInt64HashSet()
+	var set = NewHashSet[int64]()
 
 	// Act
 	set.Add(1)
@@ -201,7 +201,7 @@ func TestInt64HashSet_Add_ItemAdded(t *testing.T) {
 func TestInt64HashSet_AddRange_ItemsAdded(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewInt64HashSet()
+	var set = NewHashSet[int64]()
 	k1 := int64(1)
 	k2 := int64(2)
 
@@ -218,7 +218,7 @@ func TestInt64HashSet_AddRange_ItemsAdded(t *testing.T) {
 func TestInt64HashSet_Remove_ItemRemoved(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewInt64HashSet()
+	var set = NewHashSet[int64]()
 
 	k := int64(1)
 	set.Add(k)
@@ -234,7 +234,7 @@ func TestInt64HashSet_Remove_ItemRemoved(t *testing.T) {
 func TestInt64HashSet_RemoveUnexist_NothingHappened(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewInt64HashSet()
+	var set = NewHashSet[int64]()
 
 	k := int64(1)
 	set.Add(k)
@@ -250,7 +250,7 @@ func TestInt64HashSet_RemoveUnexist_NothingHappened(t *testing.T) {
 func TestInt64HashSet_Contains_ResultTrue(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewInt64HashSet()
+	var set = NewHashSet[int64]()
 	set.Add(1)
 
 	// Act
@@ -263,7 +263,7 @@ func TestInt64HashSet_Contains_ResultTrue(t *testing.T) {
 func TestInt64HashSet_ContainsUnexistKey_ResultFalse(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewInt64HashSet()
+	var set = NewHashSet[int64]()
 	set.Add(1)
 
 	// Act
@@ -289,7 +289,7 @@ func TestInt64HashSet_Count_ResultAsSpecified(t *testing.T) {
 			// Arrange
 			ass := assert.New(t)
 
-			var set = NewInt64HashSet()
+			var set = NewHashSet[int64]()
 			for _, i := range tt.items {
 				set.Add(i)
 			}
@@ -318,7 +318,7 @@ func TestInt64HashSet_Items_ResultAsSpecified(t *testing.T) {
 			// Arrange
 			ass := assert.New(t)
 
-			var set = NewInt64HashSet()
+			var set = NewHashSet[int64]()
 			for _, i := range tt.items {
 				set.Add(i)
 			}
@@ -337,7 +337,7 @@ func TestInt64HashSet_Items_ResultAsSpecified(t *testing.T) {
 func TestStringHashSet_EmptySet_NoKey(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewStringHashSet()
+	var set = NewHashSet[string]()
 
 	// Act
 
@@ -349,7 +349,7 @@ func TestStringHashSet_EmptySet_NoKey(t *testing.T) {
 func TestStringHashSet_Add_ItemAdded(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewStringHashSet()
+	var set = NewHashSet[string]()
 	k := "1"
 
 	// Act
@@ -363,7 +363,7 @@ func TestStringHashSet_Add_ItemAdded(t *testing.T) {
 func TestStringHashSet_AddRange_ItemsAdded(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewStringHashSet()
+	var set = NewHashSet[string]()
 	k1 := "1"
 	k2 := "2"
 
@@ -380,7 +380,7 @@ func TestStringHashSet_AddRange_ItemsAdded(t *testing.T) {
 func TestStringHashSet_Remove_ItemRemoved(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewStringHashSet()
+	var set = NewHashSet[string]()
 
 	k := "1"
 	set.Add(k)
@@ -396,7 +396,7 @@ func TestStringHashSet_Remove_ItemRemoved(t *testing.T) {
 func TestStringHashSet_RemoveUnexist_NothingHappened(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewStringHashSet()
+	var set = NewHashSet[string]()
 
 	k := "1"
 	set.Add(k)
@@ -412,7 +412,7 @@ func TestStringHashSet_RemoveUnexist_NothingHappened(t *testing.T) {
 func TestStringHashSet_Contains_ResultTrue(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewStringHashSet()
+	var set = NewHashSet[string]()
 	set.Add("1")
 
 	// Act
@@ -425,7 +425,7 @@ func TestStringHashSet_Contains_ResultTrue(t *testing.T) {
 func TestStringHashSet_ContainsUnexistKey_ResultFalse(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
-	var set = NewStringHashSet()
+	var set = NewHashSet[string]()
 	set.Add("1")
 
 	// Act
@@ -451,7 +451,7 @@ func TestStringHashSet_Count_ResultAsSpecified(t *testing.T) {
 			// Arrange
 			ass := assert.New(t)
 
-			var set = NewStringHashSet()
+			var set = NewHashSet[string]()
 			for _, i := range tt.items {
 				set.Add(i)
 			}
@@ -480,7 +480,7 @@ func TestStringHashSet_Items_ResultAsSpecified(t *testing.T) {
 			// Arrange
 			ass := assert.New(t)
 
-			var set = NewStringHashSet()
+			var set = NewHashSet[string]()
 			for _, i := range tt.items {
 				set.Add(i)
 			}
@@ -511,7 +511,7 @@ func TestStringHashSet_ItemsDecorated_ResultAsSpecified(t *testing.T) {
 			// Arrange
 			ass := assert.New(t)
 
-			var set = NewStringHashSet()
+			var set = NewHashSet[string]()
 			for _, i := range items {
 				set.Add(i)
 			}
@@ -525,8 +525,8 @@ func TestStringHashSet_ItemsDecorated_ResultAsSpecified(t *testing.T) {
 	}
 }
 
-func ExampleStringHashSet_Contains() {
-	var set = NewStringHashSet()
+func ExampleHashSet_Contains() {
+	var set = NewHashSet[string]()
 	set.Add("1")
 	fmt.Println(set.Contains("1"))
 	fmt.Println(set.Contains("2"))
@@ -535,8 +535,8 @@ func ExampleStringHashSet_Contains() {
 	// false
 }
 
-func ExampleStringHashSet_ItemsDecorated() {
-	var set = NewStringHashSet()
+func ExampleHashSet_ItemsDecorated() {
+	var set = NewHashSet[string]()
 	set.Add("a")
 
 	itemsOriginal := set.ItemsDecorated(func(s string) string { return s })
@@ -549,8 +549,8 @@ func ExampleStringHashSet_ItemsDecorated() {
 	// [A]
 }
 
-func ExampleStringHashSet_SortedItems() {
-	var set = NewStringHashSet()
+func ExampleHashSet_SortedItems() {
+	var set = NewHashSet[string]()
 	set.Add("c")
 	set.Add("a")
 	set.Add("b")
@@ -560,30 +560,4 @@ func ExampleStringHashSet_SortedItems() {
 	fmt.Println(items)
 	// Output:
 	// [a b c]
-}
-
-func ExampleIntHashSet_SortedItems() {
-	var set = NewIntHashSet()
-	set.Add(3)
-	set.Add(1)
-	set.Add(2)
-
-	items := set.SortedItems(sort.Ints)
-
-	fmt.Println(items)
-	// Output:
-	// [1 2 3]
-}
-
-func ExampleInt64HashSet_SortedItems() {
-	var set = NewInt64HashSet()
-	set.Add(3)
-	set.Add(1)
-	set.Add(2)
-
-	items := set.SortedItems(func(a []int64) { sort.Sort(types.Int64Slice(a)) })
-
-	fmt.Println(items)
-	// Output:
-	// [1 2 3]
 }
