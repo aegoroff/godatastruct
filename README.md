@@ -15,7 +15,7 @@ Implementations of various fundamental data structures as tree, stacks, queues e
 | rbtree | Red-black binary tree implementation that supports ordered statistic |
 | rbtree/special | Contains specialized Red-black search binary tree implementations |
 | countingsort | Counting sort is an algorithm for sorting a collection of objects according to keys that are small integers; that is, it is an integer sorting algorithm. |
-| collections | Various containers. Now only int, int64 and string hashsets implemented |
+| collections | Various containers. Now only generic hashset implemented |
 
 ## Benchmarks
 
