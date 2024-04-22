@@ -3,7 +3,7 @@ package collections
 // HashSet defines a hash set
 type HashSet[T comparable] map[T]struct{}
 
-// NewIntHashSet creates new IntHashSet
+// NewHashSet creates new HashSet
 func NewHashSet[T comparable]() HashSet[T] {
 	return make(HashSet[T])
 }
