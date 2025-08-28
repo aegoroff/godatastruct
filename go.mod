@@ -16,5 +16,5 @@ require (
 	github.com/openacid/low v0.1.14 // indirect
 	github.com/openacid/must v0.1.3 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	gopkg.in/yaml.v3 v3.0.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
