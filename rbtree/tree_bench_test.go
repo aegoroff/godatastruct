@@ -6,7 +6,6 @@ import (
 	"math/rand"
 	"sort"
 	"testing"
-	"time"
 
 	"github.com/aegoroff/godatastruct/collections"
 	"github.com/google/btree"
@@ -264,7 +263,6 @@ func generateRandomBStrings(num int, length int) []*bstring {
 func generateRandomStringSlice(num int, length int) []string {
 	result := make([]string, num)
 	existing := collections.NewHashSet[string]()
-	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < num; i++ {
 		l := minStringLength + rand.Intn(length-minStringLength)
 		s := randomString(l)
