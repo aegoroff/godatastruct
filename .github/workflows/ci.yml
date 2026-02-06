@@ -17,6 +17,7 @@ jobs:
     strategy:
       matrix:
         go: ["1.24"]
+        build: [ linux, darwin, windows ]
         include:
           - build: linux
             os: ubuntu-latest
