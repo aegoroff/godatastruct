@@ -3,14 +3,15 @@ package rbtree
 import (
 	"bytes"
 	"fmt"
-	"github.com/aegoroff/godatastruct/collections"
-	"github.com/google/btree"
-	"github.com/openacid/slim/encode"
-	"github.com/openacid/slim/trie"
 	"math/rand"
 	"sort"
 	"testing"
 	"time"
+
+	"github.com/aegoroff/godatastruct/collections"
+	"github.com/google/btree"
+	"github.com/openacid/slim/encode"
+	"github.com/openacid/slim/trie"
 )
 
 const treeSizeInsert = 20000
@@ -122,7 +123,7 @@ func Benchmark_SlimTrie_Search(b *testing.B) {
 	// Arrange
 	nodes := generateRandomStringSlice(treeSizeSearchOrIterate, maxStringLength)
 	sort.Strings(nodes)
-	values := make([]interface{}, len(nodes), len(nodes))
+	values := make([]any, len(nodes))
 	tree, err := trie.NewSlimTrie(encode.Dummy{}, nodes, values, trie.Opt{Complete: trie.Bool(true)})
 	if err != nil {
 		panic(err)
