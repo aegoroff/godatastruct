@@ -3,7 +3,7 @@ module github.com/aegoroff/godatastruct
 go 1.24
 
 require (
-	github.com/google/btree v1.0.0
+	github.com/google/btree v1.1.3
 	github.com/openacid/slim v0.5.11
 	github.com/stretchr/testify v1.7.1
 )
