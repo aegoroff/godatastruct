@@ -14,10 +14,5 @@ builds:
     skip: true
 
 snapshot:
-  name_template: "{{ .Tag }}"
-changelog:
-  sort: asc
-  filters:
-    exclude:
-      - "^docs:"
-      - "^test:"
+  version_template: "{{ .Tag }}"
+
