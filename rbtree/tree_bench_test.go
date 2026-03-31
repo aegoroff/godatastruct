@@ -78,7 +78,7 @@ func Benchmark_RbTree_Search(b *testing.B) {
 	tree := New()
 	nodes := generateRandomStrings(treeSizeSearchOrIterate, maxStringLength)
 
-	for i := 0; i < treeSizeSearchOrIterate; i++ {
+	for i := range treeSizeSearchOrIterate {
 		tree.Insert(nodes[i])
 	}
 
@@ -88,7 +88,7 @@ func Benchmark_RbTree_Search(b *testing.B) {
 
 	// Act
 	for i := 0; i < b.N; i++ {
-		for j := 0; j < searches; j++ {
+		for j := range searches {
 			tree.Search(nodes[j+off])
 			tree.Search(unexist[j])
 		}
@@ -100,7 +100,7 @@ func Benchmark_BTree_Search(b *testing.B) {
 	// Arrange
 	tree := btree.New(bTreeDegree)
 	nodes := generateRandomBStrings(treeSizeSearchOrIterate, maxStringLength)
-	for i := 0; i < treeSizeSearchOrIterate; i++ {
+	for i := range treeSizeSearchOrIterate {
 		tree.ReplaceOrInsert(nodes[i])
 	}
 
@@ -110,7 +110,7 @@ func Benchmark_BTree_Search(b *testing.B) {
 
 	// Act
 	for i := 0; i < b.N; i++ {
-		for j := 0; j < searches; j++ {
+		for j := range searches {
 			tree.Has(nodes[j+off])
 			tree.Has(unexist[j])
 		}
@@ -134,7 +134,7 @@ func Benchmark_SlimTrie_Search(b *testing.B) {
 
 	// Act
 	for i := 0; i < b.N; i++ {
-		for j := 0; j < searches; j++ {
+		for j := range searches {
 			_, _ = tree.Get(nodes[j+off])
 			_, _ = tree.Get(unexist[j])
 		}
@@ -147,7 +147,7 @@ func Benchmark_StringHashSet_Search(b *testing.B) {
 	hs := collections.HashSet[string]{}
 	nodes := generateRandomStrings(treeSizeSearchOrIterate, maxStringLength)
 
-	for i := 0; i < treeSizeSearchOrIterate; i++ {
+	for i := range treeSizeSearchOrIterate {
 		hs.Add(string(*nodes[i]))
 	}
 
@@ -157,7 +157,7 @@ func Benchmark_StringHashSet_Search(b *testing.B) {
 
 	// Act
 	for i := 0; i < b.N; i++ {
-		for j := 0; j < searches; j++ {
+		for j := range searches {
 			hs.Contains(string(*nodes[j+off]))
 			hs.Contains(string(*unexist[j]))
 		}
@@ -263,7 +263,7 @@ func generateRandomBStrings(num int, length int) []*bstring {
 func generateRandomStringSlice(num int, length int) []string {
 	result := make([]string, num)
 	existing := collections.NewHashSet[string]()
-	for i := 0; i < num; i++ {
+	for i := range num {
 		l := minStringLength + rand.Intn(length-minStringLength)
 		s := randomString(l)
 		exist := existing.Contains(s)

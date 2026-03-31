@@ -179,7 +179,7 @@ func Test_DeleteAllWhenTreeContainsSameElements_TreeLenAsExpected(t *testing.T) 
 
 			for _, in := range test.input {
 				k := NewString(in)
-				for i := 0; i < nodesCount; i++ {
+				for range nodesCount {
 					tree.Insert(k)
 				}
 			}
