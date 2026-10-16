@@ -35,7 +35,7 @@ func (tree *rbTree) Ceiling(value Comparable) (Comparable, bool) {
 
 func (tree *rbTree) SearchAll(value Comparable) []Comparable {
 	var result []Comparable
-	n, ok := tree.SearchNode(value)
+	n, ok := tree.root.searchEdge(value, false)
 	if ok {
 		result = append(result, n.key)
 		s := n.Successor()
@@ -78,6 +78,33 @@ func (n *Node) search(value Comparable) (*Node, bool) {
 	}
 
 	return x, true
+}
+
+// searchEdge searches the leftmost (or the rightmost if rightmost is true) node
+// which key is equal to value specified. Equal keys may be located in both
+// subtrees of a found node after rotations so search continues down to the leaf
+func (n *Node) searchEdge(value Comparable, rightmost bool) (*Node, bool) {
+	if value == nil {
+		return nil, false
+	}
+	var found *Node
+	x := n
+	for x.isNotNil() {
+		if value.Equal(x.key) {
+			found = x
+			if rightmost {
+				x = x.right
+			} else {
+				x = x.left
+			}
+		} else if value.Less(x.key) {
+			x = x.left
+		} else {
+			x = x.right
+		}
+	}
+
+	return found, found != nil
 }
 
 func (n *Node) floor(value Comparable) (*Node, bool) {

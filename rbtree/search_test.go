@@ -112,6 +112,23 @@ func Test_SearchAllIntTree_Success(t *testing.T) {
 	}
 }
 
+func Test_SearchAllDuplicatesInBothSubtrees_AllFound(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := New()
+	for range 10 {
+		tree.Insert(Int(2))
+	}
+	tree.Insert(Int(1))
+	tree.Insert(Int(3))
+
+	// Act
+	found := tree.SearchAll(Int(2))
+
+	// Assert
+	ass.Equal(10, len(found))
+}
+
 func Test_SearchStringTree_Success(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)

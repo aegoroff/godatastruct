@@ -86,7 +86,7 @@ func NewAscendRange(t RbTree, from, to Comparable) Enumerable {
 	e := &ascend{ordered: ordered}
 	e.it = e
 
-	n, ok := e.tree.SearchNode(from)
+	n, ok := e.tree.Root().searchEdge(from, false)
 	if ok && to != nil {
 		e.next = n
 		e.to = to
@@ -103,14 +103,14 @@ func NewOpenAscendRange(t RbTree, from, to Comparable) Enumerable {
 	e := &ascend{ordered: ordered}
 	e.it = e
 
-	n, ok := e.tree.SearchNode(from)
+	n, ok := e.tree.Root().searchEdge(from, false)
 	if ok && to != nil {
 		e.next = n
 		e.to = to
 	} else if from != nil && to != nil {
 		fn, ok := e.tree.Ceiling(from)
 		if ok {
-			e.next, _ = e.tree.SearchNode(fn)
+			e.next, _ = e.tree.Root().searchEdge(fn, false)
 			e.to = to
 		}
 	}
@@ -135,7 +135,7 @@ func NewDescend(t RbTree) Enumerable {
 func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
 	e := newDescend(t)
 
-	n, ok := e.tree.SearchNode(from)
+	n, ok := e.tree.Root().searchEdge(from, true)
 	if ok && to != nil {
 		e.next = n
 		e.to = to
@@ -150,14 +150,14 @@ func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
 func NewOpenDescendRange(t RbTree, from, to Comparable) Enumerable {
 	e := newDescend(t)
 
-	n, ok := e.tree.SearchNode(from)
+	n, ok := e.tree.Root().searchEdge(from, true)
 	if ok && to != nil {
 		e.next = n
 		e.to = to
 	} else if from != nil && to != nil {
 		fn, ok := e.tree.Floor(from)
 		if ok {
-			e.next, _ = e.tree.SearchNode(fn)
+			e.next, _ = e.tree.Root().searchEdge(fn, true)
 			e.to = to
 		}
 	}

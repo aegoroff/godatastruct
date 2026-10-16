@@ -199,3 +199,36 @@ func Test_InorderWalkString_AllElementsAscending(t *testing.T) {
 	// Assert
 	ass.Equal([]string{"abc", "amd", "cisco", "do", "fake", "intel", "it", "let", "microsoft", "russia", "usa", "xxx", "yyy", "zen"}, result)
 }
+
+func Test_RangesWithDuplicatesInBothSubtrees_AllDuplicatesIncluded(t *testing.T) {
+	var tests = []struct {
+		name string
+		it   func(t RbTree) Enumerable
+	}{
+		{"ascend range", func(t RbTree) Enumerable { return NewAscendRange(t, Int(3), Int(3)) }},
+		{"descend range", func(t RbTree) Enumerable { return NewDescendRange(t, Int(3), Int(3)) }},
+		{"open ascend range", func(t RbTree) Enumerable { return NewOpenAscendRange(t, Int(2), Int(3)) }},
+		{"open descend range", func(t RbTree) Enumerable { return NewOpenDescendRange(t, Int(4), Int(3)) }},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+			tree := New()
+			for range 10 {
+				tree.Insert(Int(3))
+			}
+			tree.Insert(Int(1))
+			tree.Insert(Int(5))
+			var result []int
+
+			// Act
+			test.it(tree).Foreach(func(c Comparable) {
+				result = append(result, GetInt(c))
+			})
+
+			// Assert
+			ass.Equal([]int{3, 3, 3, 3, 3, 3, 3, 3, 3, 3}, result)
+		})
+	}
+}
