@@ -293,6 +293,41 @@ func Test_Delete_NodeDeleted(t *testing.T) {
 	ass.Equal("microsoft", found.key.(*String).String())
 }
 
+func Test_DeleteRandomNodes_SizesAndOrderStatisticsCorrect(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	r := rand.New(rand.NewSource(1))
+	tree := newRbTree()
+	for range 500 {
+		tree.Insert(Int(r.Intn(1000)))
+	}
+
+	// Act
+	for range 200 {
+		tree.Delete(tree.root.key)
+		tree.Delete(Int(r.Intn(1000)))
+	}
+
+	// Assert
+	ass.Equal(tree.Len(), assertSubtreeSizes(ass, tree, tree.root))
+	var i int64
+	NewWalkInorder(tree).Foreach(func(c Comparable) {
+		i++
+		n, ok := tree.OrderStatisticSelect(i)
+		ass.True(ok)
+		ass.Equal(c, n.key)
+	})
+}
+
+func assertSubtreeSizes(ass *assert.Assertions, tree *rbTree, n *Node) int64 {
+	if n == tree.tnil {
+		return 0
+	}
+	size := assertSubtreeSizes(ass, tree, n.left) + assertSubtreeSizes(ass, tree, n.right) + 1
+	ass.Equal(size, n.size, "node %v", n.key)
+	return size
+}
+
 func Test_deleteNil_NothingDeleted(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)

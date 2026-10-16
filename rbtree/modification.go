@@ -134,12 +134,15 @@ func (tree *rbTree) delete(z *Node) {
 		return
 	}
 
+	// y is the node that is physically removed from its position:
+	// z itself or z's successor if z has two children
 	y := z
+	if z.left != tree.tnil && z.right != tree.tnil {
+		y = z.right.minimum()
+	}
 
-	p := z.parent
-	for p != tree.tnil {
+	for p := y.parent; p != tree.tnil; p = p.parent {
 		p.size--
-		p = p.parent
 	}
 
 	var x *Node
@@ -151,8 +154,6 @@ func (tree *rbTree) delete(z *Node) {
 		x = z.left
 		rbTransplant(tree, z, z.left)
 	} else {
-		y := z.right.minimum()
-		yOriginalColor = y.color
 		x = y.right
 		if y.parent == z {
 			x.parent = y
@@ -165,6 +166,7 @@ func (tree *rbTree) delete(z *Node) {
 		y.left = z.left
 		y.left.parent = y
 		y.color = z.color
+		y.size = z.size
 	}
 	if yOriginalColor == black {
 		rbDeleteFixup(tree, x)
@@ -233,7 +235,6 @@ func rbDeleteFixup(tree *rbTree, x *Node) {
 func rbTransplant(tree *rbTree, u *Node, v *Node) {
 	if u.parent == tree.tnil {
 		tree.root = v
-		tree.root.size = u.size - 1
 	} else if u == u.parent.left {
 		u.parent.left = v
 	} else {
