@@ -108,7 +108,7 @@ func (t *minTree) Insert(c rbtree.Comparable) {
 	}
 
 	max := t.tree.Maximum()
-	if t.tree.Len() < t.size || !max.Key().Less(c) {
+	if t.tree.Len() < t.size || c.Less(max.Key()) {
 		if t.tree.Len() == t.size {
 			t.tree.Delete(max.Key())
 		}

@@ -589,6 +589,44 @@ func Test_ReplaceOrInsertExistingKeyInFullTree_ReplacedValueReturnedNothingEvict
 	}
 }
 
+// payload is Comparable which carries value that isn't involved in comparison
+type payload struct {
+	key   int
+	value string
+}
+
+func (x *payload) Less(y rbtree.Comparable) bool  { return x.key < y.(*payload).key }
+func (x *payload) Equal(y rbtree.Comparable) bool { return x.key == y.(*payload).key }
+
+func Test_InsertBoundaryKeyIntoFullTree_OriginalNodeKept(t *testing.T) {
+	var tests = []struct {
+		name     string
+		tree     rbtree.RbTree
+		boundary int
+	}{
+		{"max tree min key", NewMaxTree(3), 1},
+		{"min tree max key", NewMinTree(3), 3},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+			for i := 1; i <= 3; i++ {
+				test.tree.Insert(&payload{key: i, value: "original"})
+			}
+
+			// Act
+			test.tree.Insert(&payload{key: test.boundary, value: "new"})
+
+			// Assert
+			found, ok := test.tree.Search(&payload{key: test.boundary})
+			ass.True(ok)
+			ass.Equal("original", found.(*payload).value)
+			ass.Equal(int64(3), test.tree.Len())
+		})
+	}
+}
+
 func Test_FixedTreeNonPositiveSize_NothingInserted(t *testing.T) {
 	var tests = []struct {
 		name string
