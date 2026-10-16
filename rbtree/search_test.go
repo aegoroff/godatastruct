@@ -361,7 +361,6 @@ func Test_Floor_Success(t *testing.T) {
 		node     int
 		expected int
 	}{
-		{"1", 1, 2},
 		{"2", 2, 2},
 		{"5", 5, 4},
 		{"12", 12, 9},
@@ -400,6 +399,19 @@ func Test_FloorEmptyTree(t *testing.T) {
 	ass.Nil(found)
 }
 
+func Test_FloorLessThanMin_NotFound(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := newIntTestTree()
+
+	// Act
+	found, ok := tree.Floor(Int(1))
+
+	// Assert
+	ass.False(ok)
+	ass.Nil(found)
+}
+
 func Test_FloorNullValye(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
@@ -424,7 +436,6 @@ func Test_Ceiling_Success(t *testing.T) {
 		{"5", 5, 6},
 		{"12", 12, 13},
 		{"20", 20, 20},
-		{"21", 21, 20},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -452,6 +463,19 @@ func Test_CeilingEmptyTree(t *testing.T) {
 
 	// Act
 	found, ok := tree.Ceiling(v)
+
+	// Assert
+	ass.False(ok)
+	ass.Nil(found)
+}
+
+func Test_CeilingGreaterThanMax_NotFound(t *testing.T) {
+	// Arrange
+	ass := assert.New(t)
+	tree := newIntTestTree()
+
+	// Act
+	found, ok := tree.Ceiling(Int(21))
 
 	// Assert
 	ass.False(ok)

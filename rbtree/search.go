@@ -116,9 +116,6 @@ func (n *Node) floor(value Comparable) (*Node, bool) {
 	x = n
 	for x.isNotNil() && !value.Equal(x.key) {
 		if value.Less(x.key) {
-			if min.isNil() && x.left.isNil() {
-				min = x
-			}
 			x = x.left
 		} else {
 			min = x
@@ -130,7 +127,7 @@ func (n *Node) floor(value Comparable) (*Node, bool) {
 		return x, true
 	}
 
-	return min, true
+	return min, min != nil
 }
 
 func (n *Node) ceiling(value Comparable) (*Node, bool) {
@@ -145,9 +142,6 @@ func (n *Node) ceiling(value Comparable) (*Node, bool) {
 			max = x
 			x = x.left
 		} else {
-			if max.isNil() && x.right.isNil() {
-				max = x
-			}
 			x = x.right
 		}
 	}
@@ -156,7 +150,7 @@ func (n *Node) ceiling(value Comparable) (*Node, bool) {
 		return x, true
 	}
 
-	return max, true
+	return max, max != nil
 }
 
 // Minimum gets tree's min element

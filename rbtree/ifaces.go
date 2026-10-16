@@ -26,9 +26,11 @@ type RbTree interface {
 	Search(value Comparable) (Comparable, bool)
 
 	// Floor searches value with the greatest data lesser than or equal to key value.
+	// It returns false if there is no such value, i.e. key value is less than tree's min.
 	Floor(value Comparable) (Comparable, bool)
 
 	// Ceiling searches value with the smallest data larger than or equal to key value.
+	// It returns false if there is no such value, i.e. key value is greater than tree's max.
 	Ceiling(value Comparable) (Comparable, bool)
 
 	// SearchAll searches all values with the same key as specified within search tree

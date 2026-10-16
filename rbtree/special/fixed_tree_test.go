@@ -250,7 +250,7 @@ func Test_FloorIntTree_Success(t *testing.T) {
 		key      int
 		expected int
 	}{
-		{"Min tree", minTree, 0, 1},
+		{"Min tree", minTree, 5, 3},
 		{"Max tree", maxTree, 11, 10},
 	}
 	for _, test := range tests {
@@ -285,7 +285,7 @@ func Test_CeilingIntTree_Success(t *testing.T) {
 		key      int
 		expected int
 	}{
-		{"Min tree", minTree, 4, 3},
+		{"Min tree", minTree, 0, 1},
 		{"Max tree", maxTree, 5, 8},
 	}
 	for _, test := range tests {

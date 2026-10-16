@@ -109,8 +109,7 @@ func NewOpenAscendRange(t RbTree, from, to Comparable) Enumerable {
 		e.to = to
 	} else if from != nil && to != nil {
 		fn, ok := e.tree.Ceiling(from)
-		// Ceiling returns tree's max if from is greater than it
-		if ok && !fn.Less(from) {
+		if ok {
 			e.next, _ = e.tree.Root().searchEdge(fn, false)
 			e.to = to
 		}
@@ -157,8 +156,7 @@ func NewOpenDescendRange(t RbTree, from, to Comparable) Enumerable {
 		e.to = to
 	} else if from != nil && to != nil {
 		fn, ok := e.tree.Floor(from)
-		// Floor returns tree's min if from is less than it
-		if ok && !from.Less(fn) {
+		if ok {
 			e.next, _ = e.tree.Root().searchEdge(fn, true)
 			e.to = to
 		}
