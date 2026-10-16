@@ -95,9 +95,9 @@ func NewAscendRange(t RbTree, from, to Comparable) Enumerable {
 	return e
 }
 
-// NewOpenAscendRange creates Enumerable that walks tree in ascending order within the range (from, to])
-// open means that both ends not necessary present in the tree. If not
-// the nearest tree nodes will be found and iteration starts and stops using them
+// NewOpenAscendRange creates Enumerable that walks tree in ascending order within the range [from, to]
+// open means that both ends not necessary present in the tree. Iteration starts from the smallest
+// node greater than or equal to from and stops after the greatest node less than or equal to to
 func NewOpenAscendRange(t RbTree, from, to Comparable) Enumerable {
 	ordered := newOrdered(t)
 	e := &ascend{ordered: ordered}
@@ -109,7 +109,8 @@ func NewOpenAscendRange(t RbTree, from, to Comparable) Enumerable {
 		e.to = to
 	} else if from != nil && to != nil {
 		fn, ok := e.tree.Ceiling(from)
-		if ok {
+		// Ceiling returns tree's max if from is greater than it
+		if ok && !fn.Less(from) {
 			e.next, _ = e.tree.Root().searchEdge(fn, false)
 			e.to = to
 		}
@@ -144,9 +145,9 @@ func NewDescendRange(t RbTree, from, to Comparable) Enumerable {
 	return e
 }
 
-// NewOpenDescendRange that walks tree in descending order within the range (from, to)
-// open means that both ends not necessary present in the tree. If not
-// the nearest tree nodes will be found and iteration starts and stops using them
+// NewOpenDescendRange creates Enumerable that walks tree in descending order within the range [from, to]
+// open means that both ends not necessary present in the tree. Iteration starts from the greatest
+// node less than or equal to from and stops after the smallest node greater than or equal to to
 func NewOpenDescendRange(t RbTree, from, to Comparable) Enumerable {
 	e := newDescend(t)
 
@@ -156,7 +157,8 @@ func NewOpenDescendRange(t RbTree, from, to Comparable) Enumerable {
 		e.to = to
 	} else if from != nil && to != nil {
 		fn, ok := e.tree.Floor(from)
-		if ok {
+		// Floor returns tree's min if from is less than it
+		if ok && !from.Less(fn) {
 			e.next, _ = e.tree.Root().searchEdge(fn, true)
 			e.to = to
 		}
