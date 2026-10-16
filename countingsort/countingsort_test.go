@@ -80,6 +80,44 @@ func TestSortStable(t *testing.T) {
 	}
 }
 
+func TestSortSmallTypes_NoOverflow(t *testing.T) {
+	manyUint8 := func() []uint8 {
+		items := make([]uint8, 300)
+		for i := range items {
+			items[i] = uint8(i % 3)
+		}
+		return items
+	}
+	var tests = []struct {
+		name string
+		sort func(t *testing.T)
+	}{
+		{"Sort: more uint8 items than uint8 max", func(t *testing.T) {
+			items := manyUint8()
+			Sort(items, 2)
+			assert.True(t, sort.SliceIsSorted(items, func(i, j int) bool { return items[i] < items[j] }))
+		}},
+		{"Stable: more uint8 items than uint8 max", func(t *testing.T) {
+			items := manyUint8()
+			Stable(items, 2)
+			assert.True(t, sort.SliceIsSorted(items, func(i, j int) bool { return items[i] < items[j] }))
+		}},
+		{"Sort: max is uint8 max", func(t *testing.T) {
+			items := []uint8{255, 0, 128}
+			Sort(items, 255)
+			assert.Equal(t, []uint8{0, 128, 255}, items)
+		}},
+		{"Stable: max is int8 max", func(t *testing.T) {
+			items := []int8{127, 0, 64}
+			Stable(items, 127)
+			assert.Equal(t, []int8{0, 64, 127}, items)
+		}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, test.sort)
+	}
+}
+
 func TestInts_Random(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
