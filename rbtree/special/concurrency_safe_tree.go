@@ -96,13 +96,22 @@ func (t *concurrencySafeTree) OrderStatisticSelect(i int64) (*rbtree.Node, bool)
 	return n, ok
 }
 
-// NewConcurrencySafeTree creates new concurrency safe tree that can be used in concurrency scenarios
+// NewConcurrencySafeTree creates new concurrency safe tree that can be used in concurrency scenarios.
+// See WrapToConcurrencySafe for limitations
 func NewConcurrencySafeTree() rbtree.RbTree {
 	return WrapToConcurrencySafe(rbtree.New())
 }
 
 // WrapToConcurrencySafe creates new concurrency safe tree wrapper over existing rbtree.RbTree
-// to use it safely in concurrency scenarios
+// to use it safely in concurrency scenarios.
+//
+// IMPORTANT: only tree method calls themselves are synchronized. Nodes returned by
+// Root, SearchNode, Minimum, Maximum and OrderStatisticSelect point into the tree, so
+// walking them (Node.Successor, Node.Predecessor) or iterating the tree using
+// rbtree enumerables (NewAscend, NewWalkInorder etc.) isn't synchronized and
+// races with concurrent modifications. Iterate only when there are no concurrent
+// writers or protect both iteration and modifications with your own lock.
+// The underlying tree must not be used directly after wrapping.
 func WrapToConcurrencySafe(t rbtree.RbTree) rbtree.RbTree {
 	return &concurrencySafeTree{tree: t}
 }
