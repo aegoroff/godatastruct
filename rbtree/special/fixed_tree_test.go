@@ -406,7 +406,7 @@ func Test_DeleteNode_Success(t *testing.T) {
 	}
 }
 
-func Test_ReplaceOrInsertMinTreeDuplicateLessThenPrevNodes_PrevNodesDeletedLenLessThenMinLen(t *testing.T) {
+func Test_ReplaceOrInsertMinTreeDuplicateLessThenPrevNodes_MaxNodeEvictedOnceLenEqualMinLen(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := NewMinTree(3)
@@ -425,10 +425,10 @@ func Test_ReplaceOrInsertMinTreeDuplicateLessThenPrevNodes_PrevNodesDeletedLenLe
 	// Assert
 	found, ok := tree.Search(duplicate)
 	ass.True(ok)
-	ass.Equal(int64(2), tree.Len())
+	ass.Equal(int64(3), tree.Len())
 	ass.NotNil(found)
 	_, ok = tree.Search(rbtree.Int(3))
-	ass.False(ok)
+	ass.True(ok)
 	_, ok = tree.Search(rbtree.Int(4))
 	ass.False(ok)
 }
@@ -488,7 +488,7 @@ func Test_ReplaceOrInsertMaxTreeDuplicateLessThenPrevNodes_PrevNodesNotDeletedLe
 	ass.True(ok)
 }
 
-func Test_ReplaceOrInsertMaxTreeDuplicateGreaterThenPrevNodes_PrevNodesDeletedLenLessMaxLen(t *testing.T) {
+func Test_ReplaceOrInsertMaxTreeDuplicateGreaterThenPrevNodes_MinNodeEvictedOnceLenEqualMaxLen(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := NewMaxTree(3)
@@ -507,15 +507,19 @@ func Test_ReplaceOrInsertMaxTreeDuplicateGreaterThenPrevNodes_PrevNodesDeletedLe
 	// Assert
 	found, ok := tree.Search(duplicate)
 	ass.True(ok)
-	ass.Equal(int64(2), tree.Len())
+	ass.Equal(int64(3), tree.Len())
 	ass.NotNil(found)
 	_, ok = tree.Search(rbtree.Int(3))
 	ass.True(ok)
 	_, ok = tree.Search(rbtree.Int(4))
 	ass.True(ok)
+	_, ok = tree.Search(rbtree.Int(2))
+	ass.True(ok)
+	_, ok = tree.Search(rbtree.Int(1))
+	ass.False(ok)
 }
 
-func Test_ReplaceOrInsertMaxTreeDuplicateGreaterThenPrevNodesAndInsertLessNodesAfterwards_PrevNodesDeletedLenEqualMaxLen(t *testing.T) {
+func Test_ReplaceOrInsertMaxTreeDuplicateGreaterThenPrevNodesAndInsertLessNodesAfterwards_LessNodesNotInserted(t *testing.T) {
 	// Arrange
 	ass := assert.New(t)
 	tree := NewMaxTree(3)
@@ -545,7 +549,87 @@ func Test_ReplaceOrInsertMaxTreeDuplicateGreaterThenPrevNodesAndInsertLessNodesA
 	_, ok = tree.Search(rbtree.Int(0))
 	ass.False(ok)
 	_, ok = tree.Search(rbtree.Int(1))
+	ass.False(ok)
+	_, ok = tree.Search(rbtree.Int(2))
 	ass.True(ok)
+}
+
+func Test_ReplaceOrInsertExistingKeyInFullTree_ReplacedValueReturnedNothingEvicted(t *testing.T) {
+	var tests = []struct {
+		name string
+		tree rbtree.RbTree
+		key  int
+	}{
+		{"max tree min key", NewMaxTree(3), 1},
+		{"max tree middle key", NewMaxTree(3), 2},
+		{"max tree max key", NewMaxTree(3), 3},
+		{"min tree min key", NewMinTree(3), 1},
+		{"min tree middle key", NewMinTree(3), 2},
+		{"min tree max key", NewMinTree(3), 3},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+			for i := 1; i <= 3; i++ {
+				test.tree.Insert(rbtree.Int(i))
+			}
+
+			// Act
+			replaced := test.tree.ReplaceOrInsert(rbtree.Int(test.key))
+
+			// Assert
+			ass.Equal(rbtree.Int(test.key), replaced)
+			ass.Equal(int64(3), test.tree.Len())
+			for i := 1; i <= 3; i++ {
+				_, ok := test.tree.Search(rbtree.Int(i))
+				ass.True(ok)
+			}
+		})
+	}
+}
+
+func Test_FixedTreeNonPositiveSize_NothingInserted(t *testing.T) {
+	var tests = []struct {
+		name string
+		tree rbtree.RbTree
+	}{
+		{"max tree zero", NewMaxTree(0)},
+		{"max tree negative", NewMaxTree(-1)},
+		{"min tree zero", NewMinTree(0)},
+		{"min tree negative", NewMinTree(-1)},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			// Arrange
+			ass := assert.New(t)
+
+			// Act
+			test.tree.Insert(rbtree.Int(1))
+			replaced := test.tree.ReplaceOrInsert(rbtree.Int(2))
+
+			// Assert
+			ass.Nil(replaced)
+			ass.Equal(int64(0), test.tree.Len())
+		})
+	}
+}
+
+func Test_FixedTreeInsertNilIntoFullTree_NothingChanged(t *testing.T) {
+	for _, tree := range []rbtree.RbTree{NewMaxTree(2), NewMinTree(2)} {
+		// Arrange
+		ass := assert.New(t)
+		tree.Insert(rbtree.Int(1))
+		tree.Insert(rbtree.Int(2))
+
+		// Act
+		tree.Insert(nil)
+		replaced := tree.ReplaceOrInsert(nil)
+
+		// Assert
+		ass.Nil(replaced)
+		ass.Equal(int64(2), tree.Len())
+	}
 }
 
 func Test_DeleteAllNodesNodes_Success(t *testing.T) {
